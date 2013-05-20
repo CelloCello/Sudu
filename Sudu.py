@@ -21,6 +21,7 @@ from flask import send_from_directory
      
 import Image
 import os
+import time, datetime
      
 from flask.ext.sqlalchemy import SQLAlchemy
 
@@ -92,7 +93,7 @@ def teardown_request(exception):
     if hasattr(g, 'db'):
         g.db.close()
 
-	
+    
 #速讀網
 @app.route('/sudu/<int:ID>')
 def sudu(ID):
@@ -277,7 +278,7 @@ def show_user_profile(username):
         [username], one=True)
     if Member_ is None:
         abort(404)
-		
+        
     #HeadImgPath_ = getHeadImg1(username)
     #print HeadImgPath_
     if g.user and g.user['ACCOUNT'] == username:
@@ -293,7 +294,17 @@ def show_user_profile(username):
 
     #若不是本人就秀使用者資訊
     return render_template('UserProfile.html',Member=Member_)
-	#return "you are "+username
+    #return "you are "+username
+
+#取得熱門清單
+@app.route('/hotlist', methods=['GET'])
+def getHotList():
+    print "getHotList"
+    t = time.time()
+    hots_ = query_db('''select * from [ArticleData] ''')
+    #print hots_
+    import json
+    return json.dumps(hots_)
     
 @app.route('/upImg',methods=['GET', 'POST'])
 def upImg():

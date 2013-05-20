@@ -65,6 +65,26 @@
 			});
 
 		}	
+
+
+		function getHotList(){
+			$("#hots").empty();
+			$.get("hotlist", function(data){
+				//var str_ = data.substring(1,data.length-1);
+				//alert(str_);
+				json_ = $.parseJSON(data);//data.substring(1,data.length-1);
+				//alert(json_);
+				$.each(json_, function(i,val){
+					//alert(val.ARTICLE);
+					var str_ = "<li>"+ val.ARTICLE +"</li>"
+					$("#hots").append(str_);
+				});
+			});
+
+		}
+
+		getHotList();
+
 	</script>
 </head>
 <body>
@@ -97,11 +117,26 @@
 		<div id='public'>
 		這邊是公告區	
 		</div>
-		
+		<!--
 		<form action="{{ url_for('upImg') }}" method="POST" enctype="multipart/form-data">
 		<input type="file" name="file" />
 		<input type="submit" value="Upload" />
 		</form>
+		-->
+
+		<div class="hotList">
+			<h4>[HOT]</h4>
+			<ul id="hots">
+			</ul>
+		</div>
+
+		<div class="lastestList">
+			<h4>[Latest]</h4>
+			<ul>
+				<li>aaa</li>
+				<li>bbb</li>
+			</ul>
+		</div>
 	</div>
 	<div id="loginDlg" title="" style="display:none;"></div>
 </body>
