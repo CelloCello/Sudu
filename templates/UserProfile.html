@@ -1,0 +1,121 @@
+<!doctype html>
+<html>
+<head>
+	<title>Sudu</title>
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='smoothness/jquery-ui-1.8.21.custom.css') }}">
+	<script type="text/javascript" src="{{ url_for('static', filename='jquery-1.7.2.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='jquery-ui-1.8.21.custom.min.js') }}"></script>
+	<script type="text/javascript">		
+		function Reflash()
+		{
+			$('#cover').animate({top:'-10px'},50,'swing',function (){$('#cover').animate({top:'20px'},50);});
+		}	
+				
+		//更新圖片
+		function reflashImg()
+		{
+			d = new Date();		
+			var path_ = "static/users/cello/Head.jpg?"+d.getTime();
+			$('.headImg').attr("src", path_);
+			//alert(path_);
+		}
+		//更換大頭貼
+		function ChgHeadImg()
+		{
+			var title_ = "";
+			var data_ = "";
+			title_ = "上傳圖片";
+			/*
+			data_ =
+			"	<div class='login'>" +
+			"		<form action='{{ url_for('upImg') }}' method='post' enctype='multipart/form-data'>"+
+			"			<dl>"+
+			"			<img src='/static/images/NoHead.png' height='42' width='42'/>"+
+			"			<dt>請選擇要上傳的圖片: </dt>"+
+			"			<dd><input type='file' name='file'/> </dd>"+
+			"			<dd><input type='submit' value='Upload'/></dd>"+
+			"			</dl>"+
+			"		</form>"+
+			"	</div>"	;
+			*/
+			data_ = $('#login').html();
+			
+			$('#headImgDlg').html( data_ );
+			
+			// Dialog
+			$('#headImgDlg').dialog({
+				//autoOpen: false,
+				title: title_,
+				modal: true,
+				resizable: false,
+				width: 450
+			});	
+		}
+		//alert((new Date()).getTime());
+		//reflashImg();
+		reflashImg();
+		function aa()
+		{
+			return "/static/images/NoHead.png"+(new Date()).getTime();
+		}
+	</script>  
+</head>
+<body>
+	<div class=page>
+	  <h1>Sudu - {{Member.ACCOUNT}}</h1>
+	  <div class=metanav>
+		<a href="{{ url_for('index') }}" >首頁</a> |
+	  {% if not session.user_id %}
+		<a href="{{ url_for('login') }}">登入</a>
+	  {% else %}
+		<a href="{{ url_for('newArticle') }}">新增文章</a>
+		| 
+		<a href="{{ url_for('logout') }}">登出 [{{g.user.ACCOUNT}}]</a>
+	  {% endif %}
+	  </div>
+	  {% for message in get_flashed_messages() %}
+		<div class=flash>{{ message }}</div>
+	  {% endfor %}
+	  {% block body %}{% endblock %}
+	  <div class=profile>
+	  <!--<p><img src="/static/images/NoHead.png" alt="Smiley face" height="42" width="42"/></p> -->
+	  <p><img class="headImg" src="{{ url_for('getHeadImg',username=g.user.ACCOUNT) }}" onclick="ChgHeadImg();" alt="Smiley face" height="42" width="42"/></p>
+		帳號：{{Member.ACCOUNT}}</br>
+		身份：{{Member.AUTHORITY}}</br>
+	  </div>
+		<div>
+			<ul class=entries>
+			{% for entry in Entries %}
+			<li>
+				<h2>
+					{{ entry.TITLE }}
+					{% if session.user_id %}
+						<a href="{{ url_for('sudu',ID=entry.INDEX) }}">練習</a>
+					{% endif %}
+				</h2>
+			
+			{{ entry.ARTICLE|safe }}
+			{% else %}
+			<li><em>Unbelievable.  No entries here so far</em>
+			{% endfor %}
+			</ul>
+		</div>
+	</div>
+	<div id="headImgDlg" title="" style="display:none;"></div>
+	<div id='login' style="display:none;">
+		<img class="headImg" src='{{ url_for('getHeadImg',username=g.user.ACCOUNT) }}' height='126' width='126'/>
+		<form action='{{ url_for('upImg') }}' method='post' enctype='multipart/form-data'>
+			請選擇要上傳的圖片: </br>
+			<input type='file' name='file'/></br>
+			<input type='submit' value='Upload'/>
+		</form>
+	</div>
+</body>
+
+<script type="text/javascript">
+		
+	reflashImg();
+	
+</script>
+</html>

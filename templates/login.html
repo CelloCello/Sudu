@@ -1,0 +1,53 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=big5" />
+<title>Sudu - Login</title>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+<body>
+	<div class="page">
+		{% if Type == "login" %}
+			<h1>歡迎登入</h1>
+		{% else %}
+			<h1>歡迎註冊</h1>
+		{% endif %}
+		
+		<div class='metanav'>
+			<a href="{{ url_for('index') }}">首頁</a> 
+		</div>
+		
+		{% if Type == "login" %}
+			<div class='login'>
+				<form action="{{ url_for('loginCheck') }}" method="post">
+				  <dl>
+					<dt>Username: </dt>
+					<dd><input name="username" type="text" value="{{ request.form.username }}"> </dd>
+					<dt>Password: </dt>
+					<dd><input name="password" type="password"> </dd>
+					<dd><input value="Login" type="submit">
+					</dd>
+				  </dl>
+				</form>
+				<a href="{{ url_for('loginCheck') }}">登入</a>
+			</div>	
+		{% else %}
+			<div class='login'>
+				<form action="{{ url_for('loginCheck') }}" method="post">
+				  <dl>
+					<dt>帳號: </dt>
+					<dd><input name="username" type="text"> </dd>
+					<dt>密碼: </dt>
+					<dd><input name="password" type="password"> </dd>
+					<dt>再次輸入密碼: </dt>
+					<dd><input name="password2" type="password"> </dd>
+					<dd><input value="Login" type="submit">
+					</dd>
+				  </dl>
+				</form>
+				<a href="{{ url_for('loginCheck') }}">註冊</a>
+			</div>	
+	
+		{% endif %}
+	</div>
+</body>
+</html>

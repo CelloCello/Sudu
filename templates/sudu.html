@@ -1,0 +1,167 @@
+<!doctype html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Sudo - Practice</title>
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='smoothness/jquery-ui-1.8.21.custom.css') }}">
+	<script type="text/javascript" src="{{ url_for('static', filename='jquery-1.7.2.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='jquery-ui-1.8.21.custom.min.js') }}"></script>
+	<script type="text/javascript">
+		//$(a:target).append("(Opens in New Window)");
+		function chgStyle(size){
+			$('#body').css({
+				border:size+"px solid green",
+				//border:"10px solid green",
+				hight: "40px",
+				width:"500px"
+			});				
+			//openMap();
+		}
+		
+		
+		function Reflash()
+		{
+			$('#cover').animate({top:'-10px'},50,'swing',function (){$('#cover').animate({top:'20px'},50);});
+		}
+		
+		var strList_ = new Array();
+		var CurrPos_ = 0;
+		function ProcStr(gap)
+		{
+			$('#out').hide();
+			var str_ = $('#out').html();
+			//alert(str_);
+			
+			//分段整理
+			var num_ = Math.floor(str_.length / gap + 1);	//分段數量
+			//alert(Math.floor(num_));
+			//alert(num_);
+			//strList_ = new Array(ParseInt(num_));
+			strList_ = [];
+			var count_ = 0;
+			for ( var i=0 ; i<num_ ; i++ )
+			{
+				var startPos_ = i * gap;
+				var endPos_ = startPos_ + gap;
+				if ( endPos_ > str_.length )
+				{
+					//alert("!!");
+					endPos_ = str_.length;
+				}
+				//strList_[ count_ ] = str_.substring(startPos_, endPos_);
+				strList_.push( str_.substring(startPos_, endPos_) );
+				//alert(startPos_+","+ endPos_+","+gap);
+				count_++;
+			}
+			
+			//alert(count_);
+			$('#sudo').html(strList_[0]);
+		}
+		
+		function NextStr()
+		{
+			//$('#out').html(strList_.length);
+			CurrPos_++;
+			if ( CurrPos_ >= strList_.length )
+			{
+				CurrPos_ = 0;
+				$('#sudo').html("<b>完了!!!!</b>");
+				return ;
+			}	
+			$('#sudo').html(CurrPos_+":"+strList_[CurrPos_]);
+			//$('#sudo').html(CurrPos_+"<b>完了11!!!!</b>"+strList_[1]);
+			Reflash();
+		}
+		
+		//設定介面
+		function setup()
+		{
+			var title_ = "";
+			var data_ = "";
+
+			title_ = "設定";
+			
+			data_ =
+			"	<div class='login'>" +
+			"		<dt>Username: </dt>"+
+			"		<dd><input id='lineWords' name='username' type='text' value='{{ request.form.username }}'> </dd>"+
+			"		<dt>Password: </dt>"+
+			"		<dd><input name='password' type='password'> </dd>"+
+			"	</div>"	;			
+			
+			$('#setupDlg').html( data_ );
+			
+			// Dialog
+			$('#setupDlg').dialog({
+				//autoOpen: false,
+				title: title_,
+				modal: true,
+				resizable: false,
+				width: 450,
+				buttons: {
+					"Ok": function() {
+						ProcStr( parseInt($('#lineWords').val()) );
+						$(this).dialog("close");
+					},
+					"Cancel": function() {
+						$(this).dialog("close");
+					}
+				}
+			});
+
+		}
+	</script>    
+	
+	<style type="text/css">
+	<!--
+	.over  
+		   {
+		   position: relative;
+		   //text-align: center;
+			top: 20px;
+			/*left: 20px;*/
+			height:40px;
+			z-index: 2;
+			background-color: gray
+			}
+
+	.under 
+			{
+			position: relative;
+			top: 0px;
+			/*left: 20px;*/
+			height:20px;
+			z-index: 1;
+			/*background-color: blue*/
+			}
+	//-->
+	</style>
+</head>
+<body onLoad="ProcStr(5);">
+	<div class=page>
+		<h1>Sudu - Practice</h1>
+		<div class="metanav" >
+			{% if not session.user_id %}
+			<a href="{{ url_for('login') }}">log in</a>
+			{% else %}
+			<a href="javascript:" onclick="setup();">設定</a> | 
+			<a href="{{ url_for('logout') }}">log out [{{g.user.ACCOUNT}}]</a>
+			{% endif %}
+		</div>
+		<h2>{{Text.TITLE}}</h2>
+		<div id="cover" class="over" align="center"></div> 	
+		<div id="sudo" class="under" align="center"></div>
+		<br/>
+		<div id="input" align="center">
+		<input type="text" size="30">
+		</div>
+		<div id="input" align="center">
+		<input type="button" value="Reflash" onclick="Reflash();">
+		<input type="button" value="Next" onclick="NextStr();">
+		</div>
+		<div id="out">{{Text.ARTICLE}}</div>
+	</div>
+	<div id="setupDlg" title="" style="display:none;"></div>	
+</body>
+</html>

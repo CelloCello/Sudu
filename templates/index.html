@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Sudu</title>
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='smoothness/jquery-ui-1.8.21.custom.css') }}">
+	<script type="text/javascript" src="{{ url_for('static', filename='jquery-1.7.2.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='jquery-ui-1.8.21.custom.min.js') }}"></script>
+	<script type="text/javascript">
+	
+		//登入介面, type=1 為註冊
+		function login(type)
+		{
+			var title_ = "登入";
+			var data_ = "";
+			if ( type == 1 )
+			{
+				title_ = "註冊";
+				
+				data_ =
+				"	<div class='login'>" +
+				"		<form action='{{ url_for('register') }}' method='post'>"+
+				"			<dl>"+
+				"			<dt>帳號: </dt>"+
+				"			<dd><input name='username' type='text' value='{{ request.form.username }}'> </dd>"+
+				"			<dt>密碼: </dt>"+
+				"			<dd><input name='password' type='password'> </dd>"+
+				"			<dt>再次輸入密碼: </dt>"+
+				"			<dd><input name='password2' type='password'> </dd>"+
+				"			<dd><input value='送出' type='submit'>"+
+				"			</dd>"+
+				"			</dl>"+
+				"		</form>"+
+				"	</div>"	;
+			}
+			else
+			{
+				title_ = "登入";
+				data_ =
+				"	<div class='login'>" +
+				"		<form action='{{ url_for('loginCheck') }}' method='post'>"+
+				"			<dl>"+
+				"			<dt>Username: </dt>"+
+				"			<dd><input name='username' type='text' value='{{ request.form.username }}'> </dd>"+
+				"			<dt>Password: </dt>"+
+				"			<dd><input name='password' type='password'> </dd>"+
+				"			<dd><input value='Login' type='submit'>"+
+				"			</dd>"+
+				"			</dl>"+
+				"		</form>"+
+				"	</div>"	;				
+			}
+			
+			
+			$('#loginDlg').html( data_ );
+			
+			// Dialog
+			$('#loginDlg').dialog({
+				//autoOpen: false,
+				title: title_,
+				modal: true,
+				resizable: false,
+				width: 450
+			});
+
+		}	
+	</script>
+</head>
+<body>
+	<div class='page'>
+		<h1>Welcome to Sudu!</h1>
+		{% for message in get_flashed_messages() %}
+		<div class="flash">{{ message }}</div>
+		{% endfor %}
+		
+		<div class='metanav'>
+			<a href="javascript:" onclick="login(0);">登入</a> | 
+			<a href="javascript:" onclick="login(1);">註冊</a> 
+		</div>
+		
+		<!--
+		<div class='login'>
+			<form action="{{ url_for('loginCheck') }}" method="post">
+			  <dl>
+				<dt>Username: </dt>
+				<dd><input name="username" type="text" value="{{ request.form.username }}"> </dd>
+				<dt>Password: </dt>
+				<dd><input name="password" type="password"> </dd>
+				<dd><input value="Login" type="submit">
+				</dd>
+			  </dl>
+			</form>
+		</div>
+		-->
+		
+		<div id='public'>
+		這邊是公告區	
+		</div>
+		
+		<form action="{{ url_for('upImg') }}" method="POST" enctype="multipart/form-data">
+		<input type="file" name="file" />
+		<input type="submit" value="Upload" />
+		</form>
+	</div>
+	<div id="loginDlg" title="" style="display:none;"></div>
+</body>
+</html>

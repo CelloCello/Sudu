@@ -1,0 +1,55 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+DATABASE	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	26;"	kind:variable	line:26	language:Python
+DEBUG	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	27;"	kind:variable	line:27	language:Python
+Flask	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	15;"	kind:namespace	line:15	language:Python
+Image	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	20;"	kind:namespace	line:20	language:Python
+SECRET_KEY	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	28;"	kind:variable	line:28	language:Python
+SQLAlchemy	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	23;"	kind:namespace	line:23	language:Python
+User	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	40;"	kind:class	line:40	language:Python	inherits:db.Model
+__init__	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	47;"	kind:member	line:47	language:Python	class:User	access:public
+__repr__	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	52;"	kind:member	line:52	language:Python	class:User	file:	access:private
+__tablename__	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	41;"	kind:variable	line:41	language:Python	class:User
+abort	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	15;"	kind:namespace	line:15	language:Python
+account	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	43;"	kind:variable	line:43	language:Python	class:User
+app	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	32;"	kind:variable	line:32	language:Python
+authority	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	45;"	kind:variable	line:45	language:Python	class:User
+before_request	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	70;"	kind:function	line:70	language:Python	access:public
+check2mkdir	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	17;"	kind:namespace	line:17	language:Python
+check2mkdir	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\ctools\web_func.py	52;"	kind:function	line:52	language:Python	access:public
+connect_db	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	65;"	kind:function	line:65	language:Python	access:public
+db	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	37;"	kind:variable	line:37	language:Python
+flash	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	15;"	kind:namespace	line:15	language:Python
+g	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	15;"	kind:namespace	line:15	language:Python
+getHeadImg	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	218;"	kind:function	line:218	language:Python	access:public
+get_image_type	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	17;"	kind:namespace	line:17	language:Python
+get_image_type	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\ctools\web_func.py	29;"	kind:function	line:29	language:Python	access:public
+httplib	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\ctools\web_func.py	4;"	kind:namespace	line:4	language:Python
+https_send	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\ctools\web_func.py	7;"	kind:function	line:7	language:Python	access:public
+id	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	42;"	kind:variable	line:42	language:Python	class:User
+index	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	106;"	kind:function	line:106	language:Python	access:public
+login	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	120;"	kind:function	line:120	language:Python	access:public
+loginCheck	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	128;"	kind:function	line:128	language:Python	access:public
+logout	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	178;"	kind:function	line:178	language:Python	access:public
+newArticle	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	173;"	kind:function	line:173	language:Python	access:public
+os	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	21;"	kind:namespace	line:21	language:Python
+os	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\ctools\web_func.py	53;"	kind:namespace	line:53	language:Python
+password	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	44;"	kind:variable	line:44	language:Python	class:User
+query_db	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	56;"	kind:function	line:56	language:Python	access:public
+redirect	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	15;"	kind:namespace	line:15	language:Python
+register	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	185;"	kind:function	line:185	language:Python	access:public
+render_template	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	15;"	kind:namespace	line:15	language:Python
+request	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	15;"	kind:namespace	line:15	language:Python
+secure_filename	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	18;"	kind:namespace	line:18	language:Python
+session	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	15;"	kind:namespace	line:15	language:Python
+show_user_profile	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	242;"	kind:function	line:242	language:Python	access:public
+sqlite3	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	12;"	kind:namespace	line:12	language:Python
+sudu	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	90;"	kind:function	line:90	language:Python	access:public
+teardown_request	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	82;"	kind:function	line:82	language:Python	access:public
+upImg	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	266;"	kind:function	line:266	language:Python	access:public
+url_for	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\Sudu.py	15;"	kind:namespace	line:15	language:Python
+urllib	D:\My Documents\Copmuter\Programming\Python\MyVir\Sudu\ctools\web_func.py	5;"	kind:namespace	line:5	language:Python

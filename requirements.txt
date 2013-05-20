@@ -1,0 +1,11 @@
+Flask-WTF==0.8.2
+WTForms==1.0.2
+flask==0.9
+flask-login==0.1.3
+flask-sqlalchemy==0.16
+## FIXME: could not find svn URL in dependency_links for this package:
+flup==1.0.3.dev-20110405
+jinja2==2.6
+pil==1.1.7
+sqlalchemy==0.7.9
+werkzeug==0.8.3

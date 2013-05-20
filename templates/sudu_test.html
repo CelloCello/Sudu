@@ -1,0 +1,74 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>Sudo</title>
+		<script type="text/javascript" src="jquery-1.7.2.js"></script>
+		<script type="text/javascript">
+		
+			//$(a:target).append("(Opens in New Window)");
+			function chgStyle(size){
+				$('#body').css({
+					border:size+"px solid green",
+					//border:"10px solid green",
+					hight: "40px",
+					width:"500px"
+				});				
+				//openMap();
+			}
+			
+			
+			function Reflash()
+			{
+				$('#cover').animate({top:'-10px'},50,'swing',function (){$('#cover').animate({top:'20px'},50);});
+			}
+			
+		</script>    
+		
+		<STYLE type="text/css">
+		.over  
+			   {
+			   position: relative;
+			   //text-align: center;
+				top: 20px;
+				//left: 20px;
+				height:40px;
+				z-index: 2;
+				background-color: gray
+				}
+
+		.under 
+				{
+				position: relative;
+				top: 0px;
+				//left: 20px;
+				height:20px;
+				z-index: 1;
+				//background-color: blue
+				}
+		</STYLE>
+	</head>
+	<body >
+	<br/>
+	<br/>
+	<br/>
+	<div id="cover" class="over" align="center"></div>
+	
+	<script type="text/javascript">
+		//$('#cover').slideDown(5000);
+			
+			
+	</script>    
+		
+		
+	<div id="sudo" class="under" align="center">相同的距離但是用絕對及相對位置語法所產生的位置是不同的喔</div>
+	<br/>
+	<div id="input" align="center">
+	<input type="text" size="30">
+	</div>
+	<div id="input" align="center">
+	<input type="button" value="Reflash" onclick="Reflash();">
+	<input type="button" value="Next" onclick="$('#cover').animate({height:'100px'});">
+	</div>
+		
+	</body>
+</html>

@@ -1,0 +1,100 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=big5" />
+<title>Sudu - Login</title>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='smoothness/jquery-ui-1.8.21.custom.css') }}">
+<script type="text/javascript" src="{{ url_for('static', filename='jquery-1.7.2.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='jquery-ui-1.8.21.custom.min.js') }}"></script>
+
+<script type="text/javascript">
+	var wordNum = 0;
+	//計算字數
+	function reflashWords()
+	{
+		++wordNum;
+		var len_ = $('#content').text().length;
+		$('#words').html("字數："+len_);
+	}		
+	
+	
+	function btn()
+	{
+		var data="<div class='form'><form action='' method='post'>標題：<input name='title' type='text'><br />"+
+			"內文：<br /><textarea id='content' cols=60 rows=10 name='content' onkeydown='reflashWords();'></textarea>"+
+			"<br /><input type='radio' name='authority' value='public' /> 公開<input type='radio' name='authority' value='private' checked='checked' /> 私用<br />"+
+			"<input value='送出' type='submit'></form></div>	";
+		
+		//var data = "標題：<input name='title' type='text'>";
+   
+		$('#date').datepicker();
+		$('#dialog').html( data );
+		
+		
+						// Dialog
+				$('#dialog').dialog({
+					//autoOpen: false,
+					modal: true,
+					resizable: false,
+					width: 600,
+					buttons: {
+						"Ok": function() {
+							$(this).dialog("close");
+						},
+						"Cancel": function() {
+							$(this).dialog("close");
+						}
+					}
+				});
+		//$('#dialog').dialog('open');
+/*
+		$('#dialog').css({display:'inline'});
+
+		$("#dialog").dialog({
+			title: '資料',
+			bgiframe: true,
+			width: 350,
+			height: 350,
+			modal: true,
+			draggable: true,
+			resizable: false,
+			overlay:{opacity: 0.7, background: "#FF8899" },
+
+			buttons: {
+				'關閉': function() {
+					$(this).dialog('close');
+				}
+			}
+
+		});
+*/
+	}
+</script>  
+<body>
+	<div class="page">
+		<h1>新增文章</h1>		
+		<div class='metanav'>
+			<a href="{{ url_for('index') }}">首頁</a>  | 
+			<a href="{{ url_for('show_user_profile',username=g.user.ACCOUNT) }}">[{{g.user.ACCOUNT}}]</a>
+		</div>
+		
+		<div class='form'>
+			<form action="" method="post">		  
+			標題：<input name="title" type="text"><br />
+			內文：<br />
+			<textarea id="content" cols=60 rows=10 name="content" onkeydown="reflashWords();"></textarea>
+			<br />
+			<input type="radio" name="authority" value="public" /> 公開
+			<input type="radio" name="authority" value="private" checked="checked" /> 私用<br />
+			<input value="送出" type="submit">		
+			</form>
+		</div>	
+		<div id="words">字數：</div>
+	</div>
+	<input id="date" name="title" type="text"><br />
+	<div id="dialog" title="" style="display:none;"></div>
+	<a hrer="javascript:" onclick="btn();">資料</a>
+	
+</body>
+</html>
