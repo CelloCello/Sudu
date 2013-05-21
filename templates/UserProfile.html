@@ -16,7 +16,7 @@
 		function reflashImg()
 		{
 			d = new Date();		
-			var path_ = "static/users/cello/Head.jpg?"+d.getTime();
+			var path_ = "static/users/"+{{g.user.ACCOUNT}}+"/Head.jpg?"+d.getTime();
 			$('.headImg').attr("src", path_);
 			//alert(path_);
 		}
@@ -62,7 +62,7 @@
 	</script>  
 </head>
 <body>
-	<div class=page>
+	<div class="page">
 	  <h1>Sudu - {{Member.ACCOUNT}}</h1>
 	  <div class=metanav>
 		<a href="{{ url_for('index') }}" >首頁</a> |
@@ -75,10 +75,10 @@
 	  {% endif %}
 	  </div>
 	  {% for message in get_flashed_messages() %}
-		<div class=flash>{{ message }}</div>
+		<div class="flash">{{ message }}</div>
 	  {% endfor %}
 	  {% block body %}{% endblock %}
-	  <div class=profile>
+	  <div class="profile">
 	  <!--<p><img src="/static/images/NoHead.png" alt="Smiley face" height="42" width="42"/></p> -->
 	  <p><img class="headImg" src="{{ url_for('getHeadImg',username=g.user.ACCOUNT) }}" onclick="ChgHeadImg();" alt="Smiley face" height="42" width="42"/></p>
 		帳號：{{Member.ACCOUNT}}</br>

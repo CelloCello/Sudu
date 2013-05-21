@@ -7,68 +7,49 @@
 
 """
 
-
-#from __future__ import with_statement
-from sqlite3 import dbapi2 as sqlite3
-#from contextlib import closing
-from flask import Flask, request, session, g, redirect, url_for, abort, \
-     render_template, flash, abort
-
-from ctools.web_func import get_image_type, check2mkdir
-from werkzeug import secure_filename
-from werkzeug.exceptions import RequestEntityTooLarge
-from flask import send_from_directory
-     
+# system
 import Image
 import os
 import time, datetime
-     
-from flask.ext.sqlalchemy import SQLAlchemy
+#from __future__ import with_statement
+from sqlite3 import dbapi2 as sqlite3
+#from contextlib import closing
 
-# configuration
-DATABASE = 'DBInfo.db'
-DEBUG = True
-SECRET_KEY = 'development key'
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif', 'bmp'])
+# flask
+from flask import Flask, request, session, g, redirect, url_for, abort, \
+     render_template, flash, abort
+from werkzeug import secure_filename
+from werkzeug.exceptions import RequestEntityTooLarge
+from flask import send_from_directory
+
+# my tool
+from ctools.web_func import get_image_type, check2mkdir
+
+# 資料庫相關
+from flask.ext.sqlalchemy import SQLAlchemy
+from model.UserObj import DbUser
+from model.ArticleObj import DbArticle
+from model.extensions import db
+
 
 # create our little application :)
 app = Flask(__name__)
-app.config.from_object(__name__)
+app.config.from_object('Config.DevConfig')  #設定config
 app.config.from_envvar('SUDU_SETTINGS', silent=True)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///DBInfo.db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///DBInfo.db'
 #app.config['MAX_CONTENT_LENGTH'] = 1 * 1024 * 1024
+db.init_app(app)
 
-db = SQLAlchemy(app)
 
-#定義資料庫使用者類別
-class User(db.Model):
-    __tablename__ = 'MemberData'
-    id = db.Column(db.Integer, primary_key=True)
-    account = db.Column(db.String(15), unique=True)
-    password = db.Column(db.String(10), unique=True)
-    authority = db.Column(db.Integer, unique=True)
+# #資料庫查詢
+# def query_db(query, args=(), one=False):
+#     """Queries the database and returns a list of dictionaries."""
+#     return None
     
-    def __init__(self, account, password):
-        self.account = account
-        self.password = password
-        self.authority = 0
-
-    def __repr__(self):
-        return '<User %r>' % self.account
-
-#資料庫查詢
-def query_db(query, args=(), one=False):
-    """Queries the database and returns a list of dictionaries."""
-    #print "==========="
-    #print args
-    cur = g.db.execute(query, args)
-    rv = [dict((cur.description[idx][0], value)
-               for idx, value in enumerate(row)) for row in cur.fetchall()]
-    return (rv[0] if rv else None) if one else rv
-    
-def connect_db():
-    """Returns a new connection to the database."""
-    return sqlite3.connect(app.config['DATABASE'])
+# def connect_db():
+#     """Returns a new connection to the database."""
+#     return db
+#     #return sqlite3.connect(app.config['DATABASE'])
     
 # 檢查上傳檔案是否是可用的副檔
 def allowed_file(filename):
@@ -80,102 +61,82 @@ def before_request():
     """Make sure we are connected to the database each request and look
     up the current user so that we know he's there.
     """
-    g.db = connect_db()
+    #g.db = connect_db()
     g.user = None
     if 'user_id' in session:
-        g.user = query_db('''select * from MemberData where [INDEX] = ?''',
-        [session['user_id']], one=True)
+        g.user = DbUser.query.filter_by(account=session['user_id']).first()
 
 
-@app.teardown_request
-def teardown_request(exception):
-    """Closes the database again at the end of the request."""
-    if hasattr(g, 'db'):
-        g.db.close()
+# @app.teardown_request
+# def teardown_request(exception):
+#     """Closes the database again at the end of the request."""
+#     if hasattr(g, 'db'):
+#         g.db.close()
 
     
-#速讀網
-@app.route('/sudu/<int:ID>')
-def sudu(ID):
+# #速讀網
+# @app.route('/sudu/<int:ID>')
+# def sudu(ID):
     
-    #檢查有無登入
-    if g.user == None:
-        #沒登入就回到登入頁面
-        return redirect(url_for('index'))
+#     #檢查有無登入
+#     if g.user == None:
+#         #沒登入就回到登入頁面
+#         return redirect(url_for('index'))
         
-    #找出文章
-    Article_ = query_db("select TITLE, ARTICLE from ArticleData where [INDEX]=?",[ID],one=True)
-    if Article_ is None:
-        return u"<font color='red'>沒有這篇文章!!!</font>"
+#     #找出文章
+#     Article_ = query_db("select TITLE, ARTICLE from ArticleData where [INDEX]=?",[ID],one=True)
+#     if Article_ is None:
+#         return u"<font color='red'>沒有這篇文章!!!</font>"
         
-    return render_template('sudu.html',Text=Article_)
+#     return render_template('sudu.html',Text=Article_)
 
 #首頁
 @app.route('/')
 def index():
     #flash(u'你進到首頁了!!')
     if g.user:
-        #flash(session['user_id'])
-        Member_ = query_db('''select * from MemberData where [INDEX] = ?''',
-        [session['user_id']], one=True)
-        #print("aaaa")
-        #print(Member_['ACCOUNT'])
-        return redirect(url_for('show_user_profile',username=Member_['ACCOUNT']))
+        return redirect(url_for('showUserProfile',username=g.user.account))
         
     return render_template('index.html')
     
-#Login頁面(目前用不到)
-@app.route('/login', methods=['GET'])
-def login():
-    if request.method == 'GET':
-        return render_template('login.html',Type=request.args.get('type'))
-    else:
-        return render_template('login.html',Type="reg")
+# #Login頁面(目前用不到)
+# @app.route('/login', methods=['GET'])
+# def login():
+#     if request.method == 'GET':
+#         return render_template('login.html',Type=request.args.get('type'))
+#     else:
+#         return render_template('login.html',Type="reg")
 
 #Login檢查頁面
 @app.route('/loginCheck', methods=['GET', 'POST'])
 def loginCheck():
     """Logs the user in."""
     
+    # 已經有登入的就秀出你的資訊
     if g.user:
-        Member_ = query_db('''select * from MemberData where [INDEX] = ?''',
-        [session['user_id']], one=True)
-        return redirect(url_for('show_user_profile',username=Member_['ACCOUNT']))
+        return redirect(url_for('showUserProfile',username=user_.account))
         
     error = None
     if request.method == 'POST':
         #print request.form['username']
-        user = query_db('''select * from MemberData where
-            ACCOUNT = ?''', [request.form['username']], one=True)
+        user_ = DbUser.query.filter_by(account=request.form['username']).first()
             
-        if user is None:
+        if user_ is None:
             flash(u'沒有這個人!')
             return render_template('index.html')
         
-        if user['PASSWORD'] != request.form['password']:
+        if user_.checkPassword(request.form['password']) == False:
             flash(u'密碼錯誤!')
             return render_template('index.html')
             
         flash('You were logged in')
-        session['user_id'] = user['INDEX']
+        session['user_id'] = user_.index
         #session['user_name'] = user['ACCOUNT']
         #print ("id:%d, name:%s") % (user['INDEX'],user['ACCOUNT'])
-        #return render_template('index.html')
-        return redirect(url_for('show_user_profile',username=user['ACCOUNT']))
+        return redirect(url_for('showUserProfile',username=user_.account))
         
     return "<font color='red'>You should go from index page!!</font>"
-        # if user is None:
-            # error = 'Invalid username'
-        # elif not check_password_hash(user['pw_hash'],
-                                     # request.form['password']):
-            # error = 'Invalid password'
-        # else:
-            # flash('You were logged in')
-            # session['user_id'] = user['INDEX']
-            # session['user_name'] = user['ACCOUNT']
-            # print ("id:%d, name:%s") % (user['INDEX'],user['ACCOUNT'])
-            #return redirect(url_for('timeline'))
-    #return render_template('login.html', error=error)
+
     
 #新增文章頁面
 @app.route('/newArticle')
@@ -196,7 +157,7 @@ def register():
     if g.user:
         Member_ = query_db('''select * from MemberData where [INDEX] = ?''',
         [session['user_id']], one=True)
-        return redirect(url_for('show_user_profile',username=Member_['ACCOUNT']))
+        return redirect(url_for('showUserProfile',username=Member_['ACCOUNT']))
         
     error = None
     if request.method == 'POST':
@@ -217,7 +178,7 @@ def register():
             db.session.commit()
             check2mkdir("./static/users/"+request.form['username'])
             flash(u"註冊成功!")
-            return redirect(url_for('show_user_profile',username=request.form['username']))
+            return redirect(url_for('showUserProfile',username=request.form['username']))
       
     flash(error)
     return redirect(url_for('index'))
@@ -248,7 +209,7 @@ def getHeadImg2(username):
 @app.route('/img/head/<username>')
 def getHeadImg(username):
     flash("getHead")
-    print "getHead"
+    print "getHead:"+username
     Path_ = "./static/users/" + username + "/head.jpg"
     # Path_ = "./static/users/" + username
     # ImgName_ = "/Head"
@@ -272,16 +233,11 @@ def getHeadImg(username):
 
 #秀出使用者首頁資訊
 @app.route('/<username>')
-def show_user_profile(username):
+def showUserProfile(username):
     # show the user profile for that user
-    Member_ = query_db('''select * from MemberData where [ACCOUNT] = ?''',
-        [username], one=True)
-    if Member_ is None:
-        abort(404)
         
     #HeadImgPath_ = getHeadImg1(username)
-    #print HeadImgPath_
-    if g.user and g.user['ACCOUNT'] == username:
+    if g.user and g.user.account == username:
         #若是本人就秀控制介面
         flash(username)
         flash("you are "+username)
@@ -322,7 +278,7 @@ def upImg():
             # except RequestEntityTooLarge, e:
                 # flash(u"too large")
                 # print "aaa"
-                # return redirect(url_for('show_user_profile',username=Member_['ACCOUNT']))
+                # return redirect(url_for('showUserProfile',username=Member_['ACCOUNT']))
                 
             #print "post"
             file_ = request.files['file']
@@ -360,7 +316,7 @@ def upImg():
       
     #flash(u"NG")
     #print "upImg end"
-    return redirect(url_for('show_user_profile',username=Member_['ACCOUNT']))
+    return redirect(url_for('showUserProfile',username=Member_['ACCOUNT']))
     #return "ok!!!"
 
 if __name__ == '__main__':
