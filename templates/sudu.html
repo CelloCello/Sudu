@@ -146,10 +146,10 @@
 			<a href="{{ url_for('login') }}">log in</a>
 			{% else %}
 			<a href="javascript:" onclick="setup();">設定</a> | 
-			<a href="{{ url_for('logout') }}">log out [{{g.user.ACCOUNT}}]</a>
+			<a href="{{ url_for('logout') }}">log out [{{g.user.account}}]</a>
 			{% endif %}
 		</div>
-		<h2>{{Text.TITLE}}</h2>
+		<h2>{{Text.title}}</h2>
 		<div id="cover" class="over" align="center"></div> 	
 		<div id="sudo" class="under" align="center"></div>
 		<br/>
@@ -160,7 +160,7 @@
 		<input type="button" value="Reflash" onclick="Reflash();">
 		<input type="button" value="Next" onclick="NextStr();">
 		</div>
-		<div id="out">{{Text.ARTICLE}}</div>
+		<div id="out">{{Text.content}}</div>
 	</div>
 	<div id="setupDlg" title="" style="display:none;"></div>	
 </body>

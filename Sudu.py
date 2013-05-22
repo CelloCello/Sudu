@@ -76,9 +76,12 @@ def before_request():
 #         g.db.close()
 
     
-#速讀網
+#速讀頁面
 @app.route('/sudu/<int:ID>')
 def sudu(ID):
+    '''
+    速讀主頁面
+    '''
     
     #檢查有無登入
     if g.user == None:
@@ -86,7 +89,8 @@ def sudu(ID):
         return redirect(url_for('index'))
         
     #找出文章
-    Article_ = query_db("select TITLE, ARTICLE from ArticleData where [INDEX]=?",[ID],one=True)
+    #Article_ = query_db("select TITLE, ARTICLE from ArticleData where [INDEX]=?",[ID],one=True)
+    Article_ = DbArticle.query.filter_by(index=ID).first()
     if Article_ is None:
         return u"<font color='red'>沒有這篇文章!!!</font>"
         
