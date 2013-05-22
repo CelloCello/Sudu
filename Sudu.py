@@ -30,6 +30,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from model.UserObj import DbUser
 from model.ArticleObj import DbArticle
 from model.extensions import db
+from model.extensions import SerializeModel
 
 
 # create our little application :)
@@ -64,7 +65,8 @@ def before_request():
     #g.db = connect_db()
     g.user = None
     if 'user_id' in session:
-        g.user = DbUser.query.filter_by(account=session['user_id']).first()
+        #print "before_request - 111:" + str(session['user_id'])
+        g.user = DbUser.query.filter_by(index=session['user_id']).first()
 
 
 # @app.teardown_request
@@ -74,21 +76,21 @@ def before_request():
 #         g.db.close()
 
     
-# #速讀網
-# @app.route('/sudu/<int:ID>')
-# def sudu(ID):
+#速讀網
+@app.route('/sudu/<int:ID>')
+def sudu(ID):
     
-#     #檢查有無登入
-#     if g.user == None:
-#         #沒登入就回到登入頁面
-#         return redirect(url_for('index'))
+    #檢查有無登入
+    if g.user == None:
+        #沒登入就回到登入頁面
+        return redirect(url_for('index'))
         
-#     #找出文章
-#     Article_ = query_db("select TITLE, ARTICLE from ArticleData where [INDEX]=?",[ID],one=True)
-#     if Article_ is None:
-#         return u"<font color='red'>沒有這篇文章!!!</font>"
+    #找出文章
+    Article_ = query_db("select TITLE, ARTICLE from ArticleData where [INDEX]=?",[ID],one=True)
+    if Article_ is None:
+        return u"<font color='red'>沒有這篇文章!!!</font>"
         
-#     return render_template('sudu.html',Text=Article_)
+    return render_template('sudu.html',Text=Article_)
 
 #首頁
 @app.route('/')
@@ -114,11 +116,10 @@ def loginCheck():
     
     # 已經有登入的就秀出你的資訊
     if g.user:
-        return redirect(url_for('showUserProfile',username=user_.account))
+        return redirect(url_for('showUserProfile',username=g.user.account))
         
     error = None
     if request.method == 'POST':
-        #print request.form['username']
         user_ = DbUser.query.filter_by(account=request.form['username']).first()
             
         if user_ is None:
@@ -182,85 +183,37 @@ def register():
       
     flash(error)
     return redirect(url_for('index'))
-    
-#取得大頭貼(測試用,目前沒用到)
-def getHeadImg1(username):
-    Path_ = "./static/users/" + username + "/head.jpg"
-    #先確認有沒有圖
-    if not os.path.exists(Path_):
-        Path_ = "./static/images/NoHead.png"
-    return Path_
-    
-#取得大頭貼(測試用,目前沒用到)
-@app.route('/img/head2/<username>', methods=['GET'])
-def getHeadImg2(username):
-    print "aaaaa"
-    Path_ = "./static/users/" + username + "/head.jpg"
-    #if request.method == 'GET':
-    #先確認有沒有圖
-    print "bbbb"
-    if not os.path.exists(Path_):
-        Path_ = "./static/images/NoHead.png"
-
-    print Path_
-    return Path_
-    
-#取得大頭貼
-@app.route('/img/head/<username>')
-def getHeadImg(username):
-    flash("getHead")
-    print "getHead:"+username
-    Path_ = "./static/users/" + username + "/head.jpg"
-    # Path_ = "./static/users/" + username
-    # ImgName_ = "/Head"
-    # Full_ = Path_ + ImgName_
-    #先確認有沒有圖
-    if not os.path.exists(Path_):
-        Path_ = "./static/images/NoHead.png"
-        # Path_ = "./static/images"
-        # ImgName_ = "/NoHead"
-
-    # ExtName_ = get_image_type("./static/images"+ImgName_) 
-    # Path_ = Path_ + ImgName_ + "." + ExtName_
-    # Path_ = Path_ + ImgName_ + "." + ExtName_
-    # print Path_
-    imgPath_ = "<img src='%s' height='42' width='42'/>" % Path_
-    import random
-    rand_ = random.randint(0,1000)
-    print Path_+"?"+str(rand_)
-    return redirect(Path_+"?"+str(rand_))
 
 
 #秀出使用者首頁資訊
-@app.route('/<username>')
+@app.route('/user/<username>')
 def showUserProfile(username):
-    # show the user profile for that user
-        
-    #HeadImgPath_ = getHeadImg1(username)
+    '''
+    show the user profile for that user
+    '''
+
     if g.user and g.user.account == username:
         #若是本人就秀控制介面
         flash(username)
         flash("you are "+username)
-        
+
         #列出所有文章
-        entries = query_db('''select * from ArticleData where [MEMBER_NO]=?''',
-            [Member_['INDEX']])
+        articles_ = DbArticle.query.filter_by(member_no=g.user.index)
         #return render_template('show_entries.html', entries=entries)
-        return render_template('UserProfile.html',Member=Member_,Entries=entries)
+        return render_template('UserProfile.html',Member=g.user,Entries=articles_)
 
     #若不是本人就秀使用者資訊
+    Member_ = DbUser.query.filter_by(account=username).first()
     return render_template('UserProfile.html',Member=Member_)
-    #return "you are "+username
 
 #取得熱門清單
 @app.route('/hotlist', methods=['GET'])
 def getHotList():
-    print "getHotList"
     t = time.time()
-    hots_ = query_db('''select * from [ArticleData] ''')
-    #print hots_
+    #hots_ = query_db('''select * from [ArticleData] ''')
+    articles_ = DbArticle.query.limit(5).all()
     import json
-    return json.dumps(hots_)
+    return json.dumps(SerializeModel(articles_))
     
 @app.route('/upImg',methods=['GET', 'POST'])
 def upImg():

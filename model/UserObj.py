@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-    models/UserObj.py
+    model/UserObj.py
     ~~~~~~~~~~~~~~~~~~~~~~~~
 
     使用者相關的物件都集中在此

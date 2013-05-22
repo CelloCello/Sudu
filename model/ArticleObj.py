@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-    models/ArticleObj.py
+    model/ArticleObj.py
     ~~~~~~~~~~~~~~~~~~~~~~~~
 
     文章相關的物件都集中在此
@@ -24,15 +24,15 @@ class DbArticle(db.Model):
     date = db.Column(db.DateTime, unique=False)
     #author = db.Column(db.String(15), unique=False)
     
-    def __init__(self, member_no, content, title, type, img_name, author):
+    def __init__(self, member_no, content, title, type):
         #self.index = index
         self.member_no = member_no
         self.content = content
         self.title = title
         self.type = type
-        self.img_name = img_name
+        #self.img_name = img_name
         self.date = datetime.utcnow()
-        self.author = author
+        #self.author = author
         
     def store_to_db(self):
         db.session.add(self)

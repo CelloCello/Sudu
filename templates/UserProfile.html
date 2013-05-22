@@ -7,22 +7,12 @@
 	<script type="text/javascript" src="{{ url_for('static', filename='jquery-1.7.2.js') }}"></script>
 	<script type="text/javascript" src="{{ url_for('static', filename='jquery-ui-1.8.21.custom.min.js') }}"></script>
 	<script type="text/javascript">		
-		function Reflash()
-		{
+		function Reflash(){
 			$('#cover').animate({top:'-10px'},50,'swing',function (){$('#cover').animate({top:'20px'},50);});
 		}	
 				
-		//更新圖片
-		function reflashImg()
-		{
-			d = new Date();		
-			var path_ = "static/users/"+{{g.user.ACCOUNT}}+"/Head.jpg?"+d.getTime();
-			$('.headImg').attr("src", path_);
-			//alert(path_);
-		}
 		//更換大頭貼
-		function ChgHeadImg()
-		{
+		function ChgHeadImg(){
 			var title_ = "";
 			var data_ = "";
 			title_ = "上傳圖片";
@@ -52,26 +42,27 @@
 				width: 450
 			});	
 		}
-		//alert((new Date()).getTime());
-		//reflashImg();
-		reflashImg();
-		function aa()
-		{
-			return "/static/images/NoHead.png"+(new Date()).getTime();
+
+		// 取得頭像
+		function getHeadImg(){
+			d = new Date();	
+			var url_ =  "{{ url_for('static', filename='users/'+Member.account+'/head.jpg') }}"
+			url_ += "?" + +d.getTime();
+			$(".headImg").attr("src",url_);
 		}
 	</script>  
 </head>
 <body>
 	<div class="page">
-	  <h1>Sudu - {{Member.ACCOUNT}}</h1>
+	  <h1>Sudu - {{Member.account}}</h1>
 	  <div class=metanav>
 		<a href="{{ url_for('index') }}" >首頁</a> |
 	  {% if not session.user_id %}
-		<a href="{{ url_for('login') }}">登入</a>
+		<a href="{{ url_for('loginCheck') }}">登入</a>
 	  {% else %}
 		<a href="{{ url_for('newArticle') }}">新增文章</a>
 		| 
-		<a href="{{ url_for('logout') }}">登出 [{{g.user.ACCOUNT}}]</a>
+		<a href="{{ url_for('logout') }}">登出 [{{Member.account}}]</a>
 	  {% endif %}
 	  </div>
 	  {% for message in get_flashed_messages() %}
@@ -80,22 +71,22 @@
 	  {% block body %}{% endblock %}
 	  <div class="profile">
 	  <!--<p><img src="/static/images/NoHead.png" alt="Smiley face" height="42" width="42"/></p> -->
-	  <p><img class="headImg" src="{{ url_for('getHeadImg',username=g.user.ACCOUNT) }}" onclick="ChgHeadImg();" alt="Smiley face" height="42" width="42"/></p>
-		帳號：{{Member.ACCOUNT}}</br>
-		身份：{{Member.AUTHORITY}}</br>
+	  <p><img class="headImg" onclick="ChgHeadImg()" alt="Smiley face" height="42" width="42"/></p>
+		帳號：{{Member.account}}</br>
+		身份：{{Member.authority}}</br>
 	  </div>
 		<div>
 			<ul class=entries>
 			{% for entry in Entries %}
 			<li>
 				<h2>
-					{{ entry.TITLE }}
+					{{ entry.title }}
 					{% if session.user_id %}
-						<a href="{{ url_for('sudu',ID=entry.INDEX) }}">練習</a>
+						<a href="{{ url_for('sudu',ID=entry.index) }}">練習</a>
 					{% endif %}
 				</h2>
 			
-			{{ entry.ARTICLE|safe }}
+			{{ entry.content|safe }}
 			{% else %}
 			<li><em>Unbelievable.  No entries here so far</em>
 			{% endfor %}
@@ -104,18 +95,16 @@
 	</div>
 	<div id="headImgDlg" title="" style="display:none;"></div>
 	<div id='login' style="display:none;">
-		<img class="headImg" src='{{ url_for('getHeadImg',username=g.user.ACCOUNT) }}' height='126' width='126'/>
+		<img class="headImg" height='126' width='126'/>
 		<form action='{{ url_for('upImg') }}' method='post' enctype='multipart/form-data'>
 			請選擇要上傳的圖片: </br>
 			<input type='file' name='file'/></br>
 			<input type='submit' value='Upload'/>
 		</form>
 	</div>
-</body>
 
-<script type="text/javascript">
-		
-	reflashImg();
-	
-</script>
+	<script type="text/javascript">
+		getHeadImg();
+	</script>
+</body>
 </html>
