@@ -9,6 +9,9 @@
 	<script type="text/javascript" src="{{ url_for('static', filename='jquery-ui-1.8.21.custom.min.js') }}"></script>
 	<script type="text/javascript">
 		//$(a:target).append("(Opens in New Window)");
+
+		var MODE = 0;
+
 		function chgStyle(size){
 			$('#body').css({
 				border:size+"px solid green",
@@ -111,6 +114,19 @@
 			});
 
 		}
+
+		//切換模式
+		function chgMode(mode){
+			MODE = mode;
+			if (mode == 0){
+				$("#modeFlash").show();
+				$("#modeReader").hide();
+			}
+			else if (mode==1){
+				$("#modeFlash").hide();
+				$("#modeReader").show();	
+			}
+		}
 	</script>    
 	
 	<style type="text/css">
@@ -150,17 +166,32 @@
 			{% endif %}
 		</div>
 		<h2>{{Text.title}}</h2>
-		<div id="cover" class="over" align="center"></div> 	
-		<div id="sudo" class="under" align="center"></div>
-		<br/>
-		<div id="input" align="center">
-		<input type="text" size="30">
+		<div id="workMenu">
+			<ul>
+				<li><a href="" onclick="chgMode(0)">快閃模式</a></li>
+				<li><a href="" onclick="chgMode(1)">讀字模式</a></li>
+			</ul>
 		</div>
-		<div id="input" align="center">
-		<input type="button" value="Reflash" onclick="Reflash();">
-		<input type="button" value="Next" onclick="NextStr();">
+
+		<!-- 快閃模式 -->
+		<div id="modeFlash">
+			<div id="cover" class="over" align="center"></div> 	
+			<div id="sudo" class="under" align="center"></div>
+			<br/>
+			<div id="input" align="center">
+				<input type="text" size="30">
+			</div>
+			<div id="input" align="center">
+				<input type="button" value="Reflash" onclick="Reflash();">
+				<input type="button" value="Next" onclick="NextStr();">
+			</div>
+			<div id="out">{{Text.content}}</div>
 		</div>
-		<div id="out">{{Text.content}}</div>
+
+		<!-- 讀字模式 -->
+		<div id="modeReader">
+			aaaaa
+		</div>
 	</div>
 	<div id="setupDlg" title="" style="display:none;"></div>	
 </body>
