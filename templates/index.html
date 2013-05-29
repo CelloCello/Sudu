@@ -1,12 +1,6 @@
-<!doctype html>
-<html>
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Sudu</title>
-	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
-	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='smoothness/jquery-ui-1.8.21.custom.css') }}">
-	<script type="text/javascript" src="{{ url_for('static', filename='jquery-1.7.2.js') }}"></script>
-	<script type="text/javascript" src="{{ url_for('static', filename='jquery-ui-1.8.21.custom.min.js') }}"></script>
+{% extends "base.html" %}
+
+{% block extra_script %}
 	<script type="text/javascript">
 	
 		//登入介面, type=1 為註冊
@@ -86,45 +80,57 @@
 		getHotList();
 
 	</script>
-</head>
-<body>
-	<div class='page'>
-		<h1>Welcome to Sudu!</h1>
-		{% for message in get_flashed_messages() %}
-		<div class="flash">{{ message }}</div>
-		{% endfor %}
-		
+{% endblock %}
+
+{% block extra_css %}
+
+{% endblock %}
+
+{% block content %}
+	<div class='hero-unit'>
+		<h1>Sudu</h1>
+        <p>
+        	This is a template for a simple marketing or informational website. 
+        	It includes a large callout called the hero unit and three supporting pieces of content. 
+        	Use it as a starting point to create something more unique.
+        </p>
 		<div class='metanav'>
 			<a href="javascript:" onclick="login(0);">登入</a> | 
 			<a href="javascript:" onclick="login(1);">註冊</a> 
 		</div>
-		
-		<!--
-		<div class='login'>
-			<form action="{{ url_for('loginCheck') }}" method="post">
-			  <dl>
-				<dt>Username: </dt>
-				<dd><input name="username" type="text" value="{{ request.form.username }}"> </dd>
-				<dt>Password: </dt>
-				<dd><input name="password" type="password"> </dd>
-				<dd><input value="Login" type="submit">
-				</dd>
-			  </dl>
-			</form>
-		</div>
-		-->
-		
-		<div id='public'>
-		這邊是公告區	
-		</div>
-		<!--
-		<form action="{{ url_for('upImg') }}" method="POST" enctype="multipart/form-data">
-		<input type="file" name="file" />
-		<input type="submit" value="Upload" />
-		</form>
-		-->
+	</div>
 
-		<div class="lastestList">
+	{% for message in get_flashed_messages() %}
+	<div class="flash">{{ message }}</div>
+	{% endfor %}
+
+	<!--
+	<div class='login'>
+		<form action="{{ url_for('loginCheck') }}" method="post">
+		  <dl>
+			<dt>Username: </dt>
+			<dd><input name="username" type="text" value="{{ request.form.username }}"> </dd>
+			<dt>Password: </dt>
+			<dd><input name="password" type="password"> </dd>
+			<dd><input value="Login" type="submit">
+			</dd>
+		  </dl>
+		</form>
+	</div>
+	-->
+	
+	<div id='public row'>
+	這邊是公告區	
+	</div>
+	<!--
+	<form action="{{ url_for('upImg') }}" method="POST" enctype="multipart/form-data">
+	<input type="file" name="file" />
+	<input type="submit" value="Upload" />
+	</form>
+	-->
+
+	<div class="row">
+		<div class="lastestList span6">
 			<h4>[新人進場]</h4>
 			<ul>
 				<li>aaa</li>
@@ -132,12 +138,12 @@
 			</ul>
 		</div>
 
-		<div class="hotList">
+		<div class="hotList span6">
 			<h4>[熱門項目]</h4>
 			<ul id="hots">
 			</ul>
 		</div>
 	</div>
 	<div id="loginDlg" title="" style="display:none;"></div>
-</body>
-</html>
+{% endblock %}
+
