@@ -124,9 +124,28 @@
 	}
 
 	function onBtnFacebookClick(){
-		FB.api('/me', function(response) {
-		  alert('Your name is ' + response.name);
-		});
+
+    FB.init({
+      appId      : '253775011430638',                        // App ID from the app dashboard
+      //channelUrl : '//WWW.YOUR_DOMAIN.COM/channel.html', // Channel file for x-domain comms
+      status     : true,                                 // Check Facebook Login status
+      xfbml      : true                                  // Look for social plugins on the page
+    });
+    
+		 FB.login(function(response) {
+		   if (response.authResponse) {
+		     console.log('Welcome!  Fetching your information.... ');
+		     FB.api('/me', function(response) {
+		       console.log('Good to see you, ' + response.name + '.');
+		     });
+		   } else {
+		     console.log('User cancelled login or did not fully authorize.');
+		   }
+		 });
+		// FB.api('/me', function(response) {
+		// 	//alert(response);
+		//   alert('Your name is ' + response.name);
+		// });
 	}
 
 	function facebookInit(){
@@ -157,13 +176,6 @@
 		
 	});
 
-	(function(d, s, id) {
-	    var js, fjs = d.getElementsByTagName(s)[0];
-	    if (d.getElementById(id)) return;
-	    js = d.createElement(s); js.id = id;
-	    js.src = "//connect.facebook.net/zh_TW/all.js#xfbml=1&appId=385625048146503";
-	    fjs.parentNode.insertBefore(js, fjs);
-	    }(document, 'script', 'facebook-jssdk'));
 </script>  
 {% endblock %}
 
@@ -208,7 +220,18 @@
 
 
 {% block content %}
-	<div id="fb-root"></div>
+
+<div id="fb-root"></div>
+<script>
+	(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/zh_TW/all.js#xfbml=1&appId=253775011430638";
+    fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+
 	<div class=page>
 		<h1>Sudu - Practice</h1>
 		<div class="metanav" >
@@ -243,7 +266,7 @@
 		</div>
 
 		<a id="modalBtn" data-toggle="modal" href="#myModal" class="btn btn-primary btn-large">查看演示案例</a>
-		<a id="facebookBtn" href="" class="btn btn-primary btn-large" onclick="onBtnFacebookClick()">Facebook</a>
+		<a id="facebookBtn" href="#" class="btn btn-primary btn-large" onclick="onBtnFacebookClick()">Facebook</a>
 
 		<!-- 讀字模式 -->
 		<center>
