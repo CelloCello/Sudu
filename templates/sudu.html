@@ -1,182 +1,214 @@
-<!doctype html>
-<html>
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Sudo - Practice</title>
-	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
-	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='smoothness/jquery-ui-1.8.21.custom.css') }}">
-	<script type="text/javascript" src="{{ url_for('static', filename='jquery-1.7.2.js') }}"></script>
-	<script type="text/javascript" src="{{ url_for('static', filename='jquery-ui-1.8.21.custom.min.js') }}"></script>
-	<script type="text/javascript" src="{{ url_for('static', filename='AutoScroller.js') }}"></script>
-	<script type="text/javascript" src="{{ url_for('static', filename='timer.js') }}"></script>
-	<script type="text/javascript">
-		//$(a:target).append("(Opens in New Window)");
+{% extends "base.html" %}
 
-		var MODE = 0;
+{% block title %} - Practice{% endblock %}
 
-		// function chgStyle(size){
-		// 	$('#body').css({
-		// 		border:size+"px solid green",
-		// 		//border:"10px solid green",
-		// 		hight: "40px",
-		// 		width:"500px"
-		// 	});				
-		// 	//openMap();
-		// }
-		
-		
-		function Reflash()
-		{
-			$('#cover').animate(
-				{top:'-10px'},
-				50,'swing',
-				function (){
-					$('#cover').animate({top:'20px'},50);
-				});
-		}
-		
-		var strList_ = new Array();
-		var CurrPos_ = 0;
-		// 處理文字, 將其分段
-		function ProcStr(gap)
-		{
-			$('#out').hide();
-			var str_ = $('#out').html();
-			//alert(str_);
-			
-			//分段整理
-			var num_ = Math.floor(str_.length / gap + 1);	//分段數量
-			//alert(Math.floor(num_));
-			//alert(num_);
-			//strList_ = new Array(ParseInt(num_));
-			strList_ = [];
-			var count_ = 0;
-			for ( var i=0 ; i<num_ ; i++ )
-			{
-				var startPos_ = i * gap;
-				var endPos_ = startPos_ + gap;
-				if ( endPos_ > str_.length )
-				{
-					//alert("!!");
-					endPos_ = str_.length;
-				}
-				//strList_[ count_ ] = str_.substring(startPos_, endPos_);
-				strList_.push( str_.substring(startPos_, endPos_) );
-				//alert(startPos_+","+ endPos_+","+gap);
-				count_++;
-			}
-			
-			//alert(count_);
-			$('#sudo').html(strList_[0]);
-		}
-		
-		function NextStr()
-		{
-			//$('#out').html(strList_.length);
-			CurrPos_++;
-			if ( CurrPos_ >= strList_.length )
-			{
-				CurrPos_ = 0;
-				$('#sudo').html("<b>完了!!!!</b>");
-				return ;
-			}	
-			$('#sudo').html(CurrPos_+":"+strList_[CurrPos_]);
-			//$('#sudo').html(CurrPos_+"<b>完了11!!!!</b>"+strList_[1]);
-			Reflash();
-		}
-		
-		//設定介面
-		function setup()
-		{		
-			// Dialog
-			$('#setupDlg').dialog({
-				//autoOpen: false,
-				title: "設定",
-				modal: true,
-				resizable: false,
-				width: 450,
-				buttons: {
-					"Ok": function() {
-						ProcStr( parseInt($('#lineWords').val()) );
-						$(this).dialog("close");
-					},
-					"Cancel": function() {
-						$(this).dialog("close");
-					}
-				}
+{% block extra_script %}
+<script type="text/javascript" src="{{ url_for('static', filename='AutoScroller.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='timer.js') }}"></script>
+<script src="http://connect.facebook.net/zh_TW/all.js"></script>
+<script type="text/javascript">
+	//$(a:target).append("(Opens in New Window)");
+
+	var MODE = 0;
+
+	// function chgStyle(size){
+	// 	$('#body').css({
+	// 		border:size+"px solid green",
+	// 		//border:"10px solid green",
+	// 		hight: "40px",
+	// 		width:"500px"
+	// 	});				
+	// 	//openMap();
+	// }
+	
+	
+	function Reflash()
+	{
+		$('#cover').animate(
+			{top:'-10px'},
+			50,'swing',
+			function (){
+				$('#cover').animate({top:'20px'},50);
 			});
-		}
-
-		//切換模式
-		function chgMode(mode){
-			MODE = mode;
-			if (mode == 0){
-				$("#modeFlash").show();
-				$("#modeReader").hide();
+	}
+	
+	var strList_ = new Array();
+	var CurrPos_ = 0;
+	// 處理文字, 將其分段
+	function ProcStr(gap)
+	{
+		$('#out').hide();
+		var str_ = $('#out').html();
+		//alert(str_);
+		
+		//分段整理
+		var num_ = Math.floor(str_.length / gap + 1);	//分段數量
+		//alert(Math.floor(num_));
+		//alert(num_);
+		//strList_ = new Array(ParseInt(num_));
+		strList_ = [];
+		var count_ = 0;
+		for ( var i=0 ; i<num_ ; i++ )
+		{
+			var startPos_ = i * gap;
+			var endPos_ = startPos_ + gap;
+			if ( endPos_ > str_.length )
+			{
+				//alert("!!");
+				endPos_ = str_.length;
 			}
-			else if (mode==1){
-				$("#modeFlash").hide();
-				$("#modeReader").show();	
-			}
+			//strList_[ count_ ] = str_.substring(startPos_, endPos_);
+			strList_.push( str_.substring(startPos_, endPos_) );
+			//alert(startPos_+","+ endPos_+","+gap);
+			count_++;
 		}
-
-		function onBtnStartClick(){
-			Scroller.Start();
-			cTimer.OutputObj = "val";
-			cTimer.Start('s');
-		}
-
-
-		$(document).ready(function() {
-			chgMode(1);
-			//$('#modeReader').autoscroll(AUTOSCROLL_Y);
-			//autoScroller('modeReader',10);
-			//$("#scrollContent").html( $('#out').html() );
-			Scroller.AutoScroll('scrollContent');
-			Scroller.OnStop = function(){
-				cTimer.Pause();
+		
+		//alert(count_);
+		$('#sudo').html(strList_[0]);
+	}
+	
+	function NextStr()
+	{
+		//$('#out').html(strList_.length);
+		CurrPos_++;
+		if ( CurrPos_ >= strList_.length )
+		{
+			CurrPos_ = 0;
+			$('#sudo').html("<b>完了!!!!</b>");
+			return ;
+		}	
+		$('#sudo').html(CurrPos_+":"+strList_[CurrPos_]);
+		//$('#sudo').html(CurrPos_+"<b>完了11!!!!</b>"+strList_[1]);
+		Reflash();
+	}
+	
+	//設定介面
+	function setup()
+	{		
+		// Dialog
+		$('#setupDlg').dialog({
+			//autoOpen: false,
+			title: "設定",
+			modal: true,
+			resizable: false,
+			width: 450,
+			buttons: {
+				"Ok": function() {
+					ProcStr( parseInt($('#lineWords').val()) );
+					$(this).dialog("close");
+				},
+				"Cancel": function() {
+					$(this).dialog("close");
+				}
 			}
-			
 		});
-	</script>    
-	
-	<style type="text/css">
-		#scrollContent {
-			width: 500px;
-			height: 300px;
-			border: 1px solid #000;
-			overflow: hidden;
-			text-align: left;
-		}
+	}
 
-		#scrollContent div {
-			width: 500px;
+	//切換模式
+	function chgMode(mode){
+		MODE = mode;
+		if (mode == 0){
+			$("#modeFlash").show();
+			$("#modeReader").hide();
 		}
-	
-		.over  
-		{
-			position: relative;
-			//text-align: center;
-			top: 20px;
-			/*left: 20px;*/
-			height:40px;
-			z-index: 2;
-			background-color: gray
+		else if (mode==1){
+			$("#modeFlash").hide();
+			$("#modeReader").show();	
 		}
+	}
 
-		.under 
-		{
-			position: relative;
-			top: 0px;
-			/*left: 20px;*/
-			height:20px;
-			z-index: 1;
-			/*background-color: blue*/
+	function onBtnStartClick(){
+		Scroller.Start();
+		cTimer.OutputObj = "val";
+		cTimer.Start('s');
+	}
+
+	function onBtnFacebookClick(){
+		FB.api('/me', function(response) {
+		  alert('Your name is ' + response.name);
+		});
+	}
+
+	function facebookInit(){
+		$.ajaxSetup({ cache: true });
+		  $.getScript('//connect.facebook.net/zh_TW/all.js', function(){
+		    window.fbAsyncInit = function() {
+		      FB.init({
+		        appId: '253775011430638',
+		        //channelUrl: '//yourapp.com/channel.html',
+		      });       
+		      $('#loginbutton,#feedbutton').removeAttr('disabled');
+		      FB.getLoginStatus(updateStatusCallback);
+		    };
+		  });
+	}
+
+	$(document).ready(function() {
+		ProcStr(5);
+		chgMode(1);
+		//$('#modeReader').autoscroll(AUTOSCROLL_Y);
+		//autoScroller('modeReader',10);
+		//$("#scrollContent").html( $('#out').html() );
+		Scroller.AutoScroll('scrollContent');
+		Scroller.OnStop = function(){
+			cTimer.Pause();
+			$("#modalBtn").click();
 		}
-	
-	</style>
-</head>
-<body onLoad="ProcStr(5);">
+		
+	});
+
+	(function(d, s, id) {
+	    var js, fjs = d.getElementsByTagName(s)[0];
+	    if (d.getElementById(id)) return;
+	    js = d.createElement(s); js.id = id;
+	    js.src = "//connect.facebook.net/zh_TW/all.js#xfbml=1&appId=385625048146503";
+	    fjs.parentNode.insertBefore(js, fjs);
+	    }(document, 'script', 'facebook-jssdk'));
+</script>  
+{% endblock %}
+
+{% block extra_css %}
+<style type="text/css">
+	#scrollContent {
+		width: 500px;
+		height: 300px;
+		border: 1px solid #000;
+		overflow: hidden;
+		text-align: left;
+	}
+
+	#scrollContent div {
+		width: 500px;
+	}
+
+	.over  
+	{
+		position: relative;
+		//text-align: center;
+		top: 20px;
+		/*left: 20px;*/
+		height:40px;
+		z-index: 2;
+		background-color: gray
+	}
+
+	.under 
+	{
+		position: relative;
+		top: 0px;
+		/*left: 20px;*/
+		height:20px;
+		z-index: 1;
+		/*background-color: blue*/
+	}
+
+</style>
+{% endblock %}
+
+
+
+{% block content %}
+	<div id="fb-root"></div>
 	<div class=page>
 		<h1>Sudu - Practice</h1>
 		<div class="metanav" >
@@ -209,6 +241,9 @@
 			</div>
 			<div id="out">{{Text.content}}</div>
 		</div>
+
+		<a id="modalBtn" data-toggle="modal" href="#myModal" class="btn btn-primary btn-large">查看演示案例</a>
+		<a id="facebookBtn" href="" class="btn btn-primary btn-large" onclick="onBtnFacebookClick()">Facebook</a>
 
 		<!-- 讀字模式 -->
 		<center>
@@ -278,6 +313,23 @@
 		</center>
 	</div>
 
+	<!-- 結算視窗 -->
+	<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h3 id="myModalLabel">恭喜!!</h3>
+	</div>
+	<div class="modal-body">
+		<h4>恭喜你做完測驗</h4>
+		<p>請問是否要發佈至Facebook</p>
+	</div>
+	<div class="modal-footer">
+		<button class="btn" data-dismiss="modal">关闭</button>
+		<button class="btn btn-primary">Facebook</button>
+		<button class="btn btn-primary">Save changes</button>
+		<button class="btn btn-primary">Save changes</button>
+	</div>
+
 	<!-- 設定視窗 -->
 	<div id="setupDlg" title="" style="display:none;">
 		<div class='login'>
@@ -287,5 +339,4 @@
 			<dd><input name='password' type='password'> </dd>
 		</div>
 	</div>	
-</body>
-</html>
+{% endblock %}

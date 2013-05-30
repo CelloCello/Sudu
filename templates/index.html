@@ -101,7 +101,10 @@
 	</div>
 
 	{% for message in get_flashed_messages() %}
-	<div class="flash">{{ message }}</div>
+	<div class="alert alert-block alert-error fade in">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		<div class="alert-heading">{{ message }}</div>
+	</div>
 	{% endfor %}
 
 	<!--
