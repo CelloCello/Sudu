@@ -8,6 +8,7 @@
 	<script type="text/javascript" src="{{ url_for('static', filename='jquery-1.7.2.js') }}"></script>
 	<script type="text/javascript" src="{{ url_for('static', filename='jquery-ui-1.8.21.custom.min.js') }}"></script>
 	<script type="text/javascript" src="{{ url_for('static', filename='AutoScroller.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='timer.js') }}"></script>
 	<script type="text/javascript">
 		//$(a:target).append("(Opens in New Window)");
 
@@ -119,6 +120,12 @@
 			}
 		}
 
+		function onBtnStartClick(){
+			Scroller.Start();
+			cTimer.OutputObj = "val";
+			cTimer.Start('s');
+		}
+
 
 		$(document).ready(function() {
 			chgMode(1);
@@ -126,6 +133,9 @@
 			//autoScroller('modeReader',10);
 			//$("#scrollContent").html( $('#out').html() );
 			Scroller.AutoScroll('scrollContent');
+			Scroller.OnStop = function(){
+				cTimer.Pause();
+			}
 			
 		});
 	</script>    
@@ -202,14 +212,66 @@
 
 		<!-- 讀字模式 -->
 		<center>
-		<div id="val"></div>
+		<div id="val">00:00:00</div>
 		<div id="modeReader">
-			<button type='button' onclick="Scroller.Start()">Start</button>
+			<button type='button' onclick="onBtnStartClick()">Start</button>
 			<button type='button' onclick="Scroller.Pause()">Pause</button>
 			<button type='button' onclick="Scroller.Reset()">Reset</button>
 			<div id="scrollContent">
 				<div>
 					{{Text.content}}
+					先將12.52645 乘 10 得到1252.645</br>
+					將這個結果四捨五入為整數得到1253</br>
+					再將1253除以100 ，得到12.53</br>
+					先將12.52645 乘 10 得到1252.645</br>
+					將這個結果四捨五入為整數得到1253</br>
+					再將1253除以100 ，得到12.53</br>
+					先將12.52645 乘 10 得到1252.645</br>
+					將這個結果四捨五入為整數得到1253</br>
+					再將1253除以100 ，得到12.53</br>
+					先將12.52645 乘 10 得到1252.645</br>
+					將這個結果四捨五入為整數得到1253</br>
+					再將1253除以100 ，得到12.53</br>
+					先將12.52645 乘 10 得到1252.645</br>
+					將這個結果四捨五入為整數得到1253</br>
+					再將1253除以100 ，得到12.53</br>
+					先將12.52645 乘 10 得到1252.645</br>
+					將這個結果四捨五入為整數得到1253</br>
+					再將1253除以100 ，得到12.53</br>
+					先將12.52645 乘 10 得到1252.645</br>
+					將這個結果四捨五入為整數得到1253</br>
+					再將1253除以100 ，得到12.53</br>
+					先將12.52645 乘 10 得到1252.645</br>
+					將這個結果四捨五入為整數得到1253</br>
+					再將1253除以100 ，得到12.53</br>
+					先將12.52645 乘 10 得到1252.645</br>
+					將這個結果四捨五入為整數得到1253</br>
+					再將1253除以100 ，得到12.53</br>
+					先將12.52645 乘 10 得到1252.645</br>
+					將這個結果四捨五入為整數得到1253</br>
+					再將1253除以100 ，得到12.53</br>
+					先將12.52645 乘 10 得到1252.645</br>
+					將這個結果四捨五入為整數得到1253</br>
+					再將1253除以100 ，得到12.53</br>
+					先將12.52645 乘 10 得到1252.645</br>
+					將這個結果四捨五入為整數得到1253</br>
+					再將1253除以100 ，得到12.53</br>
+					先將12.52645 乘 10 得到1252.645</br>
+					將這個結果四捨五入為整數得到1253</br>
+					再將1253除以100 ，得到12.53</br>
+					先將12.52645 乘 10 得到1252.645</br>
+					將這個結果四捨五入為整數得到1253</br>
+					再將1253除以100 ，得到12.53</br>
+					先將12.52645 乘 10 得到1252.645</br>
+					將這個結果四捨五入為整數得到1253</br>
+					再將1253除以100 ，得到12.53</br>
+					先將12.52645 乘 10 得到1252.645</br>
+					將這個結果四捨五入為整數得到1253</br>
+					再將1253除以100 ，得到12.53</br>
+					先將12.52645 乘 10 得到1252.645</br>
+					將這個結果四捨五入為整數得到1253</br>
+					再將1253除以100 ，得到12.53</br>
+
 				</div>
 			</div>
 		</div>

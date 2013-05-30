@@ -7,7 +7,8 @@ var Scroller = {
 	Speed:10,
 	Run: false,
 	ScrollCtrl:null,
-	NowVal:0
+	NowVal:0,
+	OnStop:function(){}
 }
 
 function move(ctrl){
@@ -15,9 +16,10 @@ function move(ctrl){
 		return ;
 
 	Scroller.NowVal += 1;
-	$("#val").text(Scroller.NowVal);
+	//$("#val").text(Scroller.NowVal);
 	if (Scroller.NowVal > Scroller.ScrollCtrl.height()){
 		Scroller.Run = false;
+		Scroller.OnStop();
 	}
 	ctrl.css('margin-top',-Scroller.NowVal);
 	setTimeout(function(){
