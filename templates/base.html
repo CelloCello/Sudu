@@ -5,11 +5,12 @@
 	<title>Sudu{% block title %}{% endblock %}</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
-    <meta name="author" content="">
+  <meta name="author" content="">
 	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
-  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='smoothness/jquery-ui-1.8.21.custom.css') }}">
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='jquery-ui-bootstrap/css/custom-theme/jquery-ui-1.9.2.custom.css') }}">
+  <!-- <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap/css/bootstrap-responsive.css') }}"> -->
 	<script type="text/javascript" src="{{ url_for('static', filename='jquery-1.7.2.js') }}"></script>
-  <script type="text/javascript" src="{{ url_for('static', filename='jquery-ui-1.8.21.custom.min.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='jquery-ui-bootstrap/js/jquery-ui-1.9.2.custom.min.js') }}"></script>
 	
 	{% block extra_script %}
 	{% endblock %}
@@ -60,8 +61,13 @@
               </li>
             </ul>
 			<div class="navbar-text pull-right">
-			<a href="">Signup</a> |
-			<a href="">Login</a>
+        {% if g.user %}
+          <!-- <a href="{{ url_for('logout') }}">[{{ g.user.account }}] Logout</a> -->
+          <a href="{{ url_for('logout') }}">{{ gettext('[%(user)s] Logout',user=g.user.account) }}</a>
+        {% else %}
+          <a href="">Signup</a> |
+          <a href="">Login</a>
+        {% endif %}
 			</div>
           </div><!--/.nav-collapse -->
         </div>

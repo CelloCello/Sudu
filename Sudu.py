@@ -21,6 +21,7 @@ from flask import Flask, request, session, g, redirect, url_for, abort, \
 from werkzeug import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
 from flask import send_from_directory
+from flaskext.babel import Babel
 
 # my tool
 from ctools.web_func import get_image_type, check2mkdir
@@ -40,6 +41,7 @@ app.config.from_envvar('SUDU_SETTINGS', silent=True)
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///DBInfo.db'
 #app.config['MAX_CONTENT_LENGTH'] = 1 * 1024 * 1024
 db.init_app(app)
+babel = Babel(app)
 
 
 # #資料庫查詢
@@ -94,7 +96,7 @@ def sudu(ID):
     if Article_ is None:
         return u"<font color='red'>沒有這篇文章!!!</font>"
         
-    return render_template('sudu.html',Text=Article_)
+    return render_template('sudu/sudu.html',Text=Article_)
 
 #首頁
 @app.route('/')

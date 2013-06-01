@@ -4,7 +4,7 @@
 */
 
 var Scroller = {
-	Speed:10,
+	Speed:1,
 	Run: false,
 	ScrollCtrl:null,
 	NowVal:0,
@@ -24,7 +24,7 @@ function move(ctrl){
 	ctrl.css('margin-top',-Scroller.NowVal);
 	setTimeout(function(){
 		move(ctrl,Scroller.NowVal);
-	},10);
+	},Scroller.Speed);
 }
 
 //初始
