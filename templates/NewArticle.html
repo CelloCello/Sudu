@@ -1,13 +1,8 @@
-﻿<!doctype html>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=big5" />
-<title>Sudu - Login</title>
-<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
-<link rel=stylesheet type=text/css href="{{ url_for('static', filename='smoothness/jquery-ui-1.8.21.custom.css') }}">
-<script type="text/javascript" src="{{ url_for('static', filename='jquery-1.7.2.js') }}"></script>
-<script type="text/javascript" src="{{ url_for('static', filename='jquery-ui-1.8.21.custom.min.js') }}"></script>
+﻿{% extends "base.html" %}
 
+{% block title %} - NewArticle{% endblock %}
+
+{% block extra_script %}
 <script type="text/javascript">
 	var wordNum = 0;
 	//計算字數
@@ -71,30 +66,31 @@
 */
 	}
 </script>  
-<body>
-	<div class="page">
-		<h1>新增文章</h1>		
-		<div class='metanav'>
-			<a href="{{ url_for('index') }}">首頁</a>  | 
-			<a href="{{ url_for('show_user_profile',username=g.user.ACCOUNT) }}">[{{g.user.ACCOUNT}}]</a>
-		</div>
-		
-		<div class='form'>
-			<form action="" method="post">		  
-			標題：<input name="title" type="text"><br />
-			內文：<br />
-			<textarea id="content" cols=60 rows=10 name="content" onkeydown="reflashWords();"></textarea>
-			<br />
-			<input type="radio" name="authority" value="public" /> 公開
-			<input type="radio" name="authority" value="private" checked="checked" /> 私用<br />
-			<input value="送出" type="submit">		
-			</form>
-		</div>	
-		<div id="words">字數：</div>
+{% endblock %}
+
+{% block extra_css %}
+{% endblock %}
+
+{% block content %}
+	<h1>新增文章</h1>		
+	<div class='metanav'>
+		<a href="{{ url_for('index') }}">首頁</a>  | 
+		<a href="{{ url_for('showUserProfile',username=g.user.account) }}">[{{g.user.account}}]</a>
 	</div>
+	
+	<div class='form'>
+		<form action="" method="post">		  
+		標題：<input name="title" type="text"><br />
+		內文：<br />
+		<textarea id="content" cols=60 rows=10 name="content" onkeydown="reflashWords();"></textarea>
+		<br />
+		<input type="radio" name="authority" value="public" /> 公開
+		<input type="radio" name="authority" value="private" checked="checked" /> 私用<br />
+		<input value="送出" type="submit">		
+		</form>
+	</div>	
+	<div id="words">字數：</div>
 	<input id="date" name="title" type="text"><br />
 	<div id="dialog" title="" style="display:none;"></div>
 	<a hrer="javascript:" onclick="btn();">資料</a>
-	
-</body>
-</html>
+{% endblock %}
