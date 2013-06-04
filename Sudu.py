@@ -69,7 +69,7 @@ setting_modules(app,DEFAULT_MODULES)
 # 檢查上傳檔案是否是可用的副檔
 def allowed_file(filename):
     return '.' in filename and \
-           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+           filename.rsplit('.', 1)[1] in app.config['ALLOWED_EXTENSIONS']
     
 @app.before_request
 def before_request():
@@ -239,8 +239,9 @@ def upImg():
     #要登入才能上傳
     if g.user:       
         error = None
-        Member_ = query_db('''select * from MemberData where [INDEX] = ?''',
-            [session['user_id']], one=True)
+        # Member_ = query_db('''select * from MemberData where [INDEX] = ?''',
+        #     [session['user_id']], one=True)
+        Member_ = g.user
 
         #print request.form['imgfile']
         if request.method == 'POST':
@@ -278,8 +279,8 @@ def upImg():
                 # outS_ = file(".//static//users//"+Member_['ACCOUNT']+"//Head_s"+fNames_[-1], "w")
                 # img_.save(out_,"JPEG")
                 # img_.save(outS_,"JPEG")
-                img_.save(".//static//users//"+Member_['ACCOUNT']+"//Head.jpg","JPEG")
-                imgS_.save(".//static//users//"+Member_['ACCOUNT']+"//Head_s.jpg","JPEG")
+                img_.save(".//static//users//"+Member_.account+"//Head.jpg","JPEG")
+                imgS_.save(".//static//users//"+Member_.account+"//Head_s.jpg","JPEG")
                 #file_.save(".//static//users//"+Member_['ACCOUNT']+"//Head"+fNames_[-1])
                 filename_ = secure_filename(file_.filename)
                 flash(u"上傳結束00",'error')
@@ -287,7 +288,7 @@ def upImg():
       
     #flash(u"NG")
     #print "upImg end"
-    return redirect(url_for('showUserProfile',username=Member_['ACCOUNT']))
+    return redirect(url_for('showUserProfile',username=Member_.account))
     #return "ok!!!"
 
 if __name__ == '__main__':
