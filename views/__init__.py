@@ -1,0 +1,1 @@
+#!/usr/bin/env pythonfrom .about import about

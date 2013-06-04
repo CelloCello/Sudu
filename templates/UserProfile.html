@@ -1,11 +1,8 @@
-<!doctype html>
-<html>
-<head>
-	<title>Sudu</title>
-	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
-	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='smoothness/jquery-ui-1.8.21.custom.css') }}">
-	<script type="text/javascript" src="{{ url_for('static', filename='jquery-1.7.2.js') }}"></script>
-	<script type="text/javascript" src="{{ url_for('static', filename='jquery-ui-1.8.21.custom.min.js') }}"></script>
+{% extends "base.html" %}
+
+{% block title %} - UserProfile{% endblock %}
+
+{% block extra_script %}
 	<script type="text/javascript">		
 		function Reflash(){
 			$('#cover').animate({top:'-10px'},50,'swing',function (){$('#cover').animate({top:'20px'},50);});
@@ -50,11 +47,16 @@
 			url_ += "?" + +d.getTime();
 			$(".headImg").attr("src",url_);
 		}
-	</script>  
-</head>
-<body>
+</script>  
+{% endblock %}
+
+{% block extra_css %}
+{% endblock %}
+
+
+{% block content %}
 	<div class="page">
-	  <h1>Sudu - {{Member.account}}</h1>
+	  <h1>{{Member.account}}</h1>
 	  <div class=metanav>
 		<a href="{{ url_for('index') }}" >首頁</a> |
 	  {% if not session.user_id %}
@@ -65,9 +67,12 @@
 		<a href="{{ url_for('logout') }}">登出 [{{Member.account}}]</a>
 	  {% endif %}
 	  </div>
-	  {% for message in get_flashed_messages() %}
-		<div class="flash">{{ message }}</div>
-	  {% endfor %}
+		{% for message in get_flashed_messages() %}
+		<div class="alert alert-block fade in alert-info">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<div class="alert-info">{{ message }}</div>
+		</div>
+		{% endfor %}
 	  {% block body %}{% endblock %}
 	  <div class="profile">
 	  <!--<p><img src="/static/images/NoHead.png" alt="Smiley face" height="42" width="42"/></p> -->
@@ -76,6 +81,7 @@
 		身份：{{Member.authority}}</br>
 	  </div>
 		<div>
+			<center><div id="EntriesInfo">共{{ Entries.count() }}筆</div></center>
 			<ul class=entries>
 			{% for entry in Entries %}
 			<li>
@@ -106,5 +112,4 @@
 	<script type="text/javascript">
 		getHeadImg();
 	</script>
-</body>
-</html>
+{% endblock %}
