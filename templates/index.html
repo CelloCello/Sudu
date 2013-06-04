@@ -33,7 +33,7 @@
 				title_ = "登入";
 				data_ =
 				"	<div class='login'>" +
-				"		<form action='{{ url_for('loginCheck') }}' method='post'>"+
+				"		<form action='{{ url_for('login') }}' method='post'>"+
 				"			<dl>"+
 				"			<dt>Username: </dt>"+
 				"			<dd><input name='username' type='text' value='{{ request.form.username }}'> </dd>"+
@@ -90,14 +90,11 @@
 	<div class='hero-unit'>
 		<h1>Sudu</h1>
         <p>
-        	This is a template for a simple marketing or informational website. 
-        	It includes a large callout called the hero unit and three supporting pieces of content. 
-        	Use it as a starting point to create something more unique.
+        	速讀網</br>
+        	一個可以練習速讀的地方.</br>
+        	將你喜歡的文章貼上後就可以感受速讀網的威力摟!
         </p>
-		<div class='metanav'>
-			<a href="javascript:" onclick="login(0);">登入</a> | 
-			<a href="javascript:" onclick="login(1);">註冊</a> 
-		</div>
+        <a id="moreBtn" href="#" class="btn btn-primary btn-large">More &raquo;</a>
 	</div>
 
 	{% for message in get_flashed_messages() %}
@@ -109,7 +106,7 @@
 
 	<!--
 	<div class='login'>
-		<form action="{{ url_for('loginCheck') }}" method="post">
+		<form action="{{ url_for('login') }}" method="post">
 		  <dl>
 			<dt>Username: </dt>
 			<dd><input name="username" type="text" value="{{ request.form.username }}"> </dd>

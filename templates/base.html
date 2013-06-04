@@ -65,8 +65,8 @@
           <!-- <a href="{{ url_for('logout') }}">[{{ g.user.account }}] Logout</a> -->
           <a href="{{ url_for('logout') }}">{{ gettext('[%(user)s] Logout',user=g.user.account) }}</a>
         {% else %}
-          <a href="">Signup</a> |
-          <a href="">Login</a>
+          <a href="{{ url_for('getSignup') }}">Signup</a> |
+          <a href="{{ url_for('getSignin') }}">Login</a>
         {% endif %}
 			</div>
           </div><!--/.nav-collapse -->

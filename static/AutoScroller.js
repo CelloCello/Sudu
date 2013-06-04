@@ -45,6 +45,7 @@ Scroller.Start = function(){
 		return ;
 
 	//alert(Scroller.ScrollCtrl.height());
+	alert(Scroller.Speed);
 	Scroller.Run = true;
 	move(Scroller.ScrollCtrl);
 }

@@ -33,6 +33,9 @@ from model.ArticleObj import DbArticle
 from model.extensions import db
 from model.extensions import SerializeModel
 
+# 表單
+from model.Forms import LoginForm, RegisterForm
+
 
 # create our little application :)
 app = Flask(__name__)
@@ -116,17 +119,17 @@ def index():
 #         return render_template('login.html',Type="reg")
 
 #Login檢查頁面
-@app.route('/loginCheck', methods=['GET', 'POST'])
-def loginCheck():
+@app.route('/login', methods=['GET', 'POST'])
+def login():
     """Logs the user in."""
-    
+    print "you login!!!"
     # 已經有登入的就秀出你的資訊
     if g.user:
         return redirect(url_for('showUserProfile',username=g.user.account))
         
     error = None
     if request.method == 'POST':
-        user_ = DbUser.query.filter_by(account=request.form['username']).first()
+        user_ = DbUser.query.filter_by(account=request.form['account']).first()
             
         if user_ is None:
             flash(u'沒有這個人!')
@@ -156,6 +159,18 @@ def logout():
     session.pop('user_id', None)
     flash('You were logged out')
     return redirect(url_for('index'))
+
+#取得註冊介面
+@app.route('/getSignup')
+def getSignup():
+    form_ = RegisterForm()
+    return render_template('register.html', form=form_, type="Signup")
+    
+#取得登入介面
+@app.route('/getSignin')
+def getSignin():
+    form_ = LoginForm()
+    return render_template('register.html', form=form_, type="Signin")
     
 #使用者註冊介面
 @app.route('/register', methods=['GET', 'POST'])
