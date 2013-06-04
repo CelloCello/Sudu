@@ -32,6 +32,13 @@ from model.ArticleObj import DbArticle
 from model.extensions import db
 from model.extensions import SerializeModel
 
+# 藍圖
+from views import about
+
+DEFAULT_MODULES = (
+(about, '/about'),
+)
+
 
 # create our little application :)
 app = Flask(__name__)
@@ -41,6 +48,13 @@ app.config.from_envvar('SUDU_SETTINGS', silent=True)
 #app.config['MAX_CONTENT_LENGTH'] = 1 * 1024 * 1024
 db.init_app(app)
 
+# 註冊藍圖
+def setting_modules(app, modules):
+    """ 註冊Blueprint """
+    for module, url_prefix in modules:
+        app.register_blueprint(module, url_prefix = url_prefix)
+
+setting_modules(app,DEFAULT_MODULES)
 
 # #資料庫查詢
 # def query_db(query, args=(), one=False):
