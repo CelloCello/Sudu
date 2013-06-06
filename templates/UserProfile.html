@@ -51,6 +51,11 @@
 {% endblock %}
 
 {% block extra_css %}
+<style type="text/css">
+	.well{
+		background-color:#dff0d8;
+	}
+</style>
 {% endblock %}
 
 
@@ -66,17 +71,16 @@
 	{% endfor %}
 	
 	<!-- 使用者資訊 -->
-	<div class="profile">
+	<div class="profile well well-large">
 		<!--<p><img src="/static/images/NoHead.png" alt="Smiley face" height="42" width="42"/></p> -->
 		<p><img class="headImg" onclick="ChgHeadImg()" alt="Smiley face" height="42" width="42"/></p>
 		帳號：{{Member.account}}</br>
 		身份：{{Member.authority}}</br>
 	</div>
-	</br>
 
 	<!-- 功能導覽 -->
 	<div id="mgrNav">
-		<a class="btn btn-primary btn-large" href="{{ url_for('newArticle') }}">
+		<a class="btn btn-primary" href="{{ url_for('newArticle') }}">
 			<i class="icon-plus"></i>新增文章
 		</a>
 	</div>
