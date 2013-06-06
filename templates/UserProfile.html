@@ -55,50 +55,54 @@
 
 
 {% block content %}
-	<div class="page">
-	  <h1>{{Member.account}}</h1>
-	  <div class=metanav>
-		<a href="{{ url_for('index') }}" >首頁</a> |
-	  {% if not session.user_id %}
-		<a href="{{ url_for('loginCheck') }}">登入</a>
-	  {% else %}
-		<a href="{{ url_for('newArticle') }}">新增文章</a>
-		| 
-		<a href="{{ url_for('logout') }}">登出 [{{Member.account}}]</a>
-	  {% endif %}
-	  </div>
-		{% for message in get_flashed_messages() %}
+
+	<h1>{{Member.account}}</h1>
+
+	{% for message in get_flashed_messages() %}
 		<div class="alert alert-block fade in alert-info">
 			<button type="button" class="close" data-dismiss="alert">&times;</button>
 			<div class="alert-info">{{ message }}</div>
 		</div>
-		{% endfor %}
-	  {% block body %}{% endblock %}
-	  <div class="profile">
-	  <!--<p><img src="/static/images/NoHead.png" alt="Smiley face" height="42" width="42"/></p> -->
-	  <p><img class="headImg" onclick="ChgHeadImg()" alt="Smiley face" height="42" width="42"/></p>
+	{% endfor %}
+	
+	<!-- 使用者資訊 -->
+	<div class="profile">
+		<!--<p><img src="/static/images/NoHead.png" alt="Smiley face" height="42" width="42"/></p> -->
+		<p><img class="headImg" onclick="ChgHeadImg()" alt="Smiley face" height="42" width="42"/></p>
 		帳號：{{Member.account}}</br>
 		身份：{{Member.authority}}</br>
-	  </div>
-		<div>
-			<center><div id="EntriesInfo">共{{ Entries.count() }}筆</div></center>
-			<ul class=entries>
-			{% for entry in Entries %}
-			<li>
-				<h2>
-					{{ entry.title }}
-					{% if session.user_id %}
-						<a href="{{ url_for('sudu',ID=entry.index) }}">練習</a>
-					{% endif %}
-				</h2>
-			
-			{{ entry.content|safe }}
-			{% else %}
-			<li><em>Unbelievable.  No entries here so far</em>
-			{% endfor %}
-			</ul>
-		</div>
 	</div>
+	</br>
+
+	<!-- 功能導覽 -->
+	<div id="mgrNav">
+		<a class="btn btn-primary btn-large" href="{{ url_for('newArticle') }}">
+			<i class="icon-plus"></i>新增文章
+		</a>
+	</div>
+	<hr>
+
+	{% if Entries %}
+	<div class="entriesList">
+		<center><div id="EntriesInfo">共{{ Entries.count() }}筆</div></center>
+		<ul class=entries>
+		{% for entry in Entries %}
+		<li>
+			<h2>
+				{{ entry.title }}
+				{% if session.user_id %}
+					<a href="{{ url_for('sudu',ID=entry.index) }}">練習</a>
+				{% endif %}
+			</h2>
+		
+		{{ entry.content|safe }}
+		{% else %}
+		<li><em>Unbelievable.  No entries here so far</em>
+		{% endfor %}
+		</ul>
+	</div>
+	{% endif %}
+
 	<div id="headImgDlg" title="" style="display:none;"></div>
 	<div id='login' style="display:none;">
 		<img class="headImg" height='126' width='126'/>

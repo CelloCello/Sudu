@@ -239,6 +239,7 @@ def showUserProfile(username):
 
     #若不是本人就秀使用者資訊
     Member_ = DbUser.query.filter_by(account=username).first()
+    #articles_ = DbArticle.query.filter_by(member_no=Member_.index)
     return render_template('UserProfile.html',Member=Member_)
 
 #取得熱門清單
