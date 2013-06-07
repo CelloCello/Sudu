@@ -1,0 +1,15 @@
+<center>
+<div id="val">00:00:00</div>
+<div id="modefind">
+	<label>{{_("請輸入要練習的字串(限九字)")}}</label>
+	<input type="text" placeholder=""/>
+	<button type='button' onclick="onBtnStartClick()">Start</button>
+	<button type='button' onclick="Scroller.Pause()">Pause</button>
+	<button type='button' onclick="Scroller.Reset()">Reset</button>
+	<div id="scrollContent">
+		<div>
+			{{Text.content}}
+		</div>
+	</div>
+</div>
+</center>

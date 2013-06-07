@@ -53,24 +53,29 @@ cTimer.ParseTime = function(passTime){
 
 cTimer.Start = function(power){
 	if (cTimer.Run)
-		return ;
+		return false;
 
 	if (cTimer.OutputObj == null)
-		return ;
+		return false;
 
 	cTimer.Run = true;
-	cTimer.PassTime = 0;
+	//cTimer.PassTime = 0;
 	TimeRun(power);
+	return true;
 }
 
 cTimer.Pause = function(){
-	cTimer.Run = !cTimer.Run;
-	if ( cTimer.Run )
-		cTimer.Start();
+	cTimer.Run = cTimer.Start('s');
 }
 
 cTimer.Stop = function(){
 	cTimer.Run = false;
 	cTimer.PassTime = 0;
 	$("#"+cTimer.OutputObj).text(cTimer.ParseTime(cTimer.PassTime));
+}
+
+cTimer.Reset = function(){
+	cTimer.Run = false;
+	$("#"+cTimer.OutputObj).text("00:00:00");
+	cTimer.PassTime = 0;
 }

@@ -270,6 +270,7 @@
 		<li><a href="#" onclick="chgMode(1)">讀字模式</a></li> -->
 		<li class="active"><a href="#flash" data-toggle="tab">快閃模式</a></li>
 		<li><a href="#read" data-toggle="tab">讀字模式</a></li>
+		<li><a href="#find" data-toggle="tab">找字測驗</a></li>
 	</ul>
 
 	<div class="tab-content">
@@ -281,6 +282,11 @@
 		<!-- 讀字模式 -->
 		<div id="read" class="tab-pane ">
 		{% include "sudu/part_read.html" %}
+		</div>
+
+		<!-- 找字測驗 -->
+		<div id="find" class="tab-pane ">
+		{% include "sudu/part_find.html" %}
 		</div>
 	</div>
 

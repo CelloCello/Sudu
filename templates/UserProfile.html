@@ -78,6 +78,7 @@
 		身份：{{Member.authority}}</br>
 	</div>
 
+	{% if Entries %}
 	<!-- 功能導覽 -->
 	<div id="mgrNav">
 		<a class="btn btn-primary" href="{{ url_for('newArticle') }}">
@@ -85,8 +86,7 @@
 		</a>
 	</div>
 	<hr>
-
-	{% if Entries %}
+	
 	<div class="entriesList">
 		<center><div id="EntriesInfo">共{{ Entries.count() }}筆</div></center>
 		<ul class=entries>

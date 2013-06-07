@@ -39,21 +39,20 @@ Scroller.AutoScroll = function(ctrl){
 //開始
 Scroller.Start = function(){
 	if (Scroller.Run)
-		return ;
+		return false;
 
 	if (Scroller.ScrollCtrl == null)
-		return ;
+		return false;
 
 	//alert(Scroller.ScrollCtrl.height());
-	alert(Scroller.Speed);
+	//alert(Scroller.Speed);
 	Scroller.Run = true;
 	move(Scroller.ScrollCtrl);
+	return true;
 }
 
 Scroller.Pause = function(){
-	Scroller.Run = !Scroller.Run;
-	if (Scroller.Run)
-		Scroller.Start();
+	Scroller.Run = Scroller.Start()
 }
 
 Scroller.Reset = function(){
