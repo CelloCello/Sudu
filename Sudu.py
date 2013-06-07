@@ -291,7 +291,7 @@ def upImg():
                 print "file allow"
                 #imgData_ = file_.read()
                 img_ = Image.open(file_).resize( (126,126) )
-                imgS_ = img_.resize( (42,42) )
+                imgS_ = img_.resize( (36,36) )
                 # fNames_ = os.path.splitext(file_.filename)
                 # out_ = file(".//static//users//"+Member_['ACCOUNT']+"//Head"+fNames_[-1], "w")
                 # outS_ = file(".//static//users//"+Member_['ACCOUNT']+"//Head_s"+fNames_[-1], "w")

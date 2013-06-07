@@ -1,71 +1,101 @@
 <!doctype html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Sudu{% block title %}{% endblock %}</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="">
-  <meta name="author" content="">
-	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
-  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='jquery-ui-bootstrap/css/custom-theme/jquery-ui-1.9.2.custom.css') }}">
-  <!-- <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap/css/bootstrap-responsive.css') }}"> -->
-	<script type="text/javascript" src="{{ url_for('static', filename='jquery-1.7.2.js') }}"></script>
-  <script type="text/javascript" src="{{ url_for('static', filename='jquery-ui-bootstrap/js/jquery-ui-1.9.2.custom.min.js') }}"></script>
-	
-	{% block extra_script %}
-	{% endblock %}
-	
-	<!-- Bootstrap -->
-	<script type="text/javascript" src="{{ url_for('static', filename='bootstrap/js/bootstrap.js') }}"></script>
-	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap/css/bootstrap.css') }}">
-	
-	<style type="text/css">
-      body {
-        padding-top: 60px;
-        padding-bottom: 40px;
-      }
-	  
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Sudu{% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='jquery-ui-bootstrap/css/custom-theme/jquery-ui-1.9.2.custom.css') }}">
+    <!-- <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap/css/bootstrap-responsive.css') }}"> -->
+    <script type="text/javascript" src="{{ url_for('static', filename='jquery-1.7.2.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='jquery-ui-bootstrap/js/jquery-ui-1.9.2.custom.min.js') }}"></script>
+    <script type="text/javascript">
+        // 取得小頭像
+        function getSmallHeadImg(){
+            {% if g.user %}
+            d = new Date(); 
+            var url_ =  "{{ url_for('static', filename='users/'+g.user.account+'/head_s.jpg') }}"
+            url_ += "?" + +d.getTime();
+            $(".smallHeadImg").attr("src",url_);
+            {% endif %}
+        }
+    </script>
+
+    {% block extra_script %}
+    {% endblock %}
+
+    <!-- Bootstrap -->
+    <script type="text/javascript" src="{{ url_for('static', filename='bootstrap/js/bootstrap.js') }}"></script>
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap/css/bootstrap.css') }}">
+
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }      
     </style>
-	
-	{% block extra_css %}
-  {% endblock %}
+
+    {% block extra_css %}
+    {% endblock %}
 	
 </head>
 <body>
 
-	  <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="brand" href="{{ url_for('index') }}">Sudu</a>
-          <div class="nav-collapse collapse">
-            <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#contact">Contact</a></li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">About <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                  <li><a href="{{ url_for('about.me') }}">about me</a></li>
-                  <li><a href="{{ url_for('about.site') }}">about this site</a></li>
-                </ul>
-              </li>
-            </ul>
-			<div class="navbar-text pull-right">
-        {% if g.user %}
-          <!-- <a href="{{ url_for('logout') }}">[{{ g.user.account }}] Logout</a> -->
-          <a href="{{ url_for('logout') }}">{{ gettext('[%(user)s] Logout',user=g.user.account) }}</a>
-        {% else %}
-          <a href="{{ url_for('getSignup') }}">Signup</a> |
-          <a href="{{ url_for('getSignin') }}">Login</a>
-        {% endif %}
-			</div>
-          </div><!--/.nav-collapse -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+              <a class="brand" href="{{ url_for('index') }}">Sudu</a>
+              <div class="nav-collapse collapse">
+                  <ul class="nav">
+                      <li class="active"><a href="#">{{_("Home")}}</a></li>
+                      <li><a href="#contact">{{_("Contact")}}</a></li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{_("About")}} <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                          <li><a href="{{ url_for('about.me') }}">{{_("about me")}}</a></li>
+                          <li><a href="{{ url_for('about.site') }}">{{_("about this site")}}</a></li>
+                        </ul>
+                      </li>
+                  </ul>
+
+            		
+                {% if g.user %}
+                  <ul class="nav pull-right">
+                    <!-- <a href="{{ url_for('logout') }}">[{{ g.user.account }}] Logout</a> -->
+                    <!-- <a href="{{ url_for('logout') }}">{{ gettext('[%(user)s] Logout',user=g.user.account) }}</a> -->
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <img class="smallHeadImg" alt="Smiley face" height="36" width="36"/>
+                        {{ _('[%(user)s]',user=g.user.account) }} <b class="caret"></b>
+                      </a>
+                      <ul class="dropdown-menu" >
+                        <li><a href="{{ url_for('about.me') }}">{{_("設定")}}</a></li>
+                        <li class="divider"></li>
+                        <li><a href="{{ url_for('logout') }}">{{_("登出")}}</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                {% else %}
+                <div class="navbar-text pull-right">
+                  <a href="{{ url_for('getSignup') }}">{{_("Signup")}}</a> |
+                  <a href="{{ url_for('getSignin') }}">{{_("Login")}}</a>
+                </div>
+                {% endif %}
+            	
+                <script type="text/javascript">
+                  getSmallHeadImg();
+                </script>	
+
+              </div><!--/.nav-collapse -->
+            </div>
         </div>
-      </div>
     </div>
 
     <div class="container">
@@ -84,10 +114,10 @@
 	
 	
 	
-	    <!-- Le javascript
+      <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-		<!--
+    <!--
     <script src="../assets/js/jquery.js"></script>
     <script src="../assets/js/bootstrap-transition.js"></script>
     <script src="../assets/js/bootstrap-alert.js"></script>
@@ -101,7 +131,7 @@
     <script src="../assets/js/bootstrap-collapse.js"></script>
     <script src="../assets/js/bootstrap-carousel.js"></script>
     <script src="../assets/js/bootstrap-typeahead.js"></script>
-		-->
+    -->
 	
 </body>
 </html>
