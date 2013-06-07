@@ -1,15 +1,17 @@
+
 <center>
 <div id="val">00:00:00</div>
-<div id="modefind">
+<div id="modefind" style="height:500px">
 	<label>{{_("請輸入要練習的字串(限九字)")}}</label>
-	<input type="text" placeholder=""/>
-	<button type='button' onclick="onBtnStartClick()">Start</button>
+	<input id="txFind" type="text" placeholder="aaa" value="123456789"/>
+	<button type='button' onclick="onBtnReadSet()">Start</button>
 	<button type='button' onclick="Scroller.Pause()">Pause</button>
 	<button type='button' onclick="Scroller.Reset()">Reset</button>
-	<div id="scrollContent">
-		<div>
-			{{Text.content}}
-		</div>
+	<div id="findContent" style="position:relative">
 	</div>
 </div>
 </center>
+
+<script type="text/javascript">
+	onBtnReadSet();
+</script>
