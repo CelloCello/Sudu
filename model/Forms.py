@@ -9,7 +9,7 @@ class LoginForm(Form):
     """
     account = TextField(u"帳號", validators=[required()])
     password = PasswordField(u"密碼", validators=[required()])
-    submit = SubmitField(u"Login")
+    submit = SubmitField(u"登入")
     
 class RegisterForm(Form):
     """
@@ -18,4 +18,4 @@ class RegisterForm(Form):
     account = TextField(u"帳號", validators=[required()])
     password = PasswordField(u"密碼", validators=[required()])
     repassword = PasswordField(u"確認密碼", validators=[required()])
-    submit = SubmitField(u"送出")
+    submit = SubmitField(u"註冊")

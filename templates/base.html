@@ -54,7 +54,6 @@
               <a class="brand" href="{{ url_for('index') }}">Sudu</a>
               <div class="nav-collapse collapse">
                   <ul class="nav">
-                      <li class="active"><a href="#">{{_("Home")}}</a></li>
                       <li><a href="#contact">{{_("Contact")}}</a></li>
                       <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{_("About")}} <b class="caret"></b></a>
@@ -76,6 +75,8 @@
                         {{ _('[%(user)s]',user=g.user.account) }} <b class="caret"></b>
                       </a>
                       <ul class="dropdown-menu" >
+                        <li><a href="{{ url_for('newArticle') }}">{{_("新增文章")}}</a></li>
+                        <li><a href="{{ url_for('showUserProfile',username=g.user.account) }}">{{_("管理文章")}}</a></li>
                         <li><a href="{{ url_for('about.me') }}">{{_("設定")}}</a></li>
                         <li class="divider"></li>
                         <li><a href="{{ url_for('logout') }}">{{_("登出")}}</a></li>

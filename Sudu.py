@@ -118,10 +118,7 @@ def sudu(ID):
 #首頁
 @app.route('/')
 def index():
-    flash(u'你進到首頁了!!')
-    if g.user:
-        return redirect(url_for('showUserProfile',username=g.user.account))
-        
+    flash(u'你進到首頁了!!')        
     return render_template('index.html')
     
 # #Login頁面(目前用不到)

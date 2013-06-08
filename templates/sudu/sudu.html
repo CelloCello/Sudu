@@ -151,7 +151,7 @@
 			var topPos_ = 130 * Math.floor(i/3) + 60;
 			var leftPos_ = 130*(i%3) + 100;
 			//alert(i+":"+leftPos_);
-			$('<span>').html("<b>"+newStr_[i]+"</b>").css({
+			$('<span class="worldGrid">').html("<b>"+newStr_[i]+"</b>").css({
 				"width":"18",
 				"height":"18",
 				"text-align":"center",
@@ -160,19 +160,69 @@
 				"position":"absolute",
 				"top": topPos_,
 				"left":leftPos_,
-				"background-color":"#98AFC7"
+				"background-color":"#98AFC7",
+				"opacity": "1"
 			})
 			.data("idx", i)
 			.click(function(){
 				//alert($(this).data("idx"));
-				alert($(this).text()+":"+newStr1_[cnt_]);
-				if ($(this).text() == newStr1_[cnt_])
+				if ( cnt_ >= newStr1_.length ){
+					alert( {{_("'已經結束了歐!'")}} );
+					return;
+				}
+
+				//alert($(this).text()+":"+newStr1_[cnt_]);
+				if ($(this).text() == newStr1_[cnt_]){
 					cnt_++;
+					$(this).css({
+						"opacity": "0.4"
+					});
+
+					//是否結束
+					if ( cnt_ >= newStr1_.length )
+						$("#modalBtn").click();
+				}
 				else
 					alert("wrong!!");
 			})
 			.appendTo('#findContent');
     	}
+	}
+
+	function feedFacebook(uid){
+
+		// FB.api('/me', function(response) {
+		// 	alert(response.name);
+		// });
+
+		// var data_ = {
+		// 	message: "Test"
+		// }
+		// FB.api('me/feed','post',data_, function(response){
+		// 	if (!response || response.error){
+		// 		alert("Error occured!");
+		// 	} else {
+		// 		alert("Post ID:"+ response.id);
+		// 	}
+		// });
+
+		FB.ui(
+			{
+				method:'feed',
+				name:'facebook Dialogs',
+				link:"http://cellocello.no-ip.info:5000",
+				picture:"http://fbrell.com/f8.jpg",
+				caption:"恭喜你做完測驗",
+				description:"你在速讀測驗拿到很高分歐!\n</br>趕快通知你的朋友!"
+			},
+			function(response){
+				if (response && response.post_id){
+					alert("Post!!!");
+				} else {
+					alert("NO!!!!!");
+				}
+			}
+		);
 	}
 
 	function onBtnFacebookClick(){
@@ -182,6 +232,24 @@
 	      //channelUrl : '//WWW.YOUR_DOMAIN.COM/channel.html', // Channel file for x-domain comms
 	      status     : true,                                 // Check Facebook Login status
 	      xfbml      : true                                  // Look for social plugins on the page
+	    });
+
+	    FB.getLoginStatus(function (response) {
+	    	if (response.status === 'connected'){
+	    		var uid_ = response.authResponse.userID;
+	    		feedFacebook(uid_);
+	    	} else {
+				FB.login(function(response) {
+					if (response.authResponse) {
+						var uid_ = response.authResponse.userID;
+						var accessToken_ = response.authResponse.accessToken;
+						console.log('Welcome!  Fetching your information.... ');
+						feedFacebook(uid_);
+					} else {
+					 console.log('User cancelled login or did not fully authorize.');
+					}
+				});		
+	    	}
 	    });
     
 		 FB.login(function(response) {
@@ -359,10 +427,8 @@
 			<p>請問是否要發佈至Facebook</p>
 		</div>
 		<div class="modal-footer">
-			<button class="btn" data-dismiss="modal">关闭</button>
-			<button class="btn btn-primary">Facebook</button>
-			<button class="btn btn-primary">Save changes</button>
-			<button class="btn btn-primary">Save changes</button>
+			<button class="btn" data-dismiss="modal">關閉</button>
+			<button class="btn btn-primary" onclick="onBtnFacebookClick()">Facebook</button>
 		</div>
 	</div>
 
