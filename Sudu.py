@@ -290,7 +290,16 @@ def upImg():
                 #圖片轉型 and 縮圖
                 print "file allow"
                 #imgData_ = file_.read()
-                img_ = Image.open(file_).resize( (126,126) )
+                img_ = Image.open(file_)
+                imgSizeX_ = img_.size[0]
+                imgSizeY_ = img_.size[1]
+                if imgSizeY_ > app.config['MAX_IMG_SIZE']:
+                    newY_ = app.config['MAX_IMG_SIZE']
+                    rate_ = float(imgSizeY_) / app.config['MAX_IMG_SIZE']
+                    #print "orgsize:" + str(imgSizeX_) + ", " + str(imgSizeY_) + ", " + str(rate_)
+                    newX_ = imgSizeX_ / rate_
+                    #print "newsize:" + str(newX_) + ", " + str(newY_) + ", " + str(rate_)
+                    img_ = img_.resize( (int(round(newX_)),int(round(newY_))) )
                 imgS_ = img_.resize( (36,36) )
                 # fNames_ = os.path.splitext(file_.filename)
                 # out_ = file(".//static//users//"+Member_['ACCOUNT']+"//Head"+fNames_[-1], "w")

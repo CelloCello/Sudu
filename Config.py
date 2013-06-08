@@ -17,6 +17,7 @@ class Config(object):
     SQLALCHEMY_DATABASE_URI = 'sqlite:///%s' % _DB_SQLITE_PATH
     SECRET_KEY = 'development key'
     ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif', 'bmp'])
+    MAX_IMG_SIZE = 256
     #BABEL_DEFAULT_TIMEZONE = 'Asia/Chongqing'
     #MAX_CONTENT_LENGTH = 1 * 1024 * 1024
 
