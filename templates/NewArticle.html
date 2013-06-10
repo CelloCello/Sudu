@@ -13,58 +13,6 @@
 		$('#words').html("字數："+len_);
 	}		
 	
-	
-	function btn()
-	{
-		var data="<div class='form'><form action='' method='post'>標題：<input name='title' type='text'><br />"+
-			"內文：<br /><textarea id='content' cols=60 rows=10 name='content' onkeydown='reflashWords();'></textarea>"+
-			"<br /><input type='radio' name='authority' value='public' /> 公開<input type='radio' name='authority' value='private' checked='checked' /> 私用<br />"+
-			"<input value='送出' type='submit'></form></div>	";
-		
-		//var data = "標題：<input name='title' type='text'>";
-   
-		$('#date').datepicker();
-		$('#dialog').html( data );
-		
-		
-						// Dialog
-				$('#dialog').dialog({
-					//autoOpen: false,
-					modal: true,
-					resizable: false,
-					width: 600,
-					buttons: {
-						"Ok": function() {
-							$(this).dialog("close");
-						},
-						"Cancel": function() {
-							$(this).dialog("close");
-						}
-					}
-				});
-		//$('#dialog').dialog('open');
-/*
-		$('#dialog').css({display:'inline'});
-
-		$("#dialog").dialog({
-			title: '資料',
-			bgiframe: true,
-			width: 350,
-			height: 350,
-			modal: true,
-			draggable: true,
-			resizable: false,
-			overlay:{opacity: 0.7, background: "#FF8899" },
-
-			buttons: {
-				'關閉': function() {
-					$(this).dialog('close');
-				}
-			}
-
-		});
-*/
-	}
 </script>  
 {% endblock %}
 
@@ -73,12 +21,8 @@
 
 {% block content %}
 	<h1>新增文章</h1>		
-	<div class='metanav'>
-		<a href="{{ url_for('index') }}">首頁</a>  | 
-		<a href="{{ url_for('showUserProfile',username=g.user.account) }}">[{{g.user.account}}]</a>
-	</div>
 	
-	<div class='form'>
+<!-- 	<div class='form'>
 		<form action="" method="post">		  
 		標題：<input name="title" type="text"><br />
 		內文：<br />
@@ -88,9 +32,14 @@
 		<input type="radio" name="authority" value="private" checked="checked" /> 私用<br />
 		<input value="送出" type="submit">		
 		</form>
-	</div>	
-	<div id="words">字數：</div>
-	<input id="date" name="title" type="text"><br />
-	<div id="dialog" title="" style="display:none;"></div>
-	<a hrer="javascript:" onclick="btn();">資料</a>
+	</div> -->	
+
+	<form action=''>
+		<legend><strong>新增文章</strong></legend>
+		{{ form.title.label }}{{ form.title(class="span2") }}</br>
+		{{ form.content.label }}{{ form.content(class="input-xxlarge",rows='15')|safe }}</br>
+		{{ form.authority.label }}{{ form.authority(class="radio") }}</br>
+		{{ form.submit(type="submit",class="btn btn-success btn-large") }}
+	</form>
+
 {% endblock %}

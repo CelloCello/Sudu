@@ -34,7 +34,7 @@ from model.extensions import db
 from model.extensions import SerializeModel
 
 # 表單
-from model.Forms import LoginForm, RegisterForm
+from model.Forms import LoginForm, RegisterForm, NewArticleForm
 
 # 藍圖
 from views import about
@@ -164,7 +164,8 @@ def login():
 #新增文章頁面
 @app.route('/newArticle')
 def newArticle():
-    return render_template('NewArticle.html')
+    form_ = NewArticleForm()
+    return render_template('NewArticle.html', form=form_)
     
 #登出
 @app.route('/logout')
