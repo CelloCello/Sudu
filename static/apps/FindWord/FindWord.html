@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>找字測驗</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}"> -->
+    <script type="text/javascript" src="jquery-1.7.2.min.js"></script>
+    <script type="text/javascript">
+
+		function fisherYates ( myArray ) {
+		  var i = myArray.length, j, temp;
+		  if ( i === 0 ) return false;
+		  while ( --i ) {
+		     j = Math.floor( Math.random() * ( i + 1 ) );
+		     temp = myArray[i];
+		     myArray[i] = myArray[j]; 
+		     myArray[j] = temp;
+		   }
+		}
+		
+		//設定找字測驗
+		function onBtnReadSet(){
+			$("#findContent").empty();
+			//alert("onBtnReadSet");
+			var findStr_ = $("#txFind").val();
+			//var len_ = findStr_.length;
+			var newStr_ = findStr_.split('');
+			var newStr1_ = newStr_.slice();
+			fisherYates(newStr_);
+			//alert(newStr_);
+			var cnt_ = 0;
+			for(var i=0; i<newStr_.length; i++) {
+				var topPos_ = 130 * Math.floor(i/3) + 60;
+				var leftPos_ = 130*(i%3) + 100;
+				//alert(i+":"+leftPos_);
+				$('<span class="worldGrid">').html("<b>"+newStr_[i]+"</b>").css({
+					"width":"18",
+					"height":"18",
+					"text-align":"center",
+					"transform": "scale(5,5)",
+					"-webkit-transform": "scale(7,7)",
+					"position":"absolute",
+					"top": topPos_,
+					"left":leftPos_,
+					"background-color":"#98AFC7",
+					"opacity": "1"
+				})
+				.data("idx", i)
+				.click(function(){
+					//alert($(this).data("idx"));
+					if ( cnt_ >= newStr1_.length ){
+						alert( "已經結束了歐!" );
+						return;
+					}
+
+					//alert($(this).text()+":"+newStr1_[cnt_]);
+					if ($(this).text() == newStr1_[cnt_]){
+						cnt_++;
+						$(this).css({
+							"opacity": "0.4"
+						});
+
+						//是否結束
+						if ( cnt_ >= newStr1_.length )
+							$("#modalBtn").click();
+					}
+					else
+						alert("wrong!!");
+				})
+				.appendTo('#findContent');
+	    	}
+		}
+    </script>
+
+    <style type="text/css">
+	#findContent {
+		width: 500px;
+		height: 400px;
+		border: 1px solid #000;
+		overflow: hidden;
+		text-align: left;
+	}
+
+</style>
+</head>
+<body>
+
+<center>
+<div id="val">00:00:00</div>
+<div id="modefind" style="height:500px">
+	<label>請輸入要練習的字串(限九字)</label>
+	<input id="txFind" type="text" placeholder="aaa" value="123456789"/>
+	<button type='button' onclick="onBtnReadSet()">設定</button>
+	<div id="findContent" style="position:relative">
+	</div>
+</div>
+</center>
+
+<script type="text/javascript">
+	onBtnReadSet();
+</script>
+	
+</body>
+</html>

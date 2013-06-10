@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %} - GameCenter{% endblock %}
+
+{% block extra_script %}
+<script src="{{ url_for('static', filename='holder.js') }}"></script>
+{% endblock %}
+
+{% block extra_css %}
+{% endblock %}
+
+{% block content %}
+<p>this is a center.</p>
+
+<ul class="thumbnails">
+	<li class="span4">
+		<div class="thumbnail pull-left">
+			<img data-src="static/holder.js/300x200" alt="">
+			<h3>Thumbnail label</h3>
+			<p>Thumbnail caption...</p>
+			<p class='pull-right'>
+				<a href="{{ url_for('game.enterGame',id=3) }}" class="btn btn-primary">Action</a>
+				<a href="#" class="btn">Action</a>
+			</p>
+		</div>
+	</li>
+</ul>
+{% endblock %}

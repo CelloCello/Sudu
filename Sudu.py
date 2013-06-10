@@ -10,9 +10,9 @@
 # system
 import Image
 import os
-import time, datetime
+#import time, datetime
 #from __future__ import with_statement
-from sqlite3 import dbapi2 as sqlite3
+#from sqlite3 import dbapi2 as sqlite3
 #from contextlib import closing
 
 # flask
@@ -20,14 +20,14 @@ from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash, abort
 from werkzeug import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
-from flask import send_from_directory
+#from flask import send_from_directory
 from flaskext.babel import Babel
 
 # my tool
 from ctools.web_func import get_image_type, check2mkdir
 
 # 資料庫相關
-from flask.ext.sqlalchemy import SQLAlchemy
+#from flask.ext.sqlalchemy import SQLAlchemy
 from model.UserObj import DbUser
 from model.ArticleObj import DbArticle
 from model.extensions import db
@@ -38,9 +38,11 @@ from model.Forms import LoginForm, RegisterForm
 
 # 藍圖
 from views import about
+from views import game
 
 DEFAULT_MODULES = (
 (about, '/about'),
+(game, '/game'),
 )
 
 
@@ -242,7 +244,7 @@ def showUserProfile(username):
 #取得熱門清單
 @app.route('/hotlist', methods=['GET'])
 def getHotList():
-    t = time.time()
+    #t = time.time()
     #hots_ = query_db('''select * from [ArticleData] ''')
     articles_ = DbArticle.query.limit(5).all()
     import json

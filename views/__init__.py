@@ -1,1 +1,1 @@
-#!/usr/bin/env pythonfrom .about import about
+#!/usr/bin/env pythonfrom .about import aboutfrom .game import game
