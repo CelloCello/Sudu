@@ -22,12 +22,14 @@ class DbUser(db.Model):
     password = db.Column(db.String(10), unique=True)
     authority = db.Column(db.Integer, unique=True)
     date = db.Column(db.DateTime, unique=False)
+    scoin = db.Column(db.Integer, unique=False)
     
     def __init__(self, account, password):
         self.account = account
         self.password = password
         self.authority = 0
         self.date = datetime.utcnow()
+        self.scoin = 0
 
     def __repr__(self):
         return '<User %r>' % self.account
