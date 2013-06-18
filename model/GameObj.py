@@ -22,14 +22,16 @@ class DbGame(db.Model):
     like = db.Column(db.Integer, unique=True)
     date = db.Column(db.DateTime, unique=False)
     url = db.Column(db.String(256), unique=False)
+    cost = db.Column(db.Integer, unique=False)
     
-    def __init__(self, name, author, url, type):
+    def __init__(self, name, author, url, type, cost):
         self.name = name
         self.type = type
         self.date = datetime.utcnow()
         self.author = author
         self.like = 0
         self.url = url
+        self.cost = cost
         
     def store_to_db(self):
         db.session.add(self)

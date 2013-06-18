@@ -4,6 +4,19 @@
 
 {% block extra_script %}
 <script src="{{ url_for('static', filename='holder.js') }}"></script>
+<script>
+	// function onBtnPlay(cost,serial){
+	// 	var myMoney_ = {{ g.user.scoin }};
+	// 	if ( myMoney_ < cost ){
+	// 		alert("{{ _('你錢不夠不能玩!') }}");
+	// 		//return ;
+	// 	}
+
+	// 	$.get("./"+serial.toString(), function(data){
+	// 		//alert(data);
+	// 	});
+	// }
+</script>
 {% endblock %}
 
 {% block extra_css %}
@@ -12,17 +25,27 @@
 {% block content %}
 <p>this is a center.</p>
 
+{% for message in get_flashed_messages() %}
+	<div class="alert alert-block fade in alert-error">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		<div class="alert-error">{{ message }}</div>
+	</div>
+{% endfor %}
+
 <ul class="thumbnails">
+	{% for game in games %}
 	<li class="span4">
 		<div class="thumbnail pull-left">
 			<img data-src="static/holder.js/300x200" alt="">
 			<h3>Thumbnail label</h3>
 			<p>Thumbnail caption...</p>
 			<p class='pull-right'>
-				<a href="{{ url_for('game.enterGame',id=3) }}" class="btn btn-primary">Action</a>
-				<a href="#" class="btn">Action</a>
+				<a href="#" class="btn disabled">{{ gettext('Cost: %(cost)d', cost=game.cost) }}</a>
+				<a href="{{ url_for('game.enterGame',id=game.serial) }}" class="btn btn-primary" onclick="onBtnPlay({{game.cost}}, {{game.serial}})">Action</a>
+				<!-- <button class="btn btn-primary" onclick="onBtnPlay({{game.cost}},{{game.serial}})">Action</a> -->
 			</p>
 		</div>
 	</li>
+	{% endfor %}
 </ul>
 {% endblock %}
