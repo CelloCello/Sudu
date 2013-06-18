@@ -40,8 +40,8 @@
 			<h3>Thumbnail label</h3>
 			<p>Thumbnail caption...</p>
 			<p class='pull-right'>
-				<a href="#" class="btn disabled">{{ gettext('Cost: %(cost)d', cost=game.cost) }}</a>
-				<a href="{{ url_for('game.enterGame',id=game.serial) }}" class="btn btn-primary" onclick="onBtnPlay({{game.cost}}, {{game.serial}})">Action</a>
+				<a href="#" class="btn btn-success disabled"><strong>{{ gettext('Cost: %(cost)d', cost=game.cost) }}</strong></a>
+				<a href="{{ url_for('game.enterGame',id=game.serial) }}" class="btn btn-primary" onclick="onBtnPlay({{game.cost}}, {{game.serial}})">Play</a>
 				<!-- <button class="btn btn-primary" onclick="onBtnPlay({{game.cost}},{{game.serial}})">Action</a> -->
 			</p>
 		</div>

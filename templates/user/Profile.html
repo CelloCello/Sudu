@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %} - Option{% endblock %}
+
+{% block extra_script %}
+    <script type="text/javascript">     
+        function Reflash(){
+            $('#cover').animate({top:'-10px'},50,'swing',function (){$('#cover').animate({top:'20px'},50);});
+        }   
+                
+        //更換大頭貼
+        function ChgHeadImg(){
+            var title_ = "";
+            var data_ = "";
+            title_ = "上傳圖片";
+            /*
+            data_ =
+            "   <div class='login'>" +
+            "       <form action='{{ url_for('upImg') }}' method='post' enctype='multipart/form-data'>"+
+            "           <dl>"+
+            "           <img src='/static/images/NoHead.png' height='42' width='42'/>"+
+            "           <dt>請選擇要上傳的圖片: </dt>"+
+            "           <dd><input type='file' name='file'/> </dd>"+
+            "           <dd><input type='submit' value='Upload'/></dd>"+
+            "           </dl>"+
+            "       </form>"+
+            "   </div>" ;
+            */
+            data_ = $('#login').html();
+            
+            $('#headImgDlg').html( data_ );
+            
+            // Dialog
+            $('#headImgDlg').dialog({
+                //autoOpen: false,
+                title: title_,
+                modal: true,
+                resizable: false,
+                width: 450
+            }); 
+        }
+
+        // 取得頭像
+        function getHeadImg(){
+            d = new Date(); 
+            var url_ = "";
+            {% if Member %}
+                url_ =  "{{ url_for('static', filename='users/'+Member.account+'/head.jpg') }}"
+            {% endif %}
+            url_ += "?" + +d.getTime();
+            $(".headImg").attr("src",url_);
+        }
+</script>  
+{% endblock %}
+
+{% block extra_css %}
+<style type="text/css">
+    .well{
+        background-color:#dff0d8;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    {% if g.user.account == Member.account %}
+        <!-- 本人使用者資訊 -->
+        <div class="profile well well-large">
+            <!--<p><img src="/static/images/NoHead.png" alt="Smiley face" height="42" width="42"/></p> -->
+            <p><img class="headImg" onclick="ChgHeadImg()" alt="Smiley face"/></p>
+            帳號：{{Member.account}}<br/>
+            身份：{{Member.authority}}<br/>
+            速讀點：{{Member.scoin}}<br/>
+        </div>
+
+        <script type="text/javascript">
+            getHeadImg();
+        </script>
+    {% else %}
+        {% if Member %}
+        <!-- 別人使用者資訊 -->
+        <div>別人的</div>
+        <div class="profile well well-large">
+            <!--<p><img src="/static/images/NoHead.png" alt="Smiley face" height="42" width="42"/></p> -->
+            <p><img class="headImg" onclick="ChgHeadImg()" alt="Smiley face"/></p>
+            帳號：{{Member.account}}<br/>
+            身份：{{Member.authority}}<br/>
+            速讀點：{{Member.scoin}}<br/>
+        </div>
+        {% endif %}
+    {% endif %}
+{% endblock %}

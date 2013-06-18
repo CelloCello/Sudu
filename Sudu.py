@@ -39,10 +39,12 @@ from model.Forms import LoginForm, RegisterForm, NewArticleForm
 # 藍圖
 from views import about
 from views import game
+from views import user
 
 DEFAULT_MODULES = (
 (about, '/about'),
 (game, '/game'),
+(user, '/user'),
 )
 
 
@@ -221,7 +223,7 @@ def register():
 
 
 #秀出使用者首頁資訊
-@app.route('/user/<username>')
+@app.route('/users/<username>')
 def showUserProfile(username):
     '''
     show the user profile for that user
