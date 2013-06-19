@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Auto Scroller</title>
+    <script type="text/javascript" src="jquery-1.3.2.min.js"></script>
+    <script type="text/javascript" src="jquery.timers.js"></script>
+    <script type="text/javascript" src="jquery.autoScroller.js"></script>
+</head>
+<body>
+<h1>Auto Scroller</h1>
+<h2>Scroller 1</h2>
+<div class="autoScroller-container" style="height:150px;background:yellow;overflow:auto">
+<div id="vmarquee">
+    <h3>Title 1</h3>
+    <p>Etiam diam eros, fermentum sed pulvinar vitae, blandit id metus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Ut condimentum fermentum metus, nec bibendum arcu tristique vel. </p>
+    <h3>Title 2</h3>
+    <p>Sed volutpat fringilla nulla nec faucibus. Integer id dignissim justo. Pellentesque sodales tortor ac est pretium malesuada. Donec mi lacus, vulputate laoreet luctus a, bibendum sed nisi.</p>
+    <h3>Title 3</h3>
+    <p>Aliquam erat volutpat. Aenean mattis volutpat feugiat. Nam ut tempus nisl. Praesent dictum tellus eget neque vehicula condimentum? </p>
+    <h3>Title 4</h3>
+    <p>Nullam et tellus nec nunc laoreet eleifend. Morbi consequat leo sed eros placerat aliquet. Donec sit amet nulla neque.</p>
+    <h3>Title 5</h3>
+    <p>Nam tempus scelerisque nibh eget placerat. Nunc vel felis vitae odio dictum placerat. Donec adipiscing leo sit amet leo ultrices molestie. Mauris eget velit eu ipsum adipiscing consectetur eget eu erat. Integer imperdiet enim sed mi molestie malesuada.</p>
+    <h3>Title 6</h3>
+    <p>In at felis aliquet tellus aliquet tempus eget a mauris. Etiam nunc est, elementum a accumsan ac, sodales ultrices erat? Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+    <h3>Title 7</h3>
+    <p>Nulla orci enim, ullamcorper sit amet porttitor in, sagittis nec metus. Suspendisse potenti.</p>
+</div>
+</div>
+
+<h2>Scroller 2</h2>
+<div class="autoScroller-container" style="height:150px;background:green;overflow:auto">
+<div id="vmarquee2">
+    <h3>Title 1</h3>
+    <p>Etiam diam eros, fermentum sed pulvinar vitae, blandit id metus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Ut condimentum fermentum metus, nec bibendum arcu tristique vel. </p>
+    <h3>Title 2</h3>
+    <p>Sed volutpat fringilla nulla nec faucibus. Integer id dignissim justo. Pellentesque sodales tortor ac est pretium malesuada. Donec mi lacus, vulputate laoreet luctus a, bibendum sed nisi.</p>
+    <h3>Title 3</h3>
+    <p>Aliquam erat volutpat. Aenean mattis volutpat feugiat. Nam ut tempus nisl. Praesent dictum tellus eget neque vehicula condimentum? </p>
+    <h3>Title 4</h3>
+    <p>Nullam et tellus nec nunc laoreet eleifend. Morbi consequat leo sed eros placerat aliquet. Donec sit amet nulla neque.</p>
+    <h3>Title 5</h3>
+    <p>Nam tempus scelerisque nibh eget placerat. Nunc vel felis vitae odio dictum placerat. Donec adipiscing leo sit amet leo ultrices molestie. Mauris eget velit eu ipsum adipiscing consectetur eget eu erat. Integer imperdiet enim sed mi molestie malesuada.</p>
+    <h3>Title 6</h3>
+    <p>In at felis aliquet tellus aliquet tempus eget a mauris. Etiam nunc est, elementum a accumsan ac, sodales ultrices erat? Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+    <h3>Title 7</h3>
+    <p>Nulla orci enim, ullamcorper sit amet porttitor in, sagittis nec metus. Suspendisse potenti.</p>
+</div>
+</div>
+
+<script type="text/javascript">
+$(window).load(function(){autoScroller('vmarquee')});
+$(window).load(function(){autoScroller('vmarquee2', 1)});
+</script>
+
+</body>
+</html>
