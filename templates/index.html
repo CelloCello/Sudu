@@ -87,6 +87,7 @@
 {% endblock %}
 
 {% block content %}
+	<br/>
 	<div class='hero-unit'>
 		<h1>Sudu</h1>
         <p>
@@ -141,27 +142,47 @@
 			{% endif %}
 		</div> -->
 
-		{% if Users %}
 		<div class="lastestList span6">
-		<h4>[新人進場]</h4>
-		<ul class="thumbnails">
-			{% for user in Users %}
-		    <li class="span3 clearfix">
-			    <div class="thumbnail clearfix">
-				    <img src="{{ url_for('getHeadImg', username=user.account) }}" alt="ALT NAME" class="pull-left span1 clearfix" style='margin-right:10px'>
-				    <div class="caption" class="pull-left">
-					    <a href="#" class="btn btn-primary icon pull-right">{{ _("加入") }}</a>
-					    <h4><a href="{{ url_for('user.profile', name=user.account) }}" >{{ user.account }}</a></h4>
-					    <small><b>{{ _("加入時間") }}: </b>{{ user.date.strftime('%Y-%m-%d') }}</small>
+			<h4>[新人進場]</h4>
+			{% if Users %}
+			<ul class="thumbnails">
+				{% for user in Users %}
+			    <li class="span3 clearfix">
+				    <div class="thumbnail clearfix">
+					    <img src="{{ url_for('getHeadImg', username=user.account) }}" alt="ALT NAME" class="pull-left span1 clearfix" style='margin-right:10px'/>
+					    <div class="caption" class="pull-left">
+						    <a href="#" class="btn btn-small btn-primary icon pull-right">{{ _("加入") }}</a>
+						    <h4><a href="{{ url_for('user.profile', name=user.account) }}" >{{ user.account }}</a></h4>
+						    <small><b>{{ _("加入時間") }}: </b>{{ user.date.strftime('%Y-%m-%d') }}</small>
+					    </div>
 				    </div>
-			    </div>
-		    </li>
-		    {% endfor %}
-		</ul>
+			    </li>
+			    {% endfor %}
+			</ul>
+			{% endif %}
 		</div>
-		{% endif %}
 
 		<div class="hotList span6">
+			<h4>[熱門項目]</h4>
+			{% if Articles %}
+			<ul class="thumbnails">
+				{% for article in Articles %}
+			    <li class="span6 clearfix">
+				    <div class="thumbnail clearfix">
+					    <div class="caption" class="pull-left">
+						    <!-- <a href="#" class="btn btn-primary icon pull-right">{{ _("加入") }}</a> -->
+						    <h4><a href="{{ url_for('sudu',ID=article.index) }}" >{{ article.title }}</a></h4>
+						    <!-- <small class="">{{ article.date.strftime('%Y-%m-%d') }}<br/></small> -->
+						    <small>{{ article.content|truncate(100, True) }}</small>
+					    </div>
+				    </div>
+			    </li>
+			    {% endfor %}
+			</ul>
+			{% endif %}
+		</div>
+
+<!-- 		<div class="hotList span6">
 			<h4>[熱門項目]</h4>
 			{% if Articles %}
 			<ul id="hots">
@@ -170,7 +191,7 @@
 				{% endfor %}
 			</ul>
 			{% endif %}
-		</div>
+		</div> -->
 	</div>
 
 	<div id="loginDlg" title="" style="display:none;"></div>
