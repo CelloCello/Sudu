@@ -116,7 +116,9 @@ def sudu(ID):
 #首頁
 @app.route('/')
 def index():
-    return render_template('index.html')
+    articles_ = DbArticle.query.limit(5).all()
+    users_ = DbUser.query.order_by(DbUser.date).limit(10)
+    return render_template('index.html', Articles=articles_, Users=users_)  
     
 # #Login頁面(目前用不到)
 # @app.route('/login', methods=['GET'])
@@ -246,11 +248,21 @@ def register():
 #取得熱門清單
 @app.route('/hotlist', methods=['GET'])
 def getHotList():
+    '''取得熱門清單'''
     #t = time.time()
     #hots_ = query_db('''select * from [ArticleData] ''')
     articles_ = DbArticle.query.limit(5).all()
     import json
     return json.dumps(SerializeModel(articles_))
+
+@app.route('/LastUserList')
+def getLastUserList():
+    '''取得新加入的使用者清單'''
+    users_ = DbUser.query.limit(10).order_by(DbUser.date)
+    if users_:
+        import json
+        return json.dumps(SerializeModel(users_))        
+
 
 @app.route('/getHeadImg/<username>')
 @app.route('/getHeadImg/<type>/<username>')
