@@ -66,15 +66,6 @@ def setting_modules(app, modules):
 
 setting_modules(app,DEFAULT_MODULES)
 
-# #資料庫查詢
-# def query_db(query, args=(), one=False):
-#     """Queries the database and returns a list of dictionaries."""
-#     return None
-    
-# def connect_db():
-#     """Returns a new connection to the database."""
-#     return db
-#     #return sqlite3.connect(app.config['DATABASE'])
     
 # 檢查上傳檔案是否是可用的副檔
 def allowed_file(filename):
@@ -123,7 +114,6 @@ def sudu(ID):
 #首頁
 @app.route('/')
 def index():
-    flash(u'你進到首頁了!!')        
     return render_template('index.html')
     
 # #Login頁面(目前用不到)
@@ -138,28 +128,31 @@ def index():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     """Logs the user in."""
-    print "you login!!!"
     # 已經有登入的就秀出你的資訊
     if g.user:
-        return redirect(url_for('showUserProfile',username=g.user.account))
+        #return redirect(url_for('showUserProfile',username=g.user.account))
+        return redirect(url_for('user.article'))
         
-    error = None
     if request.method == 'POST':
-        user_ = DbUser.query.filter_by(account=request.form['account']).first()
+        lgForm_ = LoginForm()
+        if lgForm_.validate_on_submit():
+            #user_ = DbUser.query.filter_by(account=request.form['account']).first()
+            user_ = DbUser.query.filter_by(account=lgForm_.account.data).first()
             
-        if user_ is None:
-            flash(u'沒有這個人!')
-            return render_template('index.html')
-        
-        if user_.checkPassword(request.form['password']) == False:
-            flash(u'密碼錯誤!')
-            return render_template('index.html')
+            if user_ is None:
+                flash(u'沒有這個人!')
+                return render_template('index.html')
             
-        flash('You were logged in')
-        session['user_id'] = user_.index
-        #session['user_name'] = user['ACCOUNT']
-        #print ("id:%d, name:%s") % (user['INDEX'],user['ACCOUNT'])
-        return redirect(url_for('showUserProfile',username=user_.account))
+            if user_.checkPassword(lgForm_.password.data) == False:
+                flash(u'密碼錯誤!')
+                return render_template('index.html')
+                
+            #flash('You were logged in')
+            session['user_id'] = user_.index
+            #session['user_name'] = user['ACCOUNT']
+            #print ("id:%d, name:%s") % (user['INDEX'],user['ACCOUNT'])
+            #return redirect(url_for('showUserProfile',username=user_.account))
+            return redirect(url_for('user.article'))
         
     return "<font color='red'>You should go from index page!!</font>"
 
@@ -192,58 +185,61 @@ def getSignin():
 #使用者註冊介面
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    """Registers the user."""    
+    """Registers the user.""" 
     if g.user:
-        Member_ = query_db('''select * from MemberData where [INDEX] = ?''',
-        [session['user_id']], one=True)
-        return redirect(url_for('showUserProfile',username=Member_['ACCOUNT']))
-        
+        return redirect(url_for('user.article'))
+
     error = None
     if request.method == 'POST':
-        if not request.form['username']:
-            error = 'You have to enter a username'
-        #elif not request.form['email'] or \
-        #         '@' not in request.form['email']:
-        #    error = 'You have to enter a valid email address'
-        elif not request.form['password']:
-            error = 'You have to enter a password'
-        elif request.form['password'] != request.form['password2']:
-            error = 'The two passwords do not match'
-        #elif get_user_id(request.form['username']) is not None:
-        #    error = 'The username is already taken'
-        else:
-            NewUser_ = User(request.form['username'],request.form['password'])
-            db.session.add(NewUser_)
-            db.session.commit()
-            check2mkdir("./static/users/"+request.form['username'])
-            flash(u"註冊成功!")
-            return redirect(url_for('showUserProfile',username=request.form['username']))
-      
+        rgForm_ = RegisterForm()
+        if rgForm_.validate_on_submit():
+            if not rgForm_.account.data:
+                error = 'You have to enter a username'
+            elif not rgForm_.password.data:
+                error = 'You have to enter a password'
+            elif rgForm_.password.data != rgForm_.repassword.data:
+                error = 'The two passwords do not match'
+            else:
+                # 先檢查有沒有註冊過
+                oldUser_ = DbUser.query.filter_by(account=rgForm_.account.data).first()
+                if oldUser_ is None:
+                    newUser_ = DbUser(rgForm_.account.data, rgForm_.password.data)
+                    db.session.add(newUser_)
+                    db.session.commit()
+                    check2mkdir("./static/users/"+rgForm_.account.data)
+                    #g.user = newUser_
+                    session['user_id'] = newUser_.index
+                    flash(u"註冊成功!")
+                    #return redirect(url_for('showUserProfile',username=request.form['username']))
+                    return redirect(url_for('user.article'))
+                else:
+                    error = "This account has been used!"
+    
     flash(error)
     return redirect(url_for('index'))
 
 
-#秀出使用者首頁資訊
-@app.route('/users/<username>')
-def showUserProfile(username):
-    '''
-    show the user profile for that user
-    '''
+# #秀出使用者首頁資訊
+# @app.route('/users/<username>')
+# def showUserProfile(username):
+#     '''
+#     show the user profile for that user
+#     '''
 
-    if g.user and g.user.account == username:
-        #若是本人就秀控制介面
-        flash(username)
-        flash("you are "+username)
+#     if g.user and g.user.account == username:
+#         #若是本人就秀控制介面
+#         flash(username)
+#         flash("you are "+username)
 
-        #列出所有文章
-        articles_ = DbArticle.query.filter_by(member_no=g.user.index)
-        #return render_template('show_entries.html', entries=entries)
-        return render_template('UserProfile.html',Member=g.user,Entries=articles_)
+#         #列出所有文章
+#         articles_ = DbArticle.query.filter_by(member_no=g.user.index)
+#         #return render_template('show_entries.html', entries=entries)
+#         return render_template('UserProfile.html',Member=g.user,Entries=articles_)
 
-    #若不是本人就秀使用者資訊
-    Member_ = DbUser.query.filter_by(account=username).first()
-    #articles_ = DbArticle.query.filter_by(member_no=Member_.index)
-    return render_template('UserProfile.html',Member=Member_)
+#     #若不是本人就秀使用者資訊
+#     Member_ = DbUser.query.filter_by(account=username).first()
+#     #articles_ = DbArticle.query.filter_by(member_no=Member_.index)
+#     return render_template('UserProfile.html',Member=Member_)
 
 #取得熱門清單
 @app.route('/hotlist', methods=['GET'])
@@ -338,7 +334,8 @@ def upImg():
       
     #flash(u"NG")
     #print "upImg end"
-    return redirect(url_for('showUserProfile',username=Member_.account))
+    #return redirect(url_for('showUserProfile',username=Member_.account))
+    return redirect(url_for('user.article'))
     #return "ok!!!"
 
 if __name__ == '__main__':

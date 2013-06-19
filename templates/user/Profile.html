@@ -55,20 +55,15 @@
         <!-- 本人使用者資訊 -->
         <br/>
         <div class="row-fluid">
-            {% include "user/part_info.html" %}
-            {% include "user/part_setting.html" %}
+            {% import 'user/macro_profile.html' as profile %}
+            {{ profile.profileInfo(g.user) }}
+            {{ profile.profileSetting(g.user) }}
         </div>
     {% else %}
         {% if Member %}
-        <!-- 別人使用者資訊 -->
-        <div>別人的</div>
-        <div class="profile well well-large">
-            <!--<p><img src="/static/images/NoHead.png" alt="Smiley face" height="42" width="42"/></p> -->
-            <p><img class="headImg" alt="Smiley face"/></p>
-            帳號：{{Member.account}}<br/>
-            身份：{{Member.authority}}<br/>
-            速讀點：{{Member.scoin}}<br/>
-        </div>
+            <!-- 別人使用者資訊 -->
+            {% import 'user/macro_profile.html' as profile %}
+            {{ profile.profileOther(Member) }}
         {% endif %}
     {% endif %}
 {% endblock %}

@@ -44,7 +44,7 @@
               <div class="nav-collapse collapse">
                   <ul class="nav">
                       {% if g.user %}
-                      <li><a href="{{ url_for('showUserProfile',username=g.user.account) }}">{{_("管理文章")}}</a></li>
+                      <li><a href="{{ url_for('user.article') }}">{{_("管理文章")}}</a></li>
                       <li><a href="{{ url_for('game.center') }}">{{_("遊樂場")}}</a></li>
                       {% endif %}
                       <li class="dropdown">
@@ -63,7 +63,7 @@
                     <!-- <a href="{{ url_for('logout') }}">{{ gettext('[%(user)s] Logout',user=g.user.account) }}</a> -->
                     <li class="dropdown">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img class="smallHeadImg" alt="Smiley face" height="36" width="36" src="{{ url_for('getHeadImg', username=Member.account, type='s') }}"/>
+                        <img class="smallHeadImg" alt="Smiley face" height="36" width="36" src="{{ url_for('getHeadImg', username=g.user.account, type='s') }}"/>
                         {{ _('[%(user)s]',user=g.user.account) }} <b class="caret"></b>
                       </a>
                       <ul class="dropdown-menu" >

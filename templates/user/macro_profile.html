@@ -1,0 +1,44 @@
+
+{% macro profileInfo(Member) %}
+    <div class="span4">
+        <div class="profile well">
+            <!--<p><img src="/static/images/NoHead.png" alt="Smiley face" height="42" width="42"/></p> -->
+            <p><img class="headImg" alt="Smiley face" src="{{ url_for('getHeadImg', username=Member.account) }}"/></p>
+            帳號：{{Member.account}}<br/>
+            身份：{{Member.authority}}<br/>
+            速讀點：{{Member.scoin}}<br/>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro profileSetting(Member) %}
+    <div class="span8">
+        <div class="profile well">
+            <!--<p><img src="/static/images/NoHead.png" alt="Smiley face" height="42" width="42"/></p> -->
+            <p><img class="headImg" onclick="ChgHeadImg()" alt="Smiley face" src="{{ url_for('getHeadImg',username=Member.account) }}"/></p>
+            帳號：{{Member.account}}<br/>
+            身份：{{Member.authority}}<br/>
+            速讀點：{{Member.scoin}}<br/>
+        </div>
+    </div>
+
+    <div id="headImgDlg" title="" style="display:none;"></div>
+    <div id='login' style="display:none;">
+        <img class="headImg" height='126' width='126'/>
+        <form action='{{ url_for('upImg') }}' method='post' enctype='multipart/form-data'>
+            請選擇要上傳的圖片: </br>
+            <input type='file' name='file'/></br>
+            <input type='submit' value='Upload'/>
+        </form>
+    </div>
+{% endmacro %}
+
+{% macro profileOther(Member) %}
+    <div>別人的</div>
+    <div class="profile well well-large">
+        <p><img class="headImg" alt="Smiley face" src="{{ url_for('getHeadImg',username=Member.account) }}"/></p>
+        帳號：{{Member.account}}<br/>
+        身份：{{Member.authority}}<br/>
+        速讀點：{{Member.scoin}}<br/>
+    </div>
+{% endmacro %}
