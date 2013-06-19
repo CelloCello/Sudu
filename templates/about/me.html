@@ -9,5 +9,12 @@
 {% endblock %}
 
 {% block content %}
-<p>這就是關於我!</p>
+
+{% filter markdown %}
+關於我
+=============
+其實也還不知道要說些什麼    
+不過還是寫點東西
+{% endfilter %}
+
 {% endblock %}

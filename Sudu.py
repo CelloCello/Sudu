@@ -23,6 +23,7 @@ from werkzeug import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
 #from flask import send_from_directory
 from flaskext.babel import Babel
+from flaskext.markdown import Markdown
 
 # my tool
 from ctools.web_func import get_image_type, check2mkdir
@@ -57,6 +58,7 @@ app.config.from_envvar('SUDU_SETTINGS', silent=True)
 #app.config['MAX_CONTENT_LENGTH'] = 1 * 1024 * 1024
 db.init_app(app)
 babel = Babel(app)
+Markdown(app)
 
 # 註冊藍圖
 def setting_modules(app, modules):

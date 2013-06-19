@@ -13,6 +13,7 @@ from jinja2 import TemplateNotFound
 
 about = Blueprint('about', __name__)
 
+
 @about.route('/me')
 def me():
     try:
