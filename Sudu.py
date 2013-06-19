@@ -10,6 +10,7 @@
 # system
 import Image
 import os
+import random
 #import time, datetime
 #from __future__ import with_statement
 #from sqlite3 import dbapi2 as sqlite3
@@ -252,6 +253,26 @@ def getHotList():
     articles_ = DbArticle.query.limit(5).all()
     import json
     return json.dumps(SerializeModel(articles_))
+
+@app.route('/getHeadImg/<username>')
+@app.route('/getHeadImg/<type>/<username>')
+def getHeadImg(username,type='L'):
+    '''
+    取得頭像
+    '''
+    filename_ = "/head.jpg"
+    if type == "s":
+        filename_ = "/head_s.jpg"
+    imgPath_ = "users/" + username + filename_
+    path_ = url_for('static', filename=imgPath_)
+
+    #先確認有沒有圖
+    if not os.path.exists("./"+path_):
+        path_ = url_for('static', filename='images/NoHead.png')
+
+    rand_ = random.randint(0,1000)
+    path_ = path_+"?"+str(rand_)
+    return redirect(path_)
     
 @app.route('/upImg',methods=['GET', 'POST'])
 def upImg():

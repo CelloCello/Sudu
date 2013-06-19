@@ -11,17 +11,6 @@
     <!-- <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap/css/bootstrap-responsive.css') }}"> -->
     <script type="text/javascript" src="{{ url_for('static', filename='jquery-1.7.2.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='jquery-ui-bootstrap/js/jquery-ui-1.9.2.custom.min.js') }}"></script>
-    <script type="text/javascript">
-        // 取得小頭像
-        function getSmallHeadImg(){
-            {% if g.user %}
-            d = new Date(); 
-            var url_ =  "{{ url_for('static', filename='users/'+g.user.account+'/head_s.jpg') }}"
-            url_ += "?" + +d.getTime();
-            $(".smallHeadImg").attr("src",url_);
-            {% endif %}
-        }
-    </script>
 
     {% block extra_script %}
     {% endblock %}
@@ -74,7 +63,7 @@
                     <!-- <a href="{{ url_for('logout') }}">{{ gettext('[%(user)s] Logout',user=g.user.account) }}</a> -->
                     <li class="dropdown">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img class="smallHeadImg" alt="Smiley face" height="36" width="36"/>
+                        <img class="smallHeadImg" alt="Smiley face" height="36" width="36" src="{{ url_for('getHeadImg', username=Member.account, type='s') }}"/>
                         {{ _('[%(user)s]',user=g.user.account) }} <b class="caret"></b>
                       </a>
                       <ul class="dropdown-menu" >
@@ -91,10 +80,6 @@
                   <a href="{{ url_for('getSignin') }}">{{_("Login")}}</a>
                 </div>
                 {% endif %}
-            	
-                <script type="text/javascript">
-                  getSmallHeadImg();
-                </script>	
 
               </div><!--/.nav-collapse -->
             </div>

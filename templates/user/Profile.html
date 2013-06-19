@@ -39,17 +39,6 @@
                 width: 450
             }); 
         }
-
-        // 取得頭像
-        function getHeadImg(){
-            d = new Date(); 
-            var url_ = "";
-            {% if Member %}
-                url_ =  "{{ url_for('static', filename='users/'+Member.account+'/head.jpg') }}"
-            {% endif %}
-            url_ += "?" + +d.getTime();
-            $(".headImg").attr("src",url_);
-        }
 </script>  
 {% endblock %}
 
@@ -64,24 +53,18 @@
 {% block content %}
     {% if g.user.account == Member.account %}
         <!-- 本人使用者資訊 -->
-        <div class="profile well well-large">
-            <!--<p><img src="/static/images/NoHead.png" alt="Smiley face" height="42" width="42"/></p> -->
-            <p><img class="headImg" onclick="ChgHeadImg()" alt="Smiley face"/></p>
-            帳號：{{Member.account}}<br/>
-            身份：{{Member.authority}}<br/>
-            速讀點：{{Member.scoin}}<br/>
+        <br/>
+        <div class="row-fluid">
+            {% include "user/part_info.html" %}
+            {% include "user/part_setting.html" %}
         </div>
-
-        <script type="text/javascript">
-            getHeadImg();
-        </script>
     {% else %}
         {% if Member %}
         <!-- 別人使用者資訊 -->
         <div>別人的</div>
         <div class="profile well well-large">
             <!--<p><img src="/static/images/NoHead.png" alt="Smiley face" height="42" width="42"/></p> -->
-            <p><img class="headImg" onclick="ChgHeadImg()" alt="Smiley face"/></p>
+            <p><img class="headImg" alt="Smiley face"/></p>
             帳號：{{Member.account}}<br/>
             身份：{{Member.authority}}<br/>
             速讀點：{{Member.scoin}}<br/>
