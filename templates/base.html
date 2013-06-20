@@ -23,6 +23,7 @@
         body {
             padding-top: 60px;
             padding-bottom: 40px;
+            //background-color:#EFF1F1;
         }      
     </style>
 
@@ -67,7 +68,7 @@
                         {{ _('[%(user)s]',user=g.user.account) }} <b class="caret"></b>
                       </a>
                       <ul class="dropdown-menu" >
-                        <li><a href="{{ url_for('newArticle') }}">{{_("新增文章")}}</a></li>
+                        <li><a href="{{ url_for('article.new') }}">{{_("新增文章")}}</a></li>
                         <li><a href="{{ url_for('user.profile') }}">{{_("個人資訊")}}</a></li>
                         <li class="divider"></li>
                         <li><a href="{{ url_for('logout') }}">{{_("登出")}}</a></li>

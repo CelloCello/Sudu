@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %} - NewArticle{% endblock %}
+
+{% block extra_script %}
+<script type="text/javascript">
+    var wordNum = 0;
+    //計算字數
+    function reflashWords()
+    {
+        ++wordNum;
+        var len_ = $('#content').text().length;
+        $('#words').html("字數："+len_);
+    }       
+    
+</script>  
+{% endblock %}
+
+{% block extra_css %}
+{% endblock %}
+
+{% block content %}
+    <h1>新增文章</h1>       
+    
+<!--    <div class='form'>
+        <form action="" method="post">        
+        標題：<input name="title" type="text"><br />
+        內文：<br />
+        <textarea id="content" cols=60 rows=10 name="content" onkeydown="reflashWords();"></textarea>
+        <br />
+        <input type="radio" name="authority" value="public" /> 公開
+        <input type="radio" name="authority" value="private" checked="checked" /> 私用<br />
+        <input value="送出" type="submit">        
+        </form>
+    </div> -->  
+
+    <div class='row'>
+        <form action=''>
+            <div class='row'>
+                <legend><strong>新增文章</strong></legend>
+            </div>
+            <div class='row'>
+                <div class='row span6 pull-left'>
+                    {{ form.csrf_token }}
+                    {{ form.title.label }}{{ form.title(class="span2") }}<br/>
+                    {{ form.content.label }}{{ form.content(class="span6 input-xxlarge",rows='15')|safe }}<br/>
+                    {{ form.authority.label }}{{ form.authority(class="radio span2") }}<br/>
+                </div>
+                <div class='row span6 pull-right'>
+                {% for question in form.questions %}
+                    <!-- <div class='row'> -->
+                        <div class='row'>
+                            <label>{{ "%s%d:"|format(question.questions.label.text, loop.index) }}</label>
+                            {{ question.questions(class="input",rows='2') }}<br/>
+                        </div>
+                        <div class="row">
+                            <div class="span3">{{ question.option_a.label }}{{ question.option_a(class="input") }}<br/></div>
+                            <div class="span3">{{ question.option_b.label }}{{ question.option_b(class="input") }}<br/></div>
+                            <div class="span3">{{ question.option_c.label }}{{ question.option_c(class="input") }}<br/></div>
+                            <div class="span3">{{ question.option_d.label }}{{ question.option_d(class="input") }}<br/></div>
+                            <div class="span3">{{ question.ans.label }}{{ question.ans(class="input") }}<br/></div>
+                        </div>
+                {% endfor %}
+                </div>
+            </div>
+            <div class='row'>
+            {{ form.submit(type="submit",class="btn btn-success btn-large") }}
+            </div>
+        </form>
+    </div>
+
+{% endblock %}
