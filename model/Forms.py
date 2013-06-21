@@ -43,6 +43,7 @@ class NewArticleForm(Form):
     title = TextField(u"標題", validators=[required()])
     content = TextAreaField(u"內文", validators=[required()])
     authority = RadioField(u"類型", choices=[('value',u'公開'),('value_two',u'私人')])
+    question = FormField(QuestionForm)
     #questions = FieldList(TextAreaField())
     questions = FieldList(FormField(QuestionForm))
     # questions = content

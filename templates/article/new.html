@@ -35,38 +35,59 @@
     </div> -->  
 
     <div class='row'>
+        <div class='span12'>
         <form action=''>
+            <legend><strong>新增文章</strong></legend>
             <div class='row'>
-                <legend><strong>新增文章</strong></legend>
-            </div>
-            <div class='row'>
-                <div class='row span6 pull-left'>
+                <div class='span6'>
                     {{ form.csrf_token }}
-                    {{ form.title.label }}{{ form.title(class="span2") }}<br/>
-                    {{ form.content.label }}{{ form.content(class="span6 input-xxlarge",rows='15')|safe }}<br/>
-                    {{ form.authority.label }}{{ form.authority(class="radio span2") }}<br/>
+                    {{ form.title.label }}{{ form.title(class="span6") }}<br/>
+                    {{ form.content.label }}{{ form.content(class="span6",rows='15')|safe }}<br/>
+                    {{ form.authority.label }}
+                    {{ form.authority(class="radio inline") }}
                 </div>
-                <div class='row span6 pull-right'>
-                {% for question in form.questions %}
+                <div class='span6'>
+                    <div class='row-fluid'>
+                        <div class='span8'>
+                            <label>{{ form.question.questions.label }}</label>
+                            {{ form.question.questions(class="input input-xlarge",placeholder=_('請輸入題目'),rows='2') }}
+                        </div>
+                        <div class="span4">
+                            {{ form.question.ans.label }}{{ form.question.ans(class="input input-mini") }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="span3">{{ form.question.option_a.label }}{{ form.question.option_a(class="input") }}<br/></div>
+                        <div class="span3">{{ form.question.option_b.label }}{{ form.question.option_b(class="input") }}<br/></div>
+                        <div class="span3">{{ form.question.option_c.label }}{{ form.question.option_c(class="input") }}<br/></div>
+                        <div class="span3">{{ form.question.option_d.label }}{{ form.question.option_d(class="input") }}<br/></div>
+                    </div>
                     <!-- <div class='row'> -->
-                        <div class='row'>
-                            <label>{{ "%s%d:"|format(question.questions.label.text, loop.index) }}</label>
-                            {{ question.questions(class="input",rows='2') }}<br/>
-                        </div>
-                        <div class="row">
-                            <div class="span3">{{ question.option_a.label }}{{ question.option_a(class="input") }}<br/></div>
-                            <div class="span3">{{ question.option_b.label }}{{ question.option_b(class="input") }}<br/></div>
-                            <div class="span3">{{ question.option_c.label }}{{ question.option_c(class="input") }}<br/></div>
-                            <div class="span3">{{ question.option_d.label }}{{ question.option_d(class="input") }}<br/></div>
-                            <div class="span3">{{ question.ans.label }}{{ question.ans(class="input") }}<br/></div>
-                        </div>
-                {% endfor %}
+                        <button class="btn btn-primary"><i class="icon-plus-sign"></i>{{ _("新增題目") }}</button>
+                    <!-- </div> -->
+                    {#
+                    {% for question in form.questions %}
+                        <!-- <div class='row'> -->
+                            <div class='row'>
+                                <label>{{ "%s%d:"|format(question.questions.label.text, loop.index) }}</label>
+                                {{ question.questions(class="input",rows='2') }}<br/>
+                            </div>
+                            <div class="row">
+                                <div class="span3">{{ question.option_a.label }}{{ question.option_a(class="input") }}<br/></div>
+                                <div class="span3">{{ question.option_b.label }}{{ question.option_b(class="input") }}<br/></div>
+                                <div class="span3">{{ question.option_c.label }}{{ question.option_c(class="input") }}<br/></div>
+                                <div class="span3">{{ question.option_d.label }}{{ question.option_d(class="input") }}<br/></div>
+                                <div class="span3">{{ question.ans.label }}{{ question.ans(class="input") }}<br/></div>
+                            </div>
+                    {% endfor %}
+                    #}
                 </div>
             </div>
-            <div class='row'>
+
             {{ form.submit(type="submit",class="btn btn-success btn-large") }}
-            </div>
+
         </form>
+        </div>
     </div>
 
 {% endblock %}

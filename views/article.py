@@ -23,8 +23,8 @@ article = Blueprint('article', __name__)
 def new():
     '''新增文章頁面'''
     form_ = NewArticleForm()
-    for i in xrange(20):
-        form_.questions.append_entry()
+    # for i in xrange(20):
+    #     form_.questions.append_entry()
     return render_template('article/new.html', form=form_)
 
 @article.route('/site')
