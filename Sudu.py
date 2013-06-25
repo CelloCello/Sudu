@@ -8,7 +8,8 @@
 """
 
 # system
-import Image
+#import Image
+from PIL import Image
 import os
 import random
 #import time, datetime
