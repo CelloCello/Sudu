@@ -41,3 +41,33 @@ class DbArticle(db.Model):
     def __repr__(self):
         return '<DbArticle %s>' % self.content
         
+class DbQuestion(db.Model):
+    '''
+    資料庫問題模型
+    '''
+    __tablename__ = 'QuestionData'
+    serial = db.Column(db.Integer, primary_key=True)
+    article_id = db.Column(db.Integer, unique=True)
+    question = db.Column(db.String(256), unique=True)
+    option_a = db.Column(db.String(50), unique=True)
+    option_b = db.Column(db.String(50), unique=True)
+    option_c = db.Column(db.String(50), unique=True)
+    option_d = db.Column(db.String(50), unique=True)
+    answer = db.Column(db.Integer, unique=True)
+    options = [option_a, option_b, option_c, option_d]
+    
+    def __init__(self, article_id, question, answer, *args):
+        self.article_id = article_id
+        self.question = question
+        self.answer = answer
+        pos = 0
+        for arg in args:
+            self.options[pos] = arg
+            pos = pos + 1
+        
+    def store_to_db(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def __repr__(self):
+        return '<DbQuestion %s>' % self.content

@@ -7,10 +7,14 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
-    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='jquery-ui-bootstrap/css/custom-theme/jquery-ui-1.9.2.custom.css') }}">
-    <!-- <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap/css/bootstrap-responsive.css') }}"> -->
-    <script type="text/javascript" src="{{ url_for('static', filename='jquery-1.7.2.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='jquery-ui-bootstrap/js/jquery-ui-1.9.2.custom.min.js') }}"></script>
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='jquery-ui/css/smoothness/jquery-ui-1.10.3.custom.css') }}">
+    <!-- <link rel=stylesheet type=text/css href="{{ url_for('static', filename='jquery-ui-bootstrap/css/custom-theme/jquery-ui-1.9.2.custom.css') }}"> -->
+    <!-- <link rel=stylesheet type=text/css href="{{ url_for('static', filename='smoothness/jquery-ui-1.8.21.custom.css') }}"> -->
+    <!-- <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap/css/bootstrap-responsive.css') }}"> 
+    <!-- <script type="text/javascript" src="{{ url_for('static', filename='jquery-1.7.2.js') }}"></script> -->
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="{{ url_for('static', filename='jquery-ui/js/jquery-ui-1.10.3.custom.min.js') }}"></script>
+    <!-- <script type="text/javascript" src="{{ url_for('static', filename='jquery-ui-bootstrap/js/jquery-ui-1.9.2.custom.min.js') }}"></script> -->
 
     {% block extra_script %}
     {% endblock %}
@@ -23,6 +27,7 @@
         body {
             padding-top: 60px;
             padding-bottom: 40px;
+            //background-color:#EFF1F1;
         }      
     </style>
 
@@ -67,7 +72,7 @@
                         {{ _('[%(user)s]',user=g.user.account) }} <b class="caret"></b>
                       </a>
                       <ul class="dropdown-menu" >
-                        <li><a href="{{ url_for('newArticle') }}">{{_("新增文章")}}</a></li>
+                        <li><a href="{{ url_for('article.new') }}">{{_("新增文章")}}</a></li>
                         <li><a href="{{ url_for('user.profile') }}">{{_("個人資訊")}}</a></li>
                         <li class="divider"></li>
                         <li><a href="{{ url_for('logout') }}">{{_("登出")}}</a></li>

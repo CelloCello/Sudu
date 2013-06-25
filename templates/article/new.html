@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block title %} - NewArticle{% endblock %}
+
+{% block extra_script %}
+<script type="text/javascript">
+    var wordNum = 0;
+    //計算字數
+    function reflashWords()
+    {
+        ++wordNum;
+        var len_ = $('#content').text().length;
+        $('#words').html("字數："+len_);
+    }     
+
+    //新增題目
+    function onBtnAddTopic(){
+        var newDiv = "<div><h3><a href='#'>First</a></h3><div>sdfsfasfdasdf</div></div>";
+        $('#accordion').append(newDiv);
+        $('#accordion').accordion("refresh");
+        //$("#accordion").html(newDiv).accordion("destroy").accordion();
+    }
+
+    $(function() {
+        $("#accordion").accordion({
+            header: "h3"
+        });
+    });  
+    
+</script>  
+{% endblock %}
+
+{% block extra_css %}
+<style type="text/css">
+    .show-grid {
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
+    .show-grid [class*="span"] {
+      background-color: #eee;
+      text-align: center;
+      -webkit-border-radius: 3px;
+         -moz-border-radius: 3px;
+              border-radius: 3px;
+      min-height: 40px;
+      line-height: 40px;
+    }
+    .show-grid [class*="span"]:hover {
+      background-color: #ddd;
+    }
+    .show-grid .show-grid {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+    .show-grid .show-grid [class*="span"] {
+      margin-top: 5px;
+    }
+    .show-grid [class*="span"] [class*="span"] {
+      background-color: #ccc;
+    }
+    .show-grid [class*="span"] [class*="span"] [class*="span"] {
+      background-color: #999;
+    }
+
+</style>
+{% endblock %}
+
+{% block content %}
+    <h1>新增文章</h1>       
+    
+<!--    <div class='form'>
+        <form action="" method="post">        
+        標題：<input name="title" type="text"><br />
+        內文：<br />
+        <textarea id="content" cols=60 rows=10 name="content" onkeydown="reflashWords();"></textarea>
+        <br />
+        <input type="radio" name="authority" value="public" /> 公開
+        <input type="radio" name="authority" value="private" checked="checked" /> 私用<br />
+        <input value="送出" type="submit">        
+        </form>
+    </div> -->  
+
+    <div class='row-fluid'>
+        <div class='span12'>
+        <form action=''>
+            <legend><strong>新增文章</strong></legend>
+            <div class='row-fluid'>
+                <div class='span6 well well-small'>
+                    {{ form.csrf_token }}
+                    {{ form.title.label }}{{ form.title(class='span12') }}
+                    {{ form.content.label }}{{ form.content(class='span12', rows='15')|safe }}
+                    {{ form.authority.label }}
+                    {{ form.authority(class="radio inline") }}
+                </div>
+                <div class='span6'>
+                    <div class='well well-small'>
+                        <div class='row-fluid'>
+                            <div class='span8'>
+                                <label>{{ form.question.questions.label }}</label>
+                                {{ form.question.questions(class="input input-xlarge",placeholder=_('請輸入題目'),rows='2') }}
+                            </div>
+                            <div class="span4">
+                                {{ form.question.ans.label }}{{ form.question.ans(class="input input-mini") }}
+                            </div>
+                        </div>
+                        <div class="row-fluid">
+                            <div class='span6'>
+                            {{ form.question.option_a.label }}{{ form.question.option_a(class="input") }}
+                            {{ form.question.option_b.label }}{{ form.question.option_b(class="input") }}
+                            </div>
+                            <div class='span6'>
+                            {{ form.question.option_c.label }}{{ form.question.option_c(class="input") }}
+                            {{ form.question.option_d.label }}{{ form.question.option_d(class="input") }}
+                        </div>
+                        </div>
+                        <!-- <div class='row'> -->
+<!--                             <button class="btn btn-primary" onclick='onBtnAddTopic()'><i class="icon-plus-sign"></i>{{ _("新增題目") }}</button> -->
+                            <a class="btn btn-primary" onclick='onBtnAddTopic()'><i class="icon-plus-sign"></i>{{ _("新增題目") }}</a>
+                        <!-- </div> -->
+                        {#
+                        {% for question in form.questions %}
+                                <div class='row-fluid'>
+                                    <label>{{ "%s%d:"|format(question.questions.label.text, loop.index) }}</label>
+                                    {{ question.questions(class="input",rows='2') }}<br/>
+                                </div>
+                                <div class="row-fluid">
+                                    <div class="span3">{{ question.option_a.label }}{{ question.option_a(class="input") }}</div>
+                                    <div class="span3">{{ question.option_b.label }}{{ question.option_b(class="input") }}</div>
+                                    <div class="span3">{{ question.option_c.label }}{{ question.option_c(class="input") }}</div>
+                                    <div class="span3">{{ question.option_d.label }}{{ question.option_d(class="input") }}</div>
+                                    <div class="span3">{{ question.ans.label }}{{ question.ans(class="input") }}</div>
+                                </div>
+                        {% endfor %}
+                        #}
+                    </div>
+
+                        <div class='row-fluid'>
+                            <!-- Accordion -->
+                                <div class="page-header">
+                                    <h3>{{ _('題目') }}</h3>
+                                </div>
+                                <div id="accordion">
+                                    <div>
+                                        <h3><a href="#">First</a></h3>
+                                        <div>Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.</div>
+                                    </div>
+                                    <div>
+                                        <h3><a href="#">Second</a></h3>
+                                        <div>Phasellus mattis tincidunt nibh.</div>
+                                    </div>
+                                    <div>
+                                        <h3><a href="#">Third</a></h3>
+                                        <div>Nam dui erat, auctor a, dignissim quis.</div>
+                                    </div>
+                                </div>
+                        </div>
+                </div>
+            </div>
+
+            {{ form.submit(type="submit",class="btn btn-success btn-large") }}
+
+        </form>
+        </div>
+    </div>
+
+{% endblock %}

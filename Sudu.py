@@ -37,17 +37,19 @@ from model.extensions import db
 from model.extensions import SerializeModel
 
 # 表單
-from model.Forms import LoginForm, RegisterForm, NewArticleForm
+#from model.Forms import LoginForm, RegisterForm, NewArticleForm
 
 # 藍圖
 from views import about
 from views import game
 from views import user
+from views import article
 
 DEFAULT_MODULES = (
 (about, '/about'),
 (game, '/game'),
 (user, '/user'),
+(article, '/article'),
 )
 
 
@@ -162,11 +164,11 @@ def login():
     return "<font color='red'>You should go from index page!!</font>"
 
     
-#新增文章頁面
-@app.route('/newArticle')
-def newArticle():
-    form_ = NewArticleForm()
-    return render_template('NewArticle.html', form=form_)
+# #新增文章頁面
+# @app.route('/newArticle')
+# def newArticle():
+#     form_ = NewArticleForm()
+#     return render_template('NewArticle.html', form=form_)
     
 #登出
 @app.route('/logout')
