@@ -37,7 +37,7 @@ from model.extensions import db
 from model.extensions import SerializeModel
 
 # 表單
-#from model.Forms import LoginForm, RegisterForm, NewArticleForm
+from model.Forms import LoginForm, RegisterForm
 
 # 藍圖
 from views import about
