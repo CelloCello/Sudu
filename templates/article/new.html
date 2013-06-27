@@ -3,7 +3,7 @@
 {% block title %} - NewArticle{% endblock %}
 
 {% block extra_script %}
-<script src="{{ url_for('static', filename='notaccordion.js') }}"></script>
+<!-- <script src="{{ url_for('static', filename='notaccordion.js') }}"></script> -->
 <script type="text/javascript">
     var wordNum = 0;
     //計算字數
@@ -23,7 +23,7 @@
         var option_d = $('#question-option_d').val();
         var ans_ = $('#question-ans').val();
 
-        var newDiv = "<div><h3><a href='#'>"+topic_+"</a></h3>" + 
+        var newDiv = "<div><h3>"+topic_+"<a class='close pull-right' href='#'>[x]</a></h3>" + 
                     "<div>A: " + option_a + "<br/>" +
                     "B: " + option_b + "<br/>" +
                     "C: " + option_c + "<br/>" +
@@ -41,7 +41,31 @@
         });
         //$("#accordion").togglepanels();
         //$("#accordion").accordion({multipleMode: true});
+
+        $(".close").click(function(){
+            alert('remove');
+            var parent = $(this).closest('div');
+            var head = parent.prev('h3');
+            var content = parent.children('div')[0];
+
+            // contentAreas = $.grep(contentAreas, function(value) {
+            //   return value != content;
+            // });
+            //contentAreas.remove();
+
+            parent.add(head).fadeOut('slow',function(){
+                $(this).remove();
+                contentAreas = $('#accordion .ui-accordion-content ').hide();
+            });
+        });
     });  
+
+// $('.accordion-expand-all a').click(function() {
+//     $('.accordion .ui-accordion-header:not(.ui-state-active)').next().slideToggle();
+//     $(this).text($(this).text() == 'Expand all' ? 'Collapse all' : 'Expand all');
+//     $(this).toggleClass('collapse');
+//     return false;
+// });
     
 </script>  
 {% endblock %}
@@ -155,18 +179,21 @@
                                 <div class="page-header">
                                     <h3>{{ _('題目') }}</h3>
                                 </div>
-                                <div id="accordion">
-                                    <div>
-                                        <h3><a href="javascript: void(0)">First</a></h3>
-                                        <div>Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.</div>
+                                <p class="accordion-expand-holder">
+                                    <a class="accordion-expand-all" href="javascript: void(0)">Expand all</a>
+                                </p>
+                                <div id="accordion" class="ui-accordion ui-widget ui-helper-reset">
+                                    <div class='accordion-topic'>
+                                        <h3 class='accordion-header'>First<a class="close pull-right" href="#">[x]</a></h3>
+                                        <div class="ui-accordion-content">Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.</div>
                                     </div>
-                                    <div>
-                                        <h3><a href="javascript: void(0)">Second</a></h3>
-                                        <div>Phasellus mattis tincidunt nibh.</div>
+                                    <div class='accordion-topic'>
+                                        <h3 class='accordion-header'>Second<a class="close pull-right" href="#">[x]</a></h3>
+                                        <div class="ui-accordion-content">Phasellus mattis tincidunt nibh.</div>
                                     </div>
-                                    <div>
-                                        <h3><a href="javascript: void(0)">Third</a></h3>
-                                        <div>Nam dui erat, auctor a, dignissim quis.</div>
+                                    <div class='accordion-topic'>
+                                        <h3 class='accordion-header'>Third<a class="close pull-right" href="#">[x]</a></h3>
+                                        <div class="ui-accordion-content">Nam dui erat, auctor a, dignissim quis.</div>
                                     </div>
                                 </div>
                         </div>
@@ -179,4 +206,5 @@
         </div>
     </div>
 
+<script src="{{ url_for('static', filename='accordion.js') }}"></script>
 {% endblock %}
