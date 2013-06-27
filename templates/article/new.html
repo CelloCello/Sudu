@@ -12,7 +12,25 @@
         ++wordNum;
         var len_ = $('#content').text().length;
         $('#words').html("字數："+len_);
-    }     
+    }   
+
+    function onBtnRemove(){
+        alert('remove');
+        var parent = $(this).closest('div');
+        var head = parent.prev('h3');
+        var content = parent.children('div')[0];
+
+        // contentAreas = $.grep(contentAreas, function(value) {
+        //   return value != content;
+        // });
+        //contentAreas.remove();
+
+        parent.add(head).fadeOut('slow',function(){
+            $(this).remove();
+            //contentAreas = $('#accordion .ui-accordion-content ').hide();
+            accordion_refresh();
+        });
+    }  
 
     //新增題目
     function onBtnAddTopic(){
@@ -32,6 +50,11 @@
         $('#accordion').append(newDiv);
         $('#accordion').accordion("refresh");
         //$("#accordion").html(newDiv).accordion("destroy").accordion();
+        //contentAreas = $('#accordion .ui-accordion-content ').hide();
+        accordion_refresh();
+
+        $(".close").unbind('click');
+        $(".close").click(onBtnRemove);
     }
 
     $(function() {
@@ -42,22 +65,7 @@
         //$("#accordion").togglepanels();
         //$("#accordion").accordion({multipleMode: true});
 
-        $(".close").click(function(){
-            alert('remove');
-            var parent = $(this).closest('div');
-            var head = parent.prev('h3');
-            var content = parent.children('div')[0];
-
-            // contentAreas = $.grep(contentAreas, function(value) {
-            //   return value != content;
-            // });
-            //contentAreas.remove();
-
-            parent.add(head).fadeOut('slow',function(){
-                $(this).remove();
-                contentAreas = $('#accordion .ui-accordion-content ').hide();
-            });
-        });
+        $(".close").click(onBtnRemove);
     });  
 
 // $('.accordion-expand-all a').click(function() {
@@ -177,7 +185,7 @@
                         <div class='row-fluid'>
                             <!-- Accordion -->
                                 <div class="page-header">
-                                    <h3>{{ _('題目') }}</h3>
+                                    <h3>{{ _('題目') }}<small>{{ _('(至少十題)') }}</small></h3>
                                 </div>
                                 <p class="accordion-expand-holder">
                                     <a class="accordion-expand-all" href="javascript: void(0)">Expand all</a>
