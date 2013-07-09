@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from flask.ext.wtf import Form, TextField, PasswordField, BooleanField,\
-     SubmitField, required, RadioField, TextAreaField, FieldList
-
-from flask.ext.wtf import FormField
+from flask.ext.wtf import Form, required
+from flask.ext.wtf import SelectField, TextField, PasswordField, BooleanField
+from flask.ext.wtf import SubmitField, RadioField, TextAreaField, FieldList, FormField
 
 class LoginForm(Form):
     """
@@ -29,7 +28,7 @@ class QuestionForm(Form):
     option_b = TextField(u"選項B", validators=[required()])
     option_c = TextField(u"選項C", validators=[required()])
     option_d = TextField(u"選項D", validators=[required()])
-    ans = TextField(u"答案", validators=[required()])
+    ans = SelectField(u"答案", validators=[required()], choices=[(1,'A'),(2,'B'),(3,'C'),(4,'D')])
 
     # def __init__(self, *args, **kwargs):
     #     kwargs['csrf_enabled'] = False
