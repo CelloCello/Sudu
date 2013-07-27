@@ -273,9 +273,9 @@ def getHeadImg(username,type='L'):
     '''
     取得頭像
     '''
-    filename_ = "/head.jpg"
+    filename_ = "/Head.jpg"
     if type == "s":
-        filename_ = "/head_s.jpg"
+        filename_ = "/Head_s.jpg"
     imgPath_ = "users/" + username + filename_
     path_ = url_for('static', filename=imgPath_)
 
