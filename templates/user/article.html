@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %} - Article Manager{% endblock %}
+
+{% block extra_script %}
+<script type="text/javascript">		
+				
+</script>  
+{% endblock %}
+
+{% block extra_css %}
+<style type="text/css">
+	.well{
+		background-color:#dff0d8;
+	}
+</style>
+{% endblock %}
+
+
+{% block content %}
+
+	<h1>{{g.user.account}}</h1>
+{#
+	{% for message in get_flashed_messages() %}
+		<div class="alert alert-block fade in alert-info">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<div class="alert-info">{{ message }}</div>
+		</div>
+	{% endfor %}
+#}
+	
+	<br/>
+	<!-- 使用者資訊 -->
+	<div class="row-fluid">
+		{% import 'user/macro_profile.html' as profile %}
+		{{ profile.profileInfo(g.user) }}
+	
+		{% if Entries %}
+		<div class="span8">
+			<!-- 功能導覽 -->
+			<div id="mgrNav">
+				<a class="btn btn-primary" href="{{ url_for('article.new') }}">
+					<i class="icon-plus"></i>新增文章
+				</a>
+			</div>
+			
+			<div class="entriesList">
+				<center><div id="EntriesInfo">共{{ Entries.count() }}筆</div></center>
+				<ul class=entries>
+				{% for entry in Entries %}
+				<li>
+					<h2>
+						{{ entry.title }}
+						{% if session.user_id %}
+							<a href="{{ url_for('sudu',ID=entry.index) }}">練習</a>
+						{% endif %}
+					</h2>
+				
+				{{ entry.content|safe }}
+				{% else %}
+				<li><em>Unbelievable.  No entries here so far</em>
+				{% endfor %}
+				</ul>
+			</div>
+		</div>
+		{% endif %}
+	</div>
+
+{% endblock %}

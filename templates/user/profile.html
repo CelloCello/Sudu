@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %} - Option{% endblock %}
+
+{% block extra_script %}
+    <script type="text/javascript">     
+        function Reflash(){
+            $('#cover').animate({top:'-10px'},50,'swing',function (){$('#cover').animate({top:'20px'},50);});
+        }   
+                
+        //更換大頭貼
+        function ChgHeadImg(){
+            var title_ = "";
+            var data_ = "";
+            title_ = "上傳圖片";
+            /*
+            data_ =
+            "   <div class='login'>" +
+            "       <form action='{{ url_for('upImg') }}' method='post' enctype='multipart/form-data'>"+
+            "           <dl>"+
+            "           <img src='/static/images/NoHead.png' height='42' width='42'/>"+
+            "           <dt>請選擇要上傳的圖片: </dt>"+
+            "           <dd><input type='file' name='file'/> </dd>"+
+            "           <dd><input type='submit' value='Upload'/></dd>"+
+            "           </dl>"+
+            "       </form>"+
+            "   </div>" ;
+            */
+            data_ = $('#login').html();
+            
+            $('#headImgDlg').html( data_ );
+            
+            // Dialog
+            $('#headImgDlg').dialog({
+                //autoOpen: false,
+                title: title_,
+                modal: true,
+                resizable: false,
+                width: 450
+            }); 
+        }
+</script>  
+{% endblock %}
+
+{% block extra_css %}
+<style type="text/css">
+    .well{
+        background-color:#dff0d8;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    {% if g.user.account == Member.account %}
+        <!-- 本人使用者資訊 -->
+        <br/>
+        <div class="row-fluid">
+            {% import 'user/macro_profile.html' as profile %}
+            {{ profile.profileInfo(g.user) }}
+            {{ profile.profileSetting(g.user) }}
+        </div>
+    {% else %}
+        {% if Member %}
+            <!-- 別人使用者資訊 -->
+            {% import 'user/macro_profile.html' as profile %}
+            {{ profile.profileOther(Member) }}
+        {% endif %}
+    {% endif %}
+{% endblock %}
