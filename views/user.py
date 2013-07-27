@@ -48,7 +48,7 @@ def profile(name=""):
     #     return render_template('user/Profile.html',Member=Member_)
 
     #若是本人就秀控制介面
-    return render_template('user/Profile.html',Member=Member_)
+    return render_template('user/profile.html',Member=Member_)
 
 
 @user.route('/article')
