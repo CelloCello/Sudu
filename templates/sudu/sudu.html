@@ -372,7 +372,7 @@
     }(document, 'script', 'facebook-jssdk'));
 </script>
 
-	<h1>Sudu - Practice</h1>
+<!-- 	<h1>Sudu - Practice</h1>
 	<div class="metanav" >
 		{% if not session.user_id %}
 			<a href="{{ url_for('login') }}">log in</a>
@@ -381,11 +381,11 @@
 			<a href="{{ url_for('logout') }}">log out [{{g.user.account}}]</a>
 		{% endif %}
 	</div>
-	<hr>
+	<hr> -->
 
 	<!-- Test Function -->
-	<a id="modalBtn" data-toggle="modal" href="#myModal" class="btn btn-primary btn-large">查看演示案例</a>
-	<a id="facebookBtn" href="#" class="btn btn-primary btn-large" onclick="onBtnFacebookClick()">Facebook</a>
+<!-- 	<a id="modalBtn" data-toggle="modal" href="#myModal" class="btn btn-primary btn-large">查看演示案例</a>
+	<a id="facebookBtn" href="#" class="btn btn-primary btn-large" onclick="onBtnFacebookClick()">Facebook</a> -->
 
 
 	<h2>{{Text.title}}</h2>
@@ -394,14 +394,14 @@
 	<ul class="nav nav-pills ">
 <!-- 			<li><a href="#" onclick="chgMode(0)">快閃模式</a></li>
 		<li><a href="#" onclick="chgMode(1)">讀字模式</a></li> -->
-		<li><a href="#flash" data-toggle="tab">{{_("快閃模式")}}</a></li>
+		<li class="active"><a href="#flash" data-toggle="tab">{{_("快閃模式")}}</a></li>
 		<li><a href="#read" data-toggle="tab">{{_("讀字模式")}}</a></li>
-		<li class="active"><a href="#find" data-toggle="tab">{{_("找字測驗")}}</a></li>
+		<!-- <li><a href="#find" data-toggle="tab">{{_("找字測驗")}}</a></li> -->
 	</ul>
 
 	<div class="tab-content">
 		<!-- 快閃模式 -->
-		<div id="flash" class="tab-pane">
+		<div id="flash" class="tab-pane active">
 		{% include "sudu/part_flash.html" %}
 		</div>
 
@@ -411,9 +411,9 @@
 		</div>
 
 		<!-- 找字測驗 -->
-		<div id="find" class="tab-pane active">
+<!-- 		<div id="find" class="tab-pane">
 		{% include "sudu/part_find.html" %}
-		</div>
+		</div> -->
 	</div>
 
 	<!-- 結算視窗 -->
