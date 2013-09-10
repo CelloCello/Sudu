@@ -78,10 +78,11 @@ def edit(serial):
 	if article is None:
 		flash(u"沒有這篇文章")
 		return redirect(url_for('user.article'))
-	form = NewArticleForm()
-	form.title.data = article.title
-	form.content.data = article.content
-	return render_template('article/edit.html', article=article, form=form)
+	aform = NewArticleForm()
+	aform.title.data = article.title
+	aform.content.data = article.content
+	qform = QuestionForm()
+	return render_template('article/edit.html', article=article, form=aform, qform=qform)
 
 
 @article.route('/delete/<int:serial>')
