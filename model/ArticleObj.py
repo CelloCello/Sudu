@@ -37,6 +37,10 @@ class DbArticle(db.Model):
     def store_to_db(self):
         db.session.add(self)
         db.session.commit()
+        
+    def del_from_db(self):
+        db.session.delete(self)
+        db.session.commit()        
 
     def __repr__(self):
         return '<DbArticle %s>' % self.content
@@ -68,6 +72,10 @@ class DbQuestion(db.Model):
     def store_to_db(self):
         db.session.add(self)
         db.session.commit()
+
+    def del_from_db(self):
+        db.session.delete(self)
+        db.session.commit()        
 
     def __repr__(self):
         return '<DbQuestion %s>' % self.content

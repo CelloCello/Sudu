@@ -13,6 +13,10 @@
 	.well{
 		background-color:#dff0d8;
 	}
+
+	.sudu-article-list .btn-delete{
+		color:rgb(185, 74, 72);
+	}
 </style>
 {% endblock %}
 
@@ -20,50 +24,78 @@
 {% block content %}
 
 	<h1>{{g.user.account}}</h1>
-{#
+
 	{% for message in get_flashed_messages() %}
 		<div class="alert alert-block fade in alert-info">
 			<button type="button" class="close" data-dismiss="alert">&times;</button>
 			<div class="alert-info">{{ message }}</div>
 		</div>
 	{% endfor %}
-#}
+
 	
 	<br/>
 	<!-- 使用者資訊 -->
 	<div class="row-fluid">
+		<div class="span4">
 		{% import 'user/macro_profile.html' as profile %}
 		{{ profile.profileInfo(g.user) }}
-	
-		{% if Entries %}
+		</div>
+		
 		<div class="span8">
+		{% if Entries %}
 			<!-- 功能導覽 -->
 			<div id="mgrNav">
 				<a class="btn btn-primary" href="{{ url_for('article.new') }}">
 					<i class="icon-plus"></i>新增文章
 				</a>
+
+			    <div class="btn-group btn-group pull-right">
+					<button type="button" class="btn"><i class="icon-th-large"></i></button>
+					<button type="button" class="btn"><i class="icon-th-list"></i></button>
+			    </div>
 			</div>
+
 			
 			<div class="entriesList">
 				<center><div id="EntriesInfo">共{{ Entries.count() }}筆</div></center>
-				<ul class=entries>
+				<ul class="sudu-article-list">
 				{% for entry in Entries %}
-				<li>
-					<h2>
-						{{ entry.title }}
-						{% if session.user_id %}
-							<a href="{{ url_for('sudu',ID=entry.index) }}">練習</a>
-						{% endif %}
-					</h2>
-				
-				{{ entry.content|safe }}
+					<li class="row-fluid">
+						<div class="row-fluid">
+							<h3>
+								{{ entry.title }}
+								{% if session.user_id %}
+									<a href="{{ url_for('sudu',ID=entry.index) }}">練習</a>
+								{% endif %}
+							</h3>
+						</div>
+						<div class="row-fluid">
+							<div class="span8">
+							{{ entry.content|safe }}
+							</div>
+
+							<div class="btn-group span4">
+								<button class="btn dropdown-toggle" data-toggle="dropdown">Action <span class="caret"></span></button>
+								<ul class="dropdown-menu">
+									<li><a href="{{ url_for('article.edit', serial=entry.index) }}">{{_("編輯")}}</a></li>
+								  	<li><a href="#">{{_("公開")}}</a></li>
+								  	<li class="divider"></li>
+								  	<li><a href="{{ url_for('article.delete', serial=entry.index) }}" class="btn-delete">{{_("刪除")}}</a></li>
+								</ul>
+							</div><!-- /btn-group -->
+						</div>
+					</li>
 				{% else %}
-				<li><em>Unbelievable.  No entries here so far</em>
+				
+					<li>
+						<em>Unbelievable.  No entries here so far</em>
+					</li>
 				{% endfor %}
 				</ul>
 			</div>
-		</div>
+
 		{% endif %}
+		</div>		
 	</div>
 
 {% endblock %}

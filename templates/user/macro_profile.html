@@ -1,6 +1,6 @@
 
 {% macro profileInfo(Member) %}
-    <div class="span4">
+    <!-- <div class="span4"> -->
         <div class="profile well">
             <!--<p><img src="/static/images/NoHead.png" alt="Smiley face" height="42" width="42"/></p> -->
             <p><img class="headImg" alt="Smiley face" src="{{ url_for('getHeadImg', username=Member.account) }}"/></p>
@@ -8,11 +8,11 @@
             身份：{{Member.authority}}<br/>
             速讀點：{{Member.scoin}}<br/>
         </div>
-    </div>
+    <!-- </div> -->
 {% endmacro %}
 
 {% macro profileSetting(Member) %}
-    <div class="span8">
+    <!-- <div class="span8"> -->
         <div class="profile well">
             <!--<p><img src="/static/images/NoHead.png" alt="Smiley face" height="42" width="42"/></p> -->
             <p><img class="headImg" onclick="ChgHeadImg()" alt="Smiley face" src="{{ url_for('getHeadImg',username=Member.account) }}"/></p>
@@ -20,7 +20,7 @@
             身份：{{Member.authority}}<br/>
             速讀點：{{Member.scoin}}<br/>
         </div>
-    </div>
+    <!-- </div> -->
 
     <div id="headImgDlg" title="" style="display:none;"></div>
     <div id='login' style="display:none;">

@@ -55,9 +55,14 @@
         <!-- 本人使用者資訊 -->
         <br/>
         <div class="row-fluid">
+            
             {% import 'user/macro_profile.html' as profile %}
+            <div class="span4">
             {{ profile.profileInfo(g.user) }}
+            </div>
+            <div class="span8">
             {{ profile.profileSetting(g.user) }}
+            </div>
         </div>
     {% else %}
         {% if Member %}
