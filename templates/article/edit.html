@@ -34,27 +34,40 @@
 
     //新增題目
     function onBtnAddTopic(){
-        var topic_ = $('#question-questions').val();
-        var option_a = $('#question-option_a').val();
-        var option_b = $('#question-option_b').val();
-        var option_c = $('#question-option_c').val();
-        var option_d = $('#question-option_d').val();
-        var ans_ = $('#question-ans').val();
+        var topic_ = $('#questions').val();
+        var option_a = $('#option_a').val();
+        var option_b = $('#option_b').val();
+        var option_c = $('#option_c').val();
+        var option_d = $('#option_d').val();
+        var ans_ = $('#ans').val();
 
-        var newDiv = "<div><h3>"+topic_+"<a class='close pull-right' href='#'>[x]</a></h3>" + 
-                    "<div>A: " + option_a + "<br/>" +
-                    "B: " + option_b + "<br/>" +
-                    "C: " + option_c + "<br/>" +
-                    "D: " + option_d + "<br/>" +
-                    "ANS: " + ans_ + "</div></div>";
-        $('#accordion').append(newDiv);
-        $('#accordion').accordion("refresh");
-        //$("#accordion").html(newDiv).accordion("destroy").accordion();
-        //contentAreas = $('#accordion .ui-accordion-content ').hide();
-        accordion_refresh();
+        //送出
+        mydata = {
+            title : topic_, 
+            option_a : option_a,
+            option_b : option_b,
+            option_c : option_c,
+            option_d: option_d,
+            ans : ans_, 
+            article_id : {{article.index}}
+        };
+        
+        myPost("article/add_question", mydata, function(data){
+            var newDiv = "<div><h3>Q: "+topic_+"<a class='close pull-right' href='#'>[x]</a></h3>" + 
+                        "<div>A: " + option_a + "<br/>" +
+                        "B: " + option_b + "<br/>" +
+                        "C: " + option_c + "<br/>" +
+                        "D: " + option_d + "<br/>" +
+                        "ANS: " + ans_ + "</div></div>";
+            $('#accordion').append(newDiv);
+            $('#accordion').accordion("refresh");
+            //$("#accordion").html(newDiv).accordion("destroy").accordion();
+            //contentAreas = $('#accordion .ui-accordion-content ').hide();
+            accordion_refresh();
 
-        $(".close").unbind('click');
-        $(".close").click(onBtnRemove);
+            $(".close").unbind('click');
+            $(".close").click(onBtnRemove);    
+        });
     }
 
     $(function() {

@@ -19,6 +19,7 @@ from model.Forms import QuestionForm
 
 # model
 from model.ArticleObj import DbArticle
+from model.ArticleObj import DbQuestion
 
 article = Blueprint('article', __name__)
 
@@ -96,6 +97,44 @@ def delete(serial):
 		return redirect(url_for('index'))
 
 	delArticle = DbArticle.query.filter_by(index=serial).first()
+
+	if delArticle is None:
+		flash(u"沒有這篇文章")
+		return redirect(url_for('user.article'))
+
+	delArticle.del_from_db()
+
+	flash(u"刪除文章成功")
+	return redirect(url_for('user.article'))
+
+@article.route('/add_question', methods=['POST'])
+def add_question():
+	'''新增問題'''
+
+    #檢查有無登入
+	if g.user == None:
+		#沒登入就回到登入頁面
+		flash(u"您還沒登入歐~")
+		return redirect(url_for('index'))
+
+	print request.json['option_a']
+	question = DbQuestion(request.json)
+	question.store_to_db()
+	#return request.json['title']
+	#return str(request.json['article_id'])
+	return str(question.serial)
+
+@article.route('/del_question')
+def del_question():
+	'''刪除問題'''
+
+    #檢查有無登入
+	if g.user == None:
+		#沒登入就回到登入頁面
+		flash(u"您還沒登入歐~")
+		return redirect(url_for('index'))
+
+	delArticle = DbQuestion.query.filter_by(index=serial).first()
 
 	if delArticle is None:
 		flash(u"沒有這篇文章")
