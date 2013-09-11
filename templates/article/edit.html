@@ -32,6 +32,24 @@
         });
     }  
 
+    //將題目插入至accordion
+    function insertQuestion(topic, opa, opb, opc, opd, ans){
+        var newDiv = "<div><h3>Q: "+topic+"<a class='close pull-right' href='#'>[x]</a></h3>" + 
+                    "<div>A: " + opa + "<br/>" +
+                    "B: " + opb + "<br/>" +
+                    "C: " + opc + "<br/>" +
+                    "D: " + d + "<br/>" +
+                    "ANS: " + ans + "</div></div>";
+        $('#accordion').append(newDiv);
+        $('#accordion').accordion("refresh");
+        //$("#accordion").html(newDiv).accordion("destroy").accordion();
+        //contentAreas = $('#accordion .ui-accordion-content ').hide();
+        accordion_refresh();
+
+        $(".close").unbind('click');
+        $(".close").click(onBtnRemove);  
+    }
+
     //新增題目
     function onBtnAddTopic(){
         var topic_ = $('#questions').val();
@@ -53,20 +71,7 @@
         };
         
         myPost("article/add_question", mydata, function(data){
-            var newDiv = "<div><h3>Q: "+topic_+"<a class='close pull-right' href='#'>[x]</a></h3>" + 
-                        "<div>A: " + option_a + "<br/>" +
-                        "B: " + option_b + "<br/>" +
-                        "C: " + option_c + "<br/>" +
-                        "D: " + option_d + "<br/>" +
-                        "ANS: " + ans_ + "</div></div>";
-            $('#accordion').append(newDiv);
-            $('#accordion').accordion("refresh");
-            //$("#accordion").html(newDiv).accordion("destroy").accordion();
-            //contentAreas = $('#accordion .ui-accordion-content ').hide();
-            accordion_refresh();
-
-            $(".close").unbind('click');
-            $(".close").click(onBtnRemove);    
+            insertQuestion(topic_,option_a,option_b,option_c,option_d,ans_);  
         });
     }
 
@@ -216,6 +221,18 @@
                             <h3 class='accordion-header'>Third<a class="close pull-right" href="#">[x]</a></h3>
                             <div class="ui-accordion-content">Nam dui erat, auctor a, dignissim quis.</div>
                         </div>
+                        {% for question in questions %}
+                            <div class='accordion-topic'>
+                                <h3 class='accordion-header'>Q:{{ question.question }}<a class="close pull-right" href="#">[x]</a></h3>
+                                <div class="ui-accordion-content">
+                                    A: {{ question.option_a }}<br/>
+                                    B: {{ question.option_b }}<br/>
+                                    C: {{ question.option_c }}<br/>
+                                    D: {{ question.option_d }}<br/>
+                                    ANS:{{ question.answer }}
+                                </div>
+                            </div>              
+                        {% endfor %}
                     </div>
                 </div>
             </div>

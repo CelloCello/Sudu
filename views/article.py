@@ -83,7 +83,9 @@ def edit(serial):
 	aform.title.data = article.title
 	aform.content.data = article.content
 	qform = QuestionForm()
-	return render_template('article/edit.html', article=article, form=aform, qform=qform)
+	questions = DbQuestion.query.filter_by(serial=serial)
+	return render_template('article/edit.html', article=article, questions=questions
+		, form=aform, qform=qform)
 
 
 @article.route('/delete/<int:serial>')
@@ -117,7 +119,7 @@ def add_question():
 		flash(u"您還沒登入歐~")
 		return redirect(url_for('index'))
 
-	print request.json['option_a']
+	#print request.json['option_a']
 	question = DbQuestion(request.json)
 	question.store_to_db()
 	#return request.json['title']
@@ -134,11 +136,22 @@ def del_question():
 		flash(u"您還沒登入歐~")
 		return redirect(url_for('index'))
 
-	delArticle = DbQuestion.query.filter_by(index=serial).first()
-
-	if delArticle is None:
-		flash(u"沒有這篇文章")
+	question_id = request.json['index']
+	delQuestion = DbQuestion.query.filter_by(index=question_id).first()
+	if delQuestion is None:
+		flash(u"沒有這個題目")
 		return redirect(url_for('user.article'))
+
+	# 檢查此文章是你的
+	article = DbArticle.query.filter_by(index=delQuestion.article_id).first()
+	if article is None:
+		flash(u"這個題目沒有相對應的文章")
+		return redirect(url_for('user.article'))
+
+	if article.member_no != g.user.memberno:
+		#flash(u"這個題目的文章")
+		return redirect(url_for('user.article'))		
+
 
 	delArticle.del_from_db()
 
