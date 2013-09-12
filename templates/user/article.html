@@ -38,6 +38,7 @@
 	.sudu-article-list .btn-delete{
 		color:rgb(185, 74, 72);
 	}
+
 </style>
 {% endblock %}
 
@@ -70,7 +71,7 @@
 					<i class="icon-plus"></i>新增文章
 				</a>
 
-			    <div class="btn-group btn-group pull-right">
+			    <div class="btn-group btn-group pull-right" data-toggle="buttons-radio">
 					<button type="button" class="btn"><i class="icon-th-large"></i></button>
 					<button type="button" class="btn"><i class="icon-th-list"></i></button>
 			    </div>
@@ -99,7 +100,11 @@
 								<button class="btn dropdown-toggle" data-toggle="dropdown">Action <span class="caret"></span></button>
 								<ul class="dropdown-menu">
 									<li><a href="{{ url_for('article.edit', serial=entry.index) }}">{{_("編輯")}}</a></li>
-								  	<li><a href="#">{{_("公開")}}</a></li>
+									{% if entry.type == 0 %}
+								  		<li><a href="#">{{_("設成公開")}}</a></li>
+								  	{% else %}
+								  		<li><a href="#">{{_("設成私密")}}</a></li>
+								  	{% endif %}
 								  	<li class="divider"></li>
 								  	<!-- <li><a href="{{ url_for('article.delete', serial=entry.index) }}" class="btn-delete">{{_("刪除")}}</a></li> -->
 								  	<li><a onclick='del_article("{{ url_for('article.delete', serial=entry.index) }}")' class="btn-delete">{{_("刪除")}}</a></li>
