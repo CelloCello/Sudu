@@ -15,30 +15,62 @@
     }   
 
     function onBtnRemove(){
-        alert('remove');
+
         var parent = $(this).closest('div');
-        var head = parent.prev('h3');
-        var content = parent.children('div')[0];
+        // var head = parent.prev('h3');
+        // var content = parent.children('div')[0];
 
-        // contentAreas = $.grep(contentAreas, function(value) {
-        //   return value != content;
+        // // contentAreas = $.grep(contentAreas, function(value) {
+        // //   return value != content;
+        // // });
+        // //contentAreas.remove();
+
+        var idx = parent.attr('id').replace('que_','');
+
+        // parent.add(head).fadeOut('slow',function(){
+        //     $(this).remove();
+        //     //contentAreas = $('#accordion .ui-accordion-content ').hide();
+        //     accordion_refresh();
         // });
-        //contentAreas.remove();
 
-        parent.add(head).fadeOut('slow',function(){
-            $(this).remove();
-            //contentAreas = $('#accordion .ui-accordion-content ').hide();
-            accordion_refresh();
+
+        //送出
+        mydata = {
+            index : idx
+        };
+        
+        myPost("article/del_question", mydata, function(data){
+            //alert(data);
+            if ( data != "OK"){
+                alert(data);
+                return;
+            }
+
+            var head = parent.prev('h3');
+            var content = parent.children('div')[0];
+
+            // contentAreas = $.grep(contentAreas, function(value) {
+            //   return value != content;
+            // });
+            //contentAreas.remove();
+
+            parent.add(head).fadeOut('slow',function(){
+                $(this).remove();
+                //contentAreas = $('#accordion .ui-accordion-content ').hide();
+                accordion_refresh();
+            });       
+ 
         });
     }  
 
     //將題目插入至accordion
-    function insertQuestion(topic, opa, opb, opc, opd, ans){
-        var newDiv = "<div><h3>Q: "+topic+"<a class='close pull-right' href='#'>[x]</a></h3>" + 
-                    "<div>A: " + opa + "<br/>" +
+    function insertQuestion(idx, topic, opa, opb, opc, opd, ans){
+        var newDiv = "<div class='accordion-topic' id='que_"+idx+"'>"+
+                    "<h3 class='accordion-header'>Q: "+topic+"<a class='close pull-right' href='#'>[x]</a></h3>" + 
+                    "<div class='ui-accordion-content'>A: " + opa + "<br/>" +
                     "B: " + opb + "<br/>" +
                     "C: " + opc + "<br/>" +
-                    "D: " + d + "<br/>" +
+                    "D: " + opd + "<br/>" +
                     "ANS: " + ans + "</div></div>";
         $('#accordion').append(newDiv);
         $('#accordion').accordion("refresh");
@@ -48,10 +80,20 @@
 
         $(".close").unbind('click');
         $(".close").click(onBtnRemove);  
+
+        alert($('#accordion-topic').size());
     }
 
     //新增題目
     function onBtnAddTopic(){
+
+        //檢查數量
+        var num = $('.accordion-topic').size();
+        if ( num >= 20 ){
+            alert("{{_('已經有20筆了歐!')}}");
+            return ;
+        }
+
         var topic_ = $('#questions').val();
         var option_a = $('#option_a').val();
         var option_b = $('#option_b').val();
@@ -71,7 +113,8 @@
         };
         
         myPost("article/add_question", mydata, function(data){
-            insertQuestion(topic_,option_a,option_b,option_c,option_d,ans_);  
+            //alert(data);
+            insertQuestion(data, topic_,option_a,option_b,option_c,option_d,ans_);  
         });
     }
 
@@ -82,6 +125,12 @@
         });
         //$("#accordion").togglepanels();
         //$("#accordion").accordion({multipleMode: true});
+
+        // $(".close").click(function(){
+        //     var currID = $(this).parent().parent().attr('id');
+        //     currID = currID.replace('que_','');
+        //     onBtnRemove(currID);
+        // });
 
         $(".close").click(onBtnRemove);
     });  
@@ -148,7 +197,7 @@
 
     <div class='row-fluid'>
         <div class='span12'>
-        <form action="{{ url_for('article.add') }}" method="POST">
+        <form action="{{ url_for('article.edit_over', serial=article.index) }}" method="POST">
             <!-- <legend><strong>新增文章</strong></legend> -->
             <div class='row-fluid'>
                 <div class='span12 well'>
@@ -157,6 +206,7 @@
                     {{ form.content.label }}{{ form.content(class='span12', rows='15')|safe }}
                     {{ form.authority.label }}
                     {{ form.authority(class="radio") }}
+                    {{ form.submit(type="submit",class="btn btn-success btn-large", value=_('修改')) }}
                 </div>
             </div>
             <div class='row-fluid'>
@@ -209,21 +259,23 @@
                         <a class="accordion-expand-all" href="javascript: void(0)">Expand all</a>
                     </p>
                     <div id="accordion" class="ui-accordion ui-widget ui-helper-reset">
-                        <div class='accordion-topic'>
+<!--                         <div class='accordion-topic' id="que_0">
                             <h3 class='accordion-header'>First<a class="close pull-right" href="#">[x]</a></h3>
                             <div class="ui-accordion-content">Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.</div>
                         </div>
-                        <div class='accordion-topic'>
+                        <div class='accordion-topic' id="que_0">
                             <h3 class='accordion-header'>Second<a class="close pull-right" href="#">[x]</a></h3>
                             <div class="ui-accordion-content">Phasellus mattis tincidunt nibh.</div>
                         </div>
-                        <div class='accordion-topic'>
+                        <div class='accordion-topic' id="que_0">
                             <h3 class='accordion-header'>Third<a class="close pull-right" href="#">[x]</a></h3>
                             <div class="ui-accordion-content">Nam dui erat, auctor a, dignissim quis.</div>
-                        </div>
+                        </div> -->
                         {% for question in questions %}
-                            <div class='accordion-topic'>
-                                <h3 class='accordion-header'>Q:{{ question.question }}<a class="close pull-right" href="#">[x]</a></h3>
+                            <div class='accordion-topic' id="que_{{question.serial}}">
+                                <h3 class='accordion-header'>
+                                    Q:{{ question.question }}<a class="close pull-right" href="{{url_for('article.del_question', question_id=question.serial)}}">[x]</a>
+                                </h3>
                                 <div class="ui-accordion-content">
                                     A: {{ question.option_a }}<br/>
                                     B: {{ question.option_b }}<br/>
@@ -237,7 +289,7 @@
                 </div>
             </div>
 
-            {{ form.submit(type="submit",class="btn btn-success btn-large") }}
+            {# {{ form.submit(type="submit",class="btn btn-success btn-large") }} #}
 
         </form>
         </div>

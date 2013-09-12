@@ -40,7 +40,10 @@ class DbArticle(db.Model):
 
     def del_from_db(self):
         db.session.delete(self)
-        db.session.commit()        
+        db.session.commit()  
+
+    def modify(self):
+        db.session.commit()      
 
     def __repr__(self):
         return '<DbArticle %s>' % self.content

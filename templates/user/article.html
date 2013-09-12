@@ -4,7 +4,28 @@
 
 {% block extra_script %}
 <script type="text/javascript">		
-				
+
+	//刪除文章
+	function del_article(url){
+		//確認視窗
+		$( "#dialog-confirm" ).dialog({
+			resizable: false,
+			height:140,
+			modal: true,
+			buttons: {
+				"{{_('刪除')}}": function() {
+					$( this ).dialog( "close" );
+					window.location = url;
+				},
+				"{{_('取消')}}": function() {
+					$( this ).dialog( "close" );
+				}
+			}
+		});
+
+		//window.location = url;
+	}
+
 </script>  
 {% endblock %}
 
@@ -71,7 +92,7 @@
 						</div>
 						<div class="row-fluid">
 							<div class="span8">
-							{{ entry.content|safe }}
+							{{ entry.content|truncate(100, True) }}
 							</div>
 
 							<div class="btn-group span4">
@@ -80,7 +101,8 @@
 									<li><a href="{{ url_for('article.edit', serial=entry.index) }}">{{_("編輯")}}</a></li>
 								  	<li><a href="#">{{_("公開")}}</a></li>
 								  	<li class="divider"></li>
-								  	<li><a href="{{ url_for('article.delete', serial=entry.index) }}" class="btn-delete">{{_("刪除")}}</a></li>
+								  	<!-- <li><a href="{{ url_for('article.delete', serial=entry.index) }}" class="btn-delete">{{_("刪除")}}</a></li> -->
+								  	<li><a onclick='del_article("{{ url_for('article.delete', serial=entry.index) }}")' class="btn-delete">{{_("刪除")}}</a></li>
 								</ul>
 							</div><!-- /btn-group -->
 						</div>
@@ -96,6 +118,10 @@
 
 		{% endif %}
 		</div>		
+	</div>
+
+	<div id="dialog-confirm" title="{{_('警告')}}" style='display:none;'>
+		<p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>{{_("您是否真的要刪除此篇文章?")}}</p>
 	</div>
 
 {% endblock %}
